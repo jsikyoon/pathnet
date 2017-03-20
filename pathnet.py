@@ -14,7 +14,7 @@ def mutation(geopath,L,M,N):
         rand_value=int(np.random.rand()*L*N);
         if(rand_value<=1):
           geopath[i,j]=0;
-          rand_value2=int(np.random_rand()*4-2);
+          rand_value2=int(np.random.rand()*4-2);
           if(((j+rand_value2)>=0)&((j+rand_value2)<M)):
             geopath[i,j+rand_value2]=1;
   return geopath;

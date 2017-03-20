@@ -34,7 +34,7 @@ def train():
     tf.summary.image('input', image_shaped_input, 10)
 
   # geopath_examples
-  geopath=np.ones((FLAGS.L,FLAGS.M),dtype=int);
+  geopath=tf.Variable(np.ones((FLAGS.L,FLAGS.M),dtype=int));
   
   # fixed weights list
   fixed_list=np.ones((FLAGS.L,FLAGS.M),dtype=str);
@@ -58,11 +58,11 @@ def train():
     for j in range(FLAGS.M):
       weights_list[i,j]=pathnet.module_weight_variable([FLAGS.filt,FLAGS.filt]);
       biases_list[i,j]=pathnet.module_bias_variable([FLAGS.filt]);
-               
+  
   for i in range(FLAGS.L):
     layer_modules_list=np.zeros(FLAGS.M,dtype=object);
     for j in range(FLAGS.M):
-      layer_modules_list[j]=pathnet.module(net, weights_list[i,j], biases_list[i,j], 'layer'+str(i+1)+"_"+str(j+1))*geopath[i,j];
+      layer_modules_list[j]=tf.multiply(pathnet.module(net, weights_list[i,j], biases_list[i,j], 'layer'+str(i+1)+"_"+str(j+1)),geopath);
     net=np.sum(layer_modules_list);
 
   """
@@ -126,7 +126,7 @@ def train():
     first,second=pathnet.select_two_candi(FLAGS.M);
     
     # First Candidate
-    geopath=geopath_set[first];
+    geopath.assign(geopath_set[first]);
     for j in range(FLAGS.T):
       summary_geo1_tr, _ = sess.run([merged, train_step], feed_dict=feed_dict(True))
     run_options_geo1 = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
@@ -138,7 +138,7 @@ def train():
     summary_geo1_ts, acc_geo1 = sess.run([merged, accuracy], feed_dict=feed_dict(False))
     
     # Second Candidate
-    geopath=geopath_set[second];
+    geopath.assign(geopath_set[second]);
     for j in range(FLAGS.T):
       summary_geo2_tr, _ = sess.run([merged, train_step], feed_dict=feed_dict(True))
     run_options_geo2 = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
@@ -151,16 +151,18 @@ def train():
     
     # Compatition between two cases
     if(acc_geo1>acc_geo2):
-      geopath_set[second]=pathnet.mutation(geopath[first],FLAGS.L,FLAGS.M,FLAGS.N);
+      geopath_set[second]=pathnet.mutation(geopath_set[first],FLAGS.L,FLAGS.M,FLAGS.N);
       train_writer.add_summary(summary_geo1_tr, i);
       train_writer.add_run_metadata(run_metadata_geo1, 'step%03d' % i);
       test_writer.add_summary(summary_geo1_ts, i);
+      print(geopath_set[first]);
       print('Accuracy at step %s: %s' % (i, acc_geo1));
     else:
-      geopath_set[first]=pathnet.mutation(geopath[second],FLAGS.L,FLAGS.M,FLAGS.N);
+      geopath_set[first]=pathnet.mutation(geopath_set[second],FLAGS.L,FLAGS.M,FLAGS.N);
       train_writer.add_summary(summary_geo2_tr, i);
       train_writer.add_run_metadata(run_metadata_geo2, 'step%03d' % i);
       test_writer.add_summary(summary_geo2_ts, i);
+      print(geopath_set[second]);
       print('Accuracy at step %s: %s' % (i, acc_geo2));
 
   """
@@ -191,7 +193,7 @@ if __name__ == '__main__':
                       help='If true, uses fake data for unit testing.')
   parser.add_argument('--learning_rate', type=float, default=0.001,
                       help='Initial learning rate')
-  parser.add_argument('--max_steps', type=int, default=100,
+  parser.add_argument('--max_steps', type=int, default=10,
                       help='Number of steps to run trainer.')
   parser.add_argument('--dropout', type=float, default=0.9,
                       help='Keep probability for training dropout.')

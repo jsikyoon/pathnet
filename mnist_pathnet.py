@@ -123,7 +123,7 @@ def train():
   
   for i in range(FLAGS.max_steps):
     # Select Two Candidate to Tournament 
-    first,second=select_two_candi(FLAGS.M);
+    first,second=pathnet.select_two_candi(FLAGS.M);
     
     # First Candidate
     geopath=geopath_set[first];
@@ -153,13 +153,13 @@ def train():
     if(acc_geo1>acc_geo2):
       geopath_set[second]=pathnet.mutation(geopath[first],FLAGS.L,FLAGS.M,FLAGS.N);
       train_writer.add_summary(summary_geo1_tr, i);
-        train_writer.add_run_metadata(run_metadata_geo1, 'step%03d' % i);
+      train_writer.add_run_metadata(run_metadata_geo1, 'step%03d' % i);
       test_writer.add_summary(summary_geo1_ts, i);
       print('Accuracy at step %s: %s' % (i, acc_geo1));
     else:
       geopath_set[first]=pathnet.mutation(geopath[second],FLAGS.L,FLAGS.M,FLAGS.N);
       train_writer.add_summary(summary_geo2_tr, i);
-        train_writer.add_run_metadata(run_metadata_geo2, 'step%03d' % i);
+      train_writer.add_run_metadata(run_metadata_geo2, 'step%03d' % i);
       test_writer.add_summary(summary_geo2_ts, i);
       print('Accuracy at step %s: %s' % (i, acc_geo2));
 

@@ -14,4 +14,4 @@ Implementation is on Tensorflow 1.0
 Currently, serial pathnet is implemented with mnist data.
 
 [Usage]
-python mnist_pathnet.py
+python binary_mnist_pathnet.py

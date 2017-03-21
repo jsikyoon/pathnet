@@ -7,6 +7,19 @@ import math
 import tensorflow as tf
 import numpy as np
 
+def geopath_insert(geopath,candi,L,M):
+  for i in range(L):
+    for j in range(M):
+      geopath[i,j].assign(candi[i,j]).op.run();
+      
+
+def geopath_initializer(L,M):
+  geopath=np.zeros((L,M),dtype=object);
+  for i in range(L):
+    for j in range(M):
+      geopath[i,j]=tf.Variable(1.0);
+  return geopath;
+
 def mutation(geopath,L,M,N):
   for i in range(L):
     for j in range(M):
@@ -17,7 +30,6 @@ def mutation(geopath,L,M,N):
           rand_value2=int(np.random.rand()*4-2);
           if(((j+rand_value2)>=0)&((j+rand_value2)<M)):
             geopath[i,j+rand_value2]=1;
-  return geopath;
 
 def select_two_candi(M):
   selected=np.zeros(2,dtype=int);
@@ -33,13 +45,13 @@ def select_two_candi(M):
   return selected[0],selected[1];
   
 def get_geopath(L,M,N):
-  geopath=np.zeros((L,M),dtype=int);
+  geopath=np.zeros((L,M),dtype=float);
   for i in range(L):
     j=0;
     #Active module # can be smaller than N
     while j<=N:
       rand_value=int(np.random.rand()*M);
-      geopath[i,rand_value]=1;j+=1;
+      geopath[i,rand_value]=1.0;j+=1;
   return geopath;
       
 
@@ -97,7 +109,7 @@ def module(input_tensor, weights, biases, layer_name, act=tf.nn.relu):
     return activations
 
  
-def nn_layer(input_tensor, input_dim, output_dim, layer_name, act=tf.nn.relu):
+def nn_layer(input_tensor, weights, biases, layer_name, act=tf.nn.relu):
   """Reusable code for making a simple neural net layer.
 
   It does a matrix multiply, bias add, and then uses relu to nonlinearize.
@@ -108,13 +120,11 @@ def nn_layer(input_tensor, input_dim, output_dim, layer_name, act=tf.nn.relu):
   with tf.name_scope(layer_name):
     # This Variable will hold the state of the weights for the layer
     with tf.name_scope('weights'):
-      weights = weight_variable([input_dim, output_dim])
-      variable_summaries(weights)
+      variable_summaries(weights[0])
     with tf.name_scope('biases'):
-      biases = bias_variable([output_dim])
-      variable_summaries(biases)
+      variable_summaries(biases[0])
     with tf.name_scope('Wx_plus_b'):
-      preactivate = tf.matmul(input_tensor, weights) + biases
+      preactivate = tf.matmul(input_tensor, weights[0]) + biases
       tf.summary.histogram('pre_activations', preactivate)
     activations = act(preactivate, name='activation')
     tf.summary.histogram('activations', activations)

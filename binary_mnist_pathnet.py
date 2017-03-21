@@ -34,8 +34,8 @@ def train():
   tr_label_8_9=total_tr_label[(total_tr_label[:,8]==1.0)|(total_tr_label[:,9]==1.0)];
   tr_label_8_9=tr_label_8_9[:,8:10]; tr_8_9_flag=0;
   total_ts_data, total_ts_label = mnist.test.next_batch(mnist.test._num_examples);
-  ts_data_8_9=total_ts_data[(total_ts_label[:,5]==1.0)|(total_ts_label[:,6]==1.0)];
-  ts_label_8_9=total_ts_label[(total_ts_label[:,5]==1.0)|(total_ts_label[:,6]==1.0)];
+  ts_data_8_9=total_ts_data[(total_ts_label[:,8]==1.0)|(total_ts_label[:,9]==1.0)];
+  ts_label_8_9=total_ts_label[(total_ts_label[:,8]==1.0)|(total_ts_label[:,9]==1.0)];
   ts_label_8_9=ts_label_8_9[:,8:10];
   
   ## TASK 1 (5,6 CLASSIFICATION)
@@ -67,22 +67,31 @@ def train():
       rein_list[i,j]='0';    
   
   # Input Layer
+  """
   input_weights=pathnet.module_weight_variable([784,FLAGS.filt]);
   input_biases=pathnet.module_bias_variable([FLAGS.filt]);
   net = pathnet.nn_layer(x,input_weights,input_biases,'input_layer');
-  
+  """
+
   # Hidden Layers
   weights_list=np.zeros((FLAGS.L,FLAGS.M),dtype=object);
   biases_list=np.zeros((FLAGS.L,FLAGS.M),dtype=object);
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):
-      weights_list[i,j]=pathnet.module_weight_variable([FLAGS.filt,FLAGS.filt]);
-      biases_list[i,j]=pathnet.module_bias_variable([FLAGS.filt]);
+      if(i==0):
+        weights_list[i,j]=pathnet.module_weight_variable([784,FLAGS.filt]);
+        biases_list[i,j]=pathnet.module_bias_variable([FLAGS.filt]);
+      else:
+        weights_list[i,j]=pathnet.module_weight_variable([FLAGS.filt,FLAGS.filt]);
+        biases_list[i,j]=pathnet.module_bias_variable([FLAGS.filt]);
   
   for i in range(FLAGS.L):
     layer_modules_list=np.zeros(FLAGS.M,dtype=object);
     for j in range(FLAGS.M):
-      layer_modules_list[j]=pathnet.module(net, weights_list[i,j], biases_list[i,j], 'layer'+str(i+1)+"_"+str(j+1))*geopath[i,j];
+      if(i==0):
+        layer_modules_list[j]=pathnet.module(x, weights_list[i,j], biases_list[i,j], 'layer'+str(i+1)+"_"+str(j+1))*geopath[i,j];
+      else:
+        layer_modules_list[j]=pathnet.module(net, weights_list[i,j], biases_list[i,j], 'layer'+str(i+1)+"_"+str(j+1))*geopath[i,j];
     net=np.sum(layer_modules_list);
     
   """
@@ -103,7 +112,8 @@ def train():
       cross_entropy = tf.reduce_mean(diff)
   tf.summary.scalar('cross_entropy', cross_entropy)
   # Need to learn variables
-  var_list_to_learn=[]+input_weights+input_biases+output_weights+output_biases;
+  #var_list_to_learn=[]+input_weights+input_biases+output_weights+output_biases;
+  var_list_to_learn=[]+output_weights+output_biases;
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):
       if (fixed_list[i,j]=='0'):
@@ -228,54 +238,50 @@ def train():
   tf.variables_initializer(var_list=var_list_to_reinitial).run();
 
   # Output Layer for Task2
-  output_weights=pathnet.module_weight_variable([FLAGS.filt,2]);
-  output_biases=pathnet.module_bias_variable([2]);
-  y2 = pathnet.nn_layer(net,output_weights,output_biases,'output_layer2', act=tf.identity);  
+  output_weights2=pathnet.module_weight_variable([FLAGS.filt,2]);
+  output_biases2=pathnet.module_bias_variable([2]);
+  y2 = pathnet.nn_layer(net,output_weights2,output_biases2,'output_layer2', act=tf.identity);  
 
   with tf.name_scope('cross_entropy2'):
-    diff = tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y2)
+    diff2 = tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y2)
     with tf.name_scope('total2'):
-      cross_entropy = tf.reduce_mean(diff)
-  tf.summary.scalar('cross_entropy2', cross_entropy)
+      cross_entropy2 = tf.reduce_mean(diff2)
+  tf.summary.scalar('cross_entropy2', cross_entropy2)
   # Need to learn variables
-  var_list_to_learn=[]+input_weights+input_biases+output_weights+output_biases;
+  #var_list_to_learn=[]+input_weights+input_biases+output_weights2+output_biases2;
+  var_list_to_learn=[]+output_weights2+output_biases2;
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):
       if (fixed_list[i,j]=='0'):
         var_list_to_learn+=weights_list[i,j]+biases_list[i,j];
         
   with tf.name_scope('train2'):
-    train_step = tf.train.AdamOptimizer(FLAGS.learning_rate).minimize(
-        cross_entropy,var_list=var_list_to_learn)  
+    train_step2 = tf.train.AdamOptimizer(FLAGS.learning_rate).minimize(
+        cross_entropy2,var_list=var_list_to_learn)  
   
   with tf.name_scope('accuracy2'):
     with tf.name_scope('correct_prediction2'):
-      correct_prediction = tf.equal(tf.argmax(y2, 1), tf.argmax(y_, 1))
+      correct_prediction2 = tf.equal(tf.argmax(y2, 1), tf.argmax(y_, 1))
     with tf.name_scope('accuracy2'):
-      accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-  tf.summary.scalar('accuracy2', accuracy)
+      accuracy2 = tf.reduce_mean(tf.cast(correct_prediction2, tf.float32))
+  tf.summary.scalar('accuracy2', accuracy2)
 
   # Merge all the summaries and write them out to /tmp/tensorflow/mnist/logs/mnist_with_summaries (by default)
-  merged = tf.summary.merge_all()
+  merged2 = tf.summary.merge_all()
   train_writer = tf.summary.FileWriter(FLAGS.log_dir + '/train', sess.graph)
   test_writer = tf.summary.FileWriter(FLAGS.log_dir + '/test')
   tf.global_variables_initializer().run()
 
-  def feed_dict2(train):
+  def feed_dict2(train,tr_8_9_flag=0):
     #Make a TensorFlow feed_dict: maps data onto Tensor placeholders.
     if train or FLAGS.fake_data:
       xs=tr_data_8_9[tr_8_9_flag:tr_8_9_flag+16,:]; ys=tr_label_8_9[tr_8_9_flag:tr_8_9_flag+16,:];
       tr_8_9_flag+=16;
       k = FLAGS.dropout
     else:
-      xs=ts_data_5_6;ys=ts_label_5_6;
+      xs=ts_data_8_9;ys=ts_label_8_9;
       k = 1.0
     return {x: xs, y_: ys}
-
-  # Generating randomly geopath
-  geopath_set=np.zeros(FLAGS.candi,dtype=object);
-  for i in range(FLAGS.candi):
-    geopath_set[i]=pathnet.get_geopath(FLAGS.L,FLAGS.M,FLAGS.N);
     
   for i in range(FLAGS.max_steps):
     # Select Two Candidate to Tournament 
@@ -283,32 +289,38 @@ def train():
     
     # First Candidate
     pathnet.geopath_insert(geopath,geopath_set[first],FLAGS.L,FLAGS.M);
+    tr_8_9_flag_bak=tr_8_9_flag;
     acc_geo1_tr=0;
     for j in range(FLAGS.T-1):
-      summary_geo1_tr, _, acc_geo1_tmp = sess.run([merged, train_step,accuracy], feed_dict=feed_dict2(True))
+      summary_geo1_tr, _, acc_geo1_tmp = sess.run([merged2, train_step2,accuracy2], feed_dict=feed_dict2(True,tr_8_9_flag))
+      tr_8_9_flag=(tr_8_9_flag+16)%len(tr_data_8_9);
       acc_geo1_tr+=acc_geo1_tmp;
     run_options_geo1 = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
     run_metadata_geo1 = tf.RunMetadata()
-    summary_geo1_tr, _, acc_geo1_tmp = sess.run([merged, train_step,accuracy],
-                              feed_dict=feed_dict2(True),
+    summary_geo1_tr, _, acc_geo1_tmp = sess.run([merged2, train_step2,accuracy2],
+                              feed_dict=feed_dict2(True,tr_8_9_flag),
                               options=run_options_geo1,
                               run_metadata=run_metadata_geo1)
+    tr_8_9_flag=(tr_8_9_flag+16)%len(tr_data_8_9);
     acc_geo1_tr+=acc_geo1_tmp;
-    summary_geo1_ts, acc_geo1 = sess.run([merged, accuracy], feed_dict=feed_dict2(False))
+    summary_geo1_ts, acc_geo1 = sess.run([merged2, accuracy2], feed_dict=feed_dict2(False))
     # Second Candidate
     pathnet.geopath_insert(geopath,geopath_set[second],FLAGS.L,FLAGS.M);
+    tr_8_9_flag=tr_8_9_flag_bak;
     acc_geo2_tr=0;
     for j in range(FLAGS.T-1):
-      summary_geo2_tr, _, acc_geo2_tmp = sess.run([merged, train_step,accuracy], feed_dict=feed_dict2(True))
+      summary_geo2_tr, _, acc_geo2_tmp = sess.run([merged2, train_step2,accuracy2], feed_dict=feed_dict2(True,tr_8_9_flag))
+      tr_8_9_flag=(tr_8_9_flag+16)%len(tr_data_8_9);
       acc_geo2_tr+=acc_geo2_tmp;
     run_options_geo2 = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
     run_metadata_geo2 = tf.RunMetadata()
-    summary_geo2_tr, _, acc_geo2_tmp = sess.run([merged, train_step,accuracy],
-                              feed_dict=feed_dict2(True),
+    summary_geo2_tr, _, acc_geo2_tmp = sess.run([merged2, train_step2,accuracy2],
+                              feed_dict=feed_dict2(True,tr_8_9_flag),
                               options=run_options_geo2,
                               run_metadata=run_metadata_geo2)
+    tr_8_9_flag=(tr_8_9_flag+16)%len(tr_data_8_9);
     acc_geo2_tr+=acc_geo2_tmp;
-    summary_geo2_ts, acc_geo2 = sess.run([merged, accuracy], feed_dict=feed_dict2(False))
+    summary_geo2_ts, acc_geo2 = sess.run([merged2, accuracy2], feed_dict=feed_dict2(False))
     
     # Compatition between two cases
     if(acc_geo1>acc_geo2):
@@ -319,7 +331,7 @@ def train():
       test_writer.add_summary(summary_geo1_ts, i);
       print('Accuracy at step %s: %s' % (i, acc_geo1));
       print('Training Accuracy at step %s: %s' % (i, acc_geo1_tr/FLAGS.T));
-      if(acc_geo1_tr/FLAGS.T == 1.0):
+      if(acc_geo1_tr/FLAGS.T > 0.98):
         print('Learning Done!!');
         print('Optimal Path is as followed.');
         print(geopath_set[first]);
@@ -333,7 +345,7 @@ def train():
       test_writer.add_summary(summary_geo2_ts, i);
       print('Accuracy at step %s: %s' % (i, acc_geo2));
       print('Training Accuracy at step %s: %s' % (i, acc_geo2_tr/FLAGS.T));
-      if(acc_geo2_tr/FLAGS.T == 1.0):
+      if(acc_geo2_tr/FLAGS.T > 0.98):
         print('Learning Done!!');
         print('Optimal Path is as followed.');
         print(geopath_set[second]);

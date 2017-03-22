@@ -7,6 +7,16 @@ import math
 import tensorflow as tf
 import numpy as np
 
+def parameters_backup(var_list_to_learn):
+  var_list_backup=np.zeros(len(var_list_to_learn),dtype=object);
+  for i in range(len(var_list_to_learn)):
+    var_list_backup[i]=var_list_to_learn[i].eval();
+  return var_list_backup;
+
+def parameters_update(var_list_to_learn,var_list_backup):
+  for i in range(len(var_list_to_learn)):
+    var_list_to_learn[i].assign(var_list_backup[i]).op.run();
+    
 def geopath_insert(geopath,candi,L,M):
   for i in range(L):
     for j in range(M):

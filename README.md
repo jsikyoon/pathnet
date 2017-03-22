@@ -11,7 +11,14 @@ Form Paper
 
 Implementation is on Tensorflow 1.0
 
-Currently, serial pathnet is implemented with mnist data.
+[Binary MNIST classification tasks]
 
-[Usage]
 python binary_mnist_pathnet.py
+
+Basically, almost parameters are used same to paper, however, I used AdamOptimizer with learning_rate=0.001.
+
+Task1 is classification between "5" and "6", and task2 is classification between "8" and "9".
+
+When two candidates are learned & evaluated, learned parameters from each candidates are saved, and winner parameters are updated to model.
+
+Learning_rate is reset after finishing task1.

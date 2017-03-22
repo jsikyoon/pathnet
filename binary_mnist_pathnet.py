@@ -24,17 +24,48 @@ def train():
   total_ts_data, total_ts_label = mnist.test.next_batch(mnist.test._num_examples);
   # Gathering 5,6 Data
   tr_data_5_6=total_tr_data[(total_tr_label[:,5]==1.0)|(total_tr_label[:,6]==1.0)];
+  for i in range(len(tr_data_5_6)):
+    for j in range(len(tr_data_5_6[0])):
+      rand_num=np.random.rand()*2;
+      if(rand_num<1):
+        if(rand_num<0.5):
+          tr_data_5_6[i,j]=0.0;
+        else:
+          tr_data_5_6[i,j]=1.0;
   tr_label_5_6=total_tr_label[(total_tr_label[:,5]==1.0)|(total_tr_label[:,6]==1.0)];
   tr_label_5_6=tr_label_5_6[:,5:7]; tr_5_6_flag=0;
   ts_data_5_6=total_ts_data[(total_ts_label[:,5]==1.0)|(total_ts_label[:,6]==1.0)];
+  for i in range(len(ts_data_5_6)):
+    for j in range(len(ts_data_5_6[0])):
+      rand_num=np.random.rand()*2;
+      if(rand_num<1):
+        if(rand_num<0.5):
+          ts_data_5_6[i,j]=0.0;
+        else:
+          ts_data_5_6[i,j]=1.0;
   ts_label_5_6=total_ts_label[(total_ts_label[:,5]==1.0)|(total_ts_label[:,6]==1.0)];
   ts_label_5_6=ts_label_5_6[:,5:7];
   # Gathering 8,9 Data
   tr_data_8_9=total_tr_data[(total_tr_label[:,8]==1.0)|(total_tr_label[:,9]==1.0)];
+  for i in range(len(tr_data_8_9)):
+    for j in range(len(tr_data_8_9[0])):
+      rand_num=np.random.rand()*2;
+      if(rand_num<1):
+        if(rand_num<0.5):
+          tr_data_8_9[i,j]=0.0;
+        else:
+          tr_data_8_9[i,j]=1.0;
   tr_label_8_9=total_tr_label[(total_tr_label[:,8]==1.0)|(total_tr_label[:,9]==1.0)];
   tr_label_8_9=tr_label_8_9[:,8:10]; tr_8_9_flag=0;
-  total_ts_data, total_ts_label = mnist.test.next_batch(mnist.test._num_examples);
   ts_data_8_9=total_ts_data[(total_ts_label[:,8]==1.0)|(total_ts_label[:,9]==1.0)];
+  for i in range(len(ts_data_8_9)):
+    for j in range(len(ts_data_8_9[0])):
+      rand_num=np.random.rand()*2;
+      if(rand_num<1):
+        if(rand_num<0.5):
+          ts_data_8_9[i,j]=0.0;
+        else:
+          ts_data_8_9[i,j]=1.0;
   ts_label_8_9=total_ts_label[(total_ts_label[:,8]==1.0)|(total_ts_label[:,9]==1.0)];
   ts_label_8_9=ts_label_8_9[:,8:10];
   
@@ -160,6 +191,7 @@ def train():
     pathnet.geopath_insert(geopath,geopath_set[first],FLAGS.L,FLAGS.M);
     acc_geo1_tr=0;
     tr_5_6_flag_bak=tr_5_6_flag;
+    var_list_backup=pathnet.parameters_backup(var_list_to_learn);
     for j in range(FLAGS.T-1):
       summary_geo1_tr, _, acc_geo1_tmp = sess.run([merged, train_step,accuracy], feed_dict=feed_dict(True,tr_5_6_flag))
       tr_5_6_flag=(tr_5_6_flag+16)%len(tr_data_5_6);
@@ -173,10 +205,12 @@ def train():
     tr_5_6_flag=(tr_5_6_flag+16)%len(tr_data_5_6);
     acc_geo1_tr+=acc_geo1_tmp;
     summary_geo1_ts, acc_geo1 = sess.run([merged, accuracy], feed_dict=feed_dict(False))
+    var_list_task1=pathnet.parameters_backup(var_list_to_learn);
     # Second Candidate
     pathnet.geopath_insert(geopath,geopath_set[second],FLAGS.L,FLAGS.M);
     acc_geo2_tr=0;
     tr_5_6_flag=tr_5_6_flag_bak;
+    pathnet.parameters_update(var_list_to_learn,var_list_backup);
     for j in range(FLAGS.T-1):
       summary_geo2_tr, _, acc_geo2_tmp = sess.run([merged, train_step,accuracy], feed_dict=feed_dict(True,tr_5_6_flag))
       tr_5_6_flag=(tr_5_6_flag+16)%len(tr_data_5_6);
@@ -190,37 +224,40 @@ def train():
     tr_5_6_flag=(tr_5_6_flag+16)%len(tr_data_5_6);
     acc_geo2_tr+=acc_geo2_tmp;
     summary_geo2_ts, acc_geo2 = sess.run([merged, accuracy], feed_dict=feed_dict(False))
+    var_list_task2=pathnet.parameters_backup(var_list_to_learn);
     
     # Compatition between two cases
     if(acc_geo1>acc_geo2):
       geopath_set[second]=np.copy(geopath_set[first]);
       pathnet.mutation(geopath_set[second],FLAGS.L,FLAGS.M,FLAGS.N);
+      pathnet.parameters_update(var_list_to_learn,var_list_task1);
       train_writer.add_summary(summary_geo1_tr, i);
       train_writer.add_run_metadata(run_metadata_geo1, 'step%03d' % i);
       test_writer.add_summary(summary_geo1_ts, i);
-      print('Accuracy at step %s: %s' % (i, acc_geo1));
-      print('Training Accuracy at step %s: %s' % (i, acc_geo1_tr/FLAGS.T));
-      if(acc_geo1_tr/FLAGS.T == 1.0):
-        print('Learning Done!!');
-        print('Optimal Path is as followed.');
-        print(geopath_set[first]);
+      #print('Accuracy at step %s: %s' % (i, acc_geo1));
+      #print('Training Accuracy at step %s: %s' % (i, acc_geo1_tr/FLAGS.T));
+      if(acc_geo1_tr/FLAGS.T >= 0.998):
+        #print('Learning Done!!');
+        #print('Optimal Path is as followed.');
+        #print(geopath_set[first]);
         task1_optimal_path=geopath_set[first];
         break;
     else:
       geopath_set[first]=np.copy(geopath_set[second]);
       pathnet.mutation(geopath_set[first],FLAGS.L,FLAGS.M,FLAGS.N);
+      pathnet.parameters_update(var_list_to_learn,var_list_task2);
       train_writer.add_summary(summary_geo2_tr, i);
       train_writer.add_run_metadata(run_metadata_geo2, 'step%03d' % i);
       test_writer.add_summary(summary_geo2_ts, i);
-      print('Accuracy at step %s: %s' % (i, acc_geo2));
-      print('Training Accuracy at step %s: %s' % (i, acc_geo2_tr/FLAGS.T));
-      if(acc_geo2_tr/FLAGS.T == 1.0):
-        print('Learning Done!!');
-        print('Optimal Path is as followed.');
-        print(geopath_set[second]);
+      #print('Accuracy at step %s: %s' % (i, acc_geo2));
+      #print('Training Accuracy at step %s: %s' % (i, acc_geo2_tr/FLAGS.T));
+      if(acc_geo2_tr/FLAGS.T >= 0.998):
+        #print('Learning Done!!');
+        #print('Optimal Path is as followed.');
+        #print(geopath_set[second]);
         task1_optimal_path=geopath_set[second];
         break;
-        
+  iter_task1=i;      
   ## TASK 2 (8,9 CLASSIFICATION) 
   # Fix task1 Optimal Path
   for i in range(FLAGS.L):
@@ -290,6 +327,7 @@ def train():
     # First Candidate
     pathnet.geopath_insert(geopath,geopath_set[first],FLAGS.L,FLAGS.M);
     tr_8_9_flag_bak=tr_8_9_flag;
+    var_list_backup=pathnet.parameters_backup(var_list_to_learn);
     acc_geo1_tr=0;
     for j in range(FLAGS.T-1):
       summary_geo1_tr, _, acc_geo1_tmp = sess.run([merged2, train_step2,accuracy2], feed_dict=feed_dict2(True,tr_8_9_flag))
@@ -307,6 +345,7 @@ def train():
     # Second Candidate
     pathnet.geopath_insert(geopath,geopath_set[second],FLAGS.L,FLAGS.M);
     tr_8_9_flag=tr_8_9_flag_bak;
+    pathnet.parameters_update(var_list_to_learn,var_list_backup);
     acc_geo2_tr=0;
     for j in range(FLAGS.T-1):
       summary_geo2_tr, _, acc_geo2_tmp = sess.run([merged2, train_step2,accuracy2], feed_dict=feed_dict2(True,tr_8_9_flag))
@@ -329,12 +368,12 @@ def train():
       train_writer.add_summary(summary_geo1_tr, i);
       train_writer.add_run_metadata(run_metadata_geo1, 'step%03d' % i);
       test_writer.add_summary(summary_geo1_ts, i);
-      print('Accuracy at step %s: %s' % (i, acc_geo1));
-      print('Training Accuracy at step %s: %s' % (i, acc_geo1_tr/FLAGS.T));
-      if(acc_geo1_tr/FLAGS.T == 1.0):
-        print('Learning Done!!');
-        print('Optimal Path is as followed.');
-        print(geopath_set[first]);
+      #print('Accuracy at step %s: %s' % (i, acc_geo1));
+      #print('Training Accuracy at step %s: %s' % (i, acc_geo1_tr/FLAGS.T));
+      if(acc_geo1_tr/FLAGS.T >= 0.998):
+        #print('Learning Done!!');
+        #print('Optimal Path is as followed.');
+        #print(geopath_set[first]);
         task2_optimal_path=geopath_set[first];
         break;
     else:
@@ -343,15 +382,16 @@ def train():
       train_writer.add_summary(summary_geo2_tr, i);
       train_writer.add_run_metadata(run_metadata_geo2, 'step%03d' % i);
       test_writer.add_summary(summary_geo2_ts, i);
-      print('Accuracy at step %s: %s' % (i, acc_geo2));
-      print('Training Accuracy at step %s: %s' % (i, acc_geo2_tr/FLAGS.T));
-      if(acc_geo2_tr/FLAGS.T == 1.0):
-        print('Learning Done!!');
-        print('Optimal Path is as followed.');
-        print(geopath_set[second]);
+      #print('Accuracy at step %s: %s' % (i, acc_geo2));
+      #print('Training Accuracy at step %s: %s' % (i, acc_geo2_tr/FLAGS.T));
+      if(acc_geo2_tr/FLAGS.T >= 0.998):
+        #print('Learning Done!!');
+        #print('Optimal Path is as followed.');
+        #print(geopath_set[second]);
         task2_optimal_path=geopath_set[second];
         break;
-  
+  iter_task2=i;      
+  print("Entire Iter:"+str(iter_task1+iter_task2));
   train_writer.close()
   test_writer.close()
 
@@ -370,7 +410,7 @@ if __name__ == '__main__':
                       help='If true, uses fake data for unit testing.')
   parser.add_argument('--learning_rate', type=float, default=0.001,
                       help='Initial learning rate')
-  parser.add_argument('--max_steps', type=int, default=100,
+  parser.add_argument('--max_steps', type=int, default=1000,
                       help='Number of steps to run trainer.')
   parser.add_argument('--dropout', type=float, default=0.9,
                       help='Keep probability for training dropout.')

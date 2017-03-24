@@ -234,12 +234,12 @@ def train():
       train_writer.add_summary(summary_geo1_tr, i);
       train_writer.add_run_metadata(run_metadata_geo1, 'step%03d' % i);
       test_writer.add_summary(summary_geo1_ts, i);
-      #print('Accuracy at step %s: %s' % (i, acc_geo1));
-      #print('Training Accuracy at step %s: %s' % (i, acc_geo1_tr/FLAGS.T));
+      print('Accuracy at step %s: %s' % (i, acc_geo1));
+      print('Training Accuracy at step %s: %s' % (i, acc_geo1_tr/FLAGS.T));
       if(acc_geo1_tr/FLAGS.T >= 0.998):
-        #print('Learning Done!!');
-        #print('Optimal Path is as followed.');
-        #print(geopath_set[first]);
+        print('Learning Done!!');
+        print('Optimal Path is as followed.');
+        print(geopath_set[first]);
         task1_optimal_path=geopath_set[first];
         break;
     else:
@@ -249,12 +249,12 @@ def train():
       train_writer.add_summary(summary_geo2_tr, i);
       train_writer.add_run_metadata(run_metadata_geo2, 'step%03d' % i);
       test_writer.add_summary(summary_geo2_ts, i);
-      #print('Accuracy at step %s: %s' % (i, acc_geo2));
-      #print('Training Accuracy at step %s: %s' % (i, acc_geo2_tr/FLAGS.T));
+      print('Accuracy at step %s: %s' % (i, acc_geo2));
+      print('Training Accuracy at step %s: %s' % (i, acc_geo2_tr/FLAGS.T));
       if(acc_geo2_tr/FLAGS.T >= 0.998):
-        #print('Learning Done!!');
-        #print('Optimal Path is as followed.');
-        #print(geopath_set[second]);
+        print('Learning Done!!');
+        print('Optimal Path is as followed.');
+        print(geopath_set[second]);
         task1_optimal_path=geopath_set[second];
         break;
   iter_task1=i;      
@@ -368,12 +368,12 @@ def train():
       train_writer.add_summary(summary_geo1_tr, i);
       train_writer.add_run_metadata(run_metadata_geo1, 'step%03d' % i);
       test_writer.add_summary(summary_geo1_ts, i);
-      #print('Accuracy at step %s: %s' % (i, acc_geo1));
-      #print('Training Accuracy at step %s: %s' % (i, acc_geo1_tr/FLAGS.T));
+      print('Accuracy at step %s: %s' % (i, acc_geo1));
+      print('Training Accuracy at step %s: %s' % (i, acc_geo1_tr/FLAGS.T));
       if(acc_geo1_tr/FLAGS.T >= 0.998):
-        #print('Learning Done!!');
-        #print('Optimal Path is as followed.');
-        #print(geopath_set[first]);
+        print('Learning Done!!');
+        print('Optimal Path is as followed.');
+        print(geopath_set[first]);
         task2_optimal_path=geopath_set[first];
         break;
     else:
@@ -382,12 +382,12 @@ def train():
       train_writer.add_summary(summary_geo2_tr, i);
       train_writer.add_run_metadata(run_metadata_geo2, 'step%03d' % i);
       test_writer.add_summary(summary_geo2_ts, i);
-      #print('Accuracy at step %s: %s' % (i, acc_geo2));
-      #print('Training Accuracy at step %s: %s' % (i, acc_geo2_tr/FLAGS.T));
+      print('Accuracy at step %s: %s' % (i, acc_geo2));
+      print('Training Accuracy at step %s: %s' % (i, acc_geo2_tr/FLAGS.T));
       if(acc_geo2_tr/FLAGS.T >= 0.998):
-        #print('Learning Done!!');
-        #print('Optimal Path is as followed.');
-        #print(geopath_set[second]);
+        print('Learning Done!!');
+        print('Optimal Path is as followed.');
+        print(geopath_set[second]);
         task2_optimal_path=geopath_set[second];
         break;
   iter_task2=i;      

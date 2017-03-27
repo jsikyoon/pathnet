@@ -35,7 +35,6 @@ def train():
           tr_data_5_6[i,j]=1.0;
   #tr_label_5_6=total_tr_label[(total_tr_label[:,5]==1.0)|(total_tr_label[:,6]==1.0)];
   tr_label_5_6=total_tr_label;
-  print(tr_label_5_6);exit(1);
   tr_label_5_6=tr_label_5_6[:,5:7]; 
   for i in range(len(tr_label_5_6)):
     if(tr_label_5_6[i,0]==0.):
@@ -238,10 +237,10 @@ def train():
     tr_5_6_flag=(tr_5_6_flag+16)%len(tr_data_5_6);
     acc_geo2_tr+=acc_geo2_tmp;
     #summary_geo2_ts, acc_geo2 = sess.run([merged, accuracy], feed_dict=feed_dict(False))
-    #var_list_task2=pathnet.parameters_backup(var_list_to_learn);
+    var_list_task2=pathnet.parameters_backup(var_list_to_learn);
     
     # Compatition between two cases
-    if(acc_geo1>acc_geo2):
+    if(acc_geo1_tr/FLAGS.T>acc_geo2_tr/FLAGS.T):
       geopath_set[second]=np.copy(geopath_set[first]);
       pathnet.mutation(geopath_set[second],FLAGS.L,FLAGS.M,FLAGS.N);
       pathnet.parameters_update(var_list_to_learn,var_list_task1);

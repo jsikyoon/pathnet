@@ -23,7 +23,8 @@ def train():
   total_tr_data, total_tr_label = mnist.train.next_batch(mnist.train._num_examples);
   total_ts_data, total_ts_label = mnist.test.next_batch(mnist.test._num_examples);
   # Gathering 5,6 Data
-  tr_data_5_6=total_tr_data[(total_tr_label[:,5]==1.0)|(total_tr_label[:,6]==1.0)];
+  #tr_data_5_6=total_tr_data[(total_tr_label[:,5]==1.0)|(total_tr_label[:,6]==1.0)];
+  tr_data_5_6=total_tr_data;
   for i in range(len(tr_data_5_6)):
     for j in range(len(tr_data_5_6[0])):
       rand_num=np.random.rand()*2;
@@ -32,9 +33,16 @@ def train():
           tr_data_5_6[i,j]=0.0;
         else:
           tr_data_5_6[i,j]=1.0;
-  tr_label_5_6=total_tr_label[(total_tr_label[:,5]==1.0)|(total_tr_label[:,6]==1.0)];
-  tr_label_5_6=tr_label_5_6[:,5:7]; tr_5_6_flag=0;
-  ts_data_5_6=total_ts_data[(total_ts_label[:,5]==1.0)|(total_ts_label[:,6]==1.0)];
+  #tr_label_5_6=total_tr_label[(total_tr_label[:,5]==1.0)|(total_tr_label[:,6]==1.0)];
+  tr_label_5_6=total_tr_label;
+  print(tr_label_5_6);exit(1);
+  tr_label_5_6=tr_label_5_6[:,5:7]; 
+  for i in range(len(tr_label_5_6)):
+    if(tr_label_5_6[i,0]==0.):
+      tr_label_5_6[i,1]=1.;
+  tr_5_6_flag=0;
+  #ts_data_5_6=total_ts_data[(total_ts_label[:,5]==1.0)|(total_ts_label[:,6]==1.0)];
+  ts_data_5_6=total_ts_data;
   for i in range(len(ts_data_5_6)):
     for j in range(len(ts_data_5_6[0])):
       rand_num=np.random.rand()*2;
@@ -43,8 +51,12 @@ def train():
           ts_data_5_6[i,j]=0.0;
         else:
           ts_data_5_6[i,j]=1.0;
-  ts_label_5_6=total_ts_label[(total_ts_label[:,5]==1.0)|(total_ts_label[:,6]==1.0)];
-  ts_label_5_6=ts_label_5_6[:,5:7];
+  #ts_label_5_6=total_ts_label[(total_ts_label[:,5]==1.0)|(total_ts_label[:,6]==1.0)];
+  ts_label_5_6=total_ts_label;
+  ts_label_5_6=ts_label_5_6[:,5:7]; 
+  for i in range(len(ts_label_5_6)):
+    if(ts_label_5_6[i,0]==0.):
+      ts_label_5_6[i,1]=1.;
   # Gathering 8,9 Data
   tr_data_8_9=total_tr_data[(total_tr_label[:,2]==1.0)|(total_tr_label[:,3]==1.0)];
   for i in range(len(tr_data_8_9)):

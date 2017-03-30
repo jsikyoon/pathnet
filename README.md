@@ -1,6 +1,9 @@
-# pathnet
+pathnet
+===========
 
 Tensorflow Implementation of Pathnet from Google Deepmind.
+
+Implementation is on Tensorflow 1.0
 
 https://arxiv.org/pdf/1701.08734.pdf
 
@@ -9,9 +12,9 @@ Form Paper
 
 ![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/pathnet.PNG)
 
-Implementation is on Tensorflow 1.0
 
-#Binary MNIST classification tasks
+Binary MNIST classification tasks
+-------------------
 
 `
 python binary_mnist_pathnet.py 

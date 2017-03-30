@@ -23,8 +23,7 @@ def train():
   total_tr_data, total_tr_label = mnist.train.next_batch(mnist.train._num_examples);
   total_ts_data, total_ts_label = mnist.test.next_batch(mnist.test._num_examples);
   # Gathering 5,6 Data
-  #tr_data_5_6=total_tr_data[(total_tr_label[:,5]==1.0)|(total_tr_label[:,6]==1.0)];
-  tr_data_5_6=total_tr_data;
+  tr_data_5_6=total_tr_data[(total_tr_label[:,5]==1.0)|(total_tr_label[:,6]==1.0)];
   for i in range(len(tr_data_5_6)):
     for j in range(len(tr_data_5_6[0])):
       rand_num=np.random.rand()*2;
@@ -33,15 +32,10 @@ def train():
           tr_data_5_6[i,j]=0.0;
         else:
           tr_data_5_6[i,j]=1.0;
-  #tr_label_5_6=total_tr_label[(total_tr_label[:,5]==1.0)|(total_tr_label[:,6]==1.0)];
-  tr_label_5_6=total_tr_label;
+  tr_label_5_6=total_tr_label[(total_tr_label[:,5]==1.0)|(total_tr_label[:,6]==1.0)];
   tr_label_5_6=tr_label_5_6[:,5:7]; 
-  for i in range(len(tr_label_5_6)):
-    if(tr_label_5_6[i,0]==0.):
-      tr_label_5_6[i,1]=1.;
   tr_5_6_flag=0;
-  #ts_data_5_6=total_ts_data[(total_ts_label[:,5]==1.0)|(total_ts_label[:,6]==1.0)];
-  ts_data_5_6=total_ts_data;
+  ts_data_5_6=total_ts_data[(total_ts_label[:,5]==1.0)|(total_ts_label[:,6]==1.0)];
   for i in range(len(ts_data_5_6)):
     for j in range(len(ts_data_5_6[0])):
       rand_num=np.random.rand()*2;
@@ -50,14 +44,10 @@ def train():
           ts_data_5_6[i,j]=0.0;
         else:
           ts_data_5_6[i,j]=1.0;
-  #ts_label_5_6=total_ts_label[(total_ts_label[:,5]==1.0)|(total_ts_label[:,6]==1.0)];
-  ts_label_5_6=total_ts_label;
+  ts_label_5_6=total_ts_label[(total_ts_label[:,5]==1.0)|(total_ts_label[:,6]==1.0)];
   ts_label_5_6=ts_label_5_6[:,5:7]; 
-  for i in range(len(ts_label_5_6)):
-    if(ts_label_5_6[i,0]==0.):
-      ts_label_5_6[i,1]=1.;
   # Gathering 8,9 Data
-  tr_data_8_9=total_tr_data[(total_tr_label[:,2]==1.0)|(total_tr_label[:,3]==1.0)];
+  tr_data_8_9=total_tr_data[(total_tr_label[:,6]==1.0)|(total_tr_label[:,7]==1.0)];
   for i in range(len(tr_data_8_9)):
     for j in range(len(tr_data_8_9[0])):
       rand_num=np.random.rand()*10;
@@ -66,9 +56,9 @@ def train():
           tr_data_8_9[i,j]=0.0;
         else:
           tr_data_8_9[i,j]=1.0;
-  tr_label_8_9=total_tr_label[(total_tr_label[:,2]==1.0)|(total_tr_label[:,3]==1.0)];
-  tr_label_8_9=tr_label_8_9[:,2:4]; tr_8_9_flag=0;
-  ts_data_8_9=total_ts_data[(total_ts_label[:,2]==1.0)|(total_ts_label[:,3]==1.0)];
+  tr_label_8_9=total_tr_label[(total_tr_label[:,6]==1.0)|(total_tr_label[:,7]==1.0)];
+  tr_label_8_9=tr_label_8_9[:,6:8]; tr_8_9_flag=0;
+  ts_data_8_9=total_ts_data[(total_ts_label[:,6]==1.0)|(total_ts_label[:,7]==1.0)];
   for i in range(len(ts_data_8_9)):
     for j in range(len(ts_data_8_9[0])):
       rand_num=np.random.rand()*10;
@@ -77,8 +67,8 @@ def train():
           ts_data_8_9[i,j]=0.0;
         else:
           ts_data_8_9[i,j]=1.0;
-  ts_label_8_9=total_ts_label[(total_ts_label[:,2]==1.0)|(total_ts_label[:,3]==1.0)];
-  ts_label_8_9=ts_label_8_9[:,2:4];
+  ts_label_8_9=total_ts_label[(total_ts_label[:,6]==1.0)|(total_ts_label[:,7]==1.0)];
+  ts_label_8_9=ts_label_8_9[:,6:8];
   
   ## TASK 1 (5,6 CLASSIFICATION)
   sess = tf.InteractiveSession()
@@ -271,8 +261,7 @@ def train():
         task1_optimal_path=geopath_set[second];
         break;
   iter_task1=i;    
-  print(iter_task1);  
-  """
+  
   ## TASK 2 (8,9 CLASSIFICATION) 
   # Fix task1 Optimal Path
   for i in range(FLAGS.L):
@@ -423,7 +412,7 @@ def train():
       if(task1_optimal_path[i,j]==task2_optimal_path[i,j])&(task1_optimal_path[i,j]==1.0):
         overlap+=1;
   print("Entire Iter:"+str(iter_task1+iter_task2)+",Overlap:"+str(overlap));
-  """
+  
   train_writer.close()
   test_writer.close()
 

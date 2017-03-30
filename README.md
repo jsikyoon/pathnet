@@ -11,15 +11,17 @@ Form Paper
 
 Implementation is on Tensorflow 1.0
 
-[Binary MNIST classification tasks]
+#Binary MNIST classification tasks
 
-"`
+`
 python binary_mnist_pathnet.py 
-"`
+`
 
 If you want to run that repeatly, then do as followed.
 
+`
 ./auto_binary_mnist_pathnet.sh
+`
 
 Basically, almost parameters are used same to paper, however, I used AdamOptimizer with learning_rate=0.001.
 

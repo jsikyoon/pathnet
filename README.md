@@ -13,7 +13,9 @@ Implementation is on Tensorflow 1.0
 
 [Binary MNIST classification tasks]
 
+"'
 python binary_mnist_pathnet.py 
+"'
 
 If you want to run that repeatly, then do as followed.
 

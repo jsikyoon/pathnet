@@ -41,6 +41,8 @@ Learning_rate and geopath set are reset after finishing task1.
 
 For just task 1, saturation speed of pathnet(L=3,M=10,N=3) is slower than selected size network(L=3,N=3). Almost generations for task1 and task2 are just for task1 (over than 90%). In this experiment, "6" class was learned in task1, thus quickly learned in task2.
 
+![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/generationsVSoverlap.PNG)
+
 ### Failure history
 
 When I did try this experiment, I setted 5 versus 6 for task 1 and 8 versus 9 for task2. 

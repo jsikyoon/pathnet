@@ -17,33 +17,37 @@ FLAGS = None
 
 def train():
   cifar10.maybe_download_and_extract();
+  tr_label_cifar10=np.zeros((50000,10),dtype=float);
+  ts_label_cifar10=np.zeros((10000,10),dtype=float);
   for i in range(1,6):
     file_name=os.path.join(FLAGS.data_dir,"data_batch_"+str(i)+".bin");
     f = open(file_name,"rb");
     data=np.reshape(bytearray(f.read()),[10000,3073]);
     if(i==1):
-      tr_label=data[:,0];
-      tr_data=data[:,1:];
+      tr_data_cifar10=data[:,1:]/255.0;
     else:
-      tr_label=np.append(tr_label,(data[:,0]));
-      tr_data=np.append(tr_data,data[:,1:],axis=0);
+      tr_data_cifar10=np.append(tr_data_cifar10,data[:,1:]/255.0,axis=0);
+    for j in range(len(data)):
+      tr_label_cifar10[(i-1)*10000+j,data[j,0]]=1.0;
   file_name=os.path.join(FLAGS.data_dir,"test_batch.bin");
   f = open(file_name,"rb");
   data=np.reshape(bytearray(f.read()),[10000,3073]);
-  ts_label=data[:,0];
-  ts_data=data[:,1:];
-  exit(1);
+  for i in range(len(data)):
+    ts_label_cifar10[i,data[i,0]]=1.0;
+  ts_data_cifar10=data[:,1:]/255.0;
+  data_num_len_cifar10=len(tr_label_cifar10);
+  
   ## TASK 1 (CIFAR10)
   sess = tf.InteractiveSession()
   # Create a multilayer model.
 
   # Input placeholders
   with tf.name_scope('input'):
-    x = tf.placeholder(tf.float32, [None, 28*28*3], name='x-input')
+    x = tf.placeholder(tf.float32, [None, 32*32*3], name='x-input')
     y_ = tf.placeholder(tf.float32, [None, 10], name='y-input')
 
   with tf.name_scope('input_reshape'):
-    image_shaped_input = tf.reshape(x, [-1, 28, 28, 3])
+    image_shaped_input = tf.reshape(x, [-1, 32, 32, 3])
     tf.summary.image('input', image_shaped_input, 10)
 
   # geopath_examples
@@ -74,7 +78,7 @@ def train():
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):
       if(i==0):
-        weights_list[i,j]=pathnet.module_weight_variable([28*28*3,FLAGS.filt]);
+        weights_list[i,j]=pathnet.module_weight_variable([32*32*3,FLAGS.filt]);
         biases_list[i,j]=pathnet.module_bias_variable([FLAGS.filt]);
       else:
         weights_list[i,j]=pathnet.module_weight_variable([FLAGS.filt,FLAGS.filt]);
@@ -97,8 +101,8 @@ def train():
   """
   
   # Do not apply softmax activation yet, see below.
-  output_weights=pathnet.module_weight_variable([FLAGS.filt,2]);
-  output_biases=pathnet.module_bias_variable([2]);
+  output_weights=pathnet.module_weight_variable([FLAGS.filt,10]);
+  output_biases=pathnet.module_bias_variable([10]);
   y = pathnet.nn_layer(net,output_weights,output_biases,'output_layer', act=tf.identity);
 
   with tf.name_scope('cross_entropy'):
@@ -118,6 +122,15 @@ def train():
     train_step = tf.train.AdamOptimizer(FLAGS.learning_rate).minimize(
         cross_entropy,var_list=var_list_to_learn)
         
+  def feed_dict(train,tr_flag=0):
+    #Make a TensorFlow feed_dict: maps data onto Tensor placeholders.
+    if train or FLAGS.fake_data:
+      xs=tr_data_cifar10[tr_flag:tr_flag+16,:]; ys=tr_label_cifar10[tr_flag:tr_flag+16,:];
+      k = FLAGS.dropout
+    else:
+      xs=ts_data_cifar10;ys=ts_label_cifar10;
+      k = 1.0
+    return {x: xs, y_: ys}
 
   with tf.name_scope('accuracy'):
     with tf.name_scope('correct_prediction'):
@@ -136,45 +149,29 @@ def train():
   geopath_set=np.zeros(FLAGS.candi,dtype=object);
   for i in range(FLAGS.candi):
     geopath_set[i]=pathnet.get_geopath(FLAGS.L,FLAGS.M,FLAGS.N);
-    
-  tr_data=np.zeros(FLAGS.T,dtype=object);
-  tr_label=np.zeros(FLAGS.T,dtype=object);
-  ts_data,ts_label=cifar10_input.inputs(1,"/tmp/cifar10_data/cifar-10-batches-bin",10000);
+   
+  tr_flag=0; 
   for i in range(FLAGS.max_steps):
     # Select Two Candidate to Tournament 
     first,second=pathnet.select_two_candi(FLAGS.candi);
-
-    # Get Traing Data
-    for j in range(FLAGS.T):
-      tr_data[j],tr_label[j]=cifar10_input.inputs(0,"/tmp/cifar10_data/cifar-10-batches-bin",16);
-      #tr_data[j] = tf.reshape(tr_data[j],[-1,28*28*3]);
-      print(tr_data[j]);exit(1);
     
     # First Candidate
     pathnet.geopath_insert(geopath,geopath_set[first],FLAGS.L,FLAGS.M);
     var_list_backup=pathnet.parameters_backup(var_list_to_learn);
-    for j in range(FLAGS.T-1):
-      summary_geo1_tr, _ = sess.run([merged], feed_dict={x: tr_data[j], y_: tr_label[j]});
-    run_options_geo1 = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
-    run_metadata_geo1 = tf.RunMetadata()
-    summary_geo1_tr, _ = sess.run([merged, train_step],
-                              feed_dict={x: tr_data[-1], y_: tr_label[-1]},
-                              options=run_options_geo1,
-                              run_metadata=run_metadata_geo1)
-    summary_geo1_ts, acc_geo1 = sess.run([merged, accuracy], feed_dict={x: ts_data, y_: ts_label});
+    tr_flag_bak=tr_flag;
+    for j in range(FLAGS.T):
+      summary_geo1_tr, _ = sess.run([merged,train_step], feed_dict=feed_dict(train=True,tr_flag=tr_flag));
+      tr_flag=(tr_flag+16)%data_num_len_cifar10;
+    summary_geo1_ts, acc_geo1 = sess.run([merged, accuracy], feed_dict=feed_dict(train=False));
     var_list_task1=pathnet.parameters_backup(var_list_to_learn);
+    tr_flag=tr_flag_bak;
     # Second Candidate
     pathnet.geopath_insert(geopath,geopath_set[second],FLAGS.L,FLAGS.M);
     pathnet.parameters_update(var_list_to_learn,var_list_backup);
-    for j in range(FLAGS.T-1):
-      summary_geo2_tr, _ = sess.run([merged], feed_dict={x: tr_data[j], y_: tr_label[j]});
-    run_options_geo2 = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
-    run_metadata_geo2 = tf.RunMetadata()
-    summary_geo2_tr, _ = sess.run([merged, train_step],
-                              feed_dict={x: tr_data[-1], y_: tr_label[-1]},
-                              options=run_options_geo2,
-                              run_metadata=run_metadata_geo2)
-    summary_geo2_ts, acc_geo2 = sess.run([merged, accuracy], feed_dict={x: ts_data, y_: ts_label});
+    for j in range(FLAGS.T):
+      summary_geo2_tr, _ = sess.run([merged,train_step], feed_dict=feed_dict(train=True,tr_flag=tr_flag));
+      tr_flag=(tr_flag+16)%data_num_len_cifar10;
+    summary_geo2_ts, acc_geo2 = sess.run([merged, accuracy], feed_dict=feed_dict(train=False));
     var_list_task2=pathnet.parameters_backup(var_list_to_learn);
     
     # Compatition between two cases
@@ -183,7 +180,6 @@ def train():
       pathnet.mutation(geopath_set[second],FLAGS.L,FLAGS.M,FLAGS.N);
       pathnet.parameters_update(var_list_to_learn,var_list_task1);
       train_writer.add_summary(summary_geo1_tr, i);
-      train_writer.add_run_metadata(run_metadata_geo1, 'step%03d' % i);
       test_writer.add_summary(summary_geo1_ts, i);
       print('Accuracy at step %s: %s' % (i, acc_geo1));
     else:
@@ -191,7 +187,6 @@ def train():
       pathnet.mutation(geopath_set[first],FLAGS.L,FLAGS.M,FLAGS.N);
       pathnet.parameters_update(var_list_to_learn,var_list_task2);
       train_writer.add_summary(summary_geo2_tr, i);
-      train_writer.add_run_metadata(run_metadata_geo2, 'step%03d' % i);
       test_writer.add_summary(summary_geo2_ts, i);
       print('Accuracy at step %s: %s' % (i, acc_geo2));
  

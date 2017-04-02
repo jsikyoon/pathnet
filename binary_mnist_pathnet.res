@@ -21,3 +21,15 @@ Entire Iter:156,Overlap:2
 11 Iteration
 Entire Iter:163,Overlap:4
 12 Iteration
+Entire Iter:187,Overlap:5
+13 Iteration
+Entire Iter:163,Overlap:3
+14 Iteration
+Entire Iter:158,Overlap:2
+15 Iteration
+Entire Iter:137,Overlap:4
+16 Iteration
+Entire Iter:144,Overlap:3
+17 Iteration
+Entire Iter:150,Overlap:2
+18 Iteration

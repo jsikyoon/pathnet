@@ -53,7 +53,6 @@ def svhn_maybe_download_and_extract():
 def train():
   # Get SVHN dataset
   svhn_maybe_download_and_extract();
-  exit(1);
   file_name=os.path.join(FLAGS.svhn_data_dir,"train_32x32.mat");
   train=sio.loadmat(file_name);
   tr_data_svhn=np.zeros((len(train['y']),32*32*3),dtype=float);

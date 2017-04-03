@@ -6,6 +6,7 @@ import argparse
 import sys,os
 import scipy.io as sio
 import tensorflow as tf
+from six.moves import urllib
 
 import cifar10
 import pathnet
@@ -14,9 +15,44 @@ import numpy as np
 
 FLAGS = None
 
+def svhn_maybe_download_and_extract():
+  """Download and extract the tarball from website ( http://ufldl.stanford.edu/housenumbers/ )."""
+  """Copy the code from cifar10.py Tensorflow Example Code!!"""
+  dest_directory = FLAGS.svhn_data_dir
+  if not os.path.exists(dest_directory):
+    os.makedirs(dest_directory)
+  # Training Data
+  DATA_URL = 'http://ufldl.stanford.edu/housenumbers/train_32x32.mat'
+  filename = DATA_URL.split('/')[-1]
+  filepath = os.path.join(dest_directory, filename)
+  if not os.path.exists(filepath):
+    def _progress(count, block_size, total_size):
+      sys.stdout.write('\r>> Downloading %s %.1f%%' % (filename,
+          float(count * block_size) / float(total_size) * 100.0))
+      sys.stdout.flush()
+    filepath, _ = urllib.request.urlretrieve(DATA_URL, filepath, _progress)
+    print()
+    statinfo = os.stat(filepath)
+    print('Successfully downloaded', filename, statinfo.st_size, 'bytes.')
+    
+  # Test Data    
+  DATA_URL = 'http://ufldl.stanford.edu/housenumbers/test_32x32.mat'
+  filename = DATA_URL.split('/')[-1]
+  filepath = os.path.join(dest_directory, filename)
+  if not os.path.exists(filepath):
+    def _progress(count, block_size, total_size):
+      sys.stdout.write('\r>> Downloading %s %.1f%%' % (filename,
+          float(count * block_size) / float(total_size) * 100.0))
+      sys.stdout.flush()
+    filepath, _ = urllib.request.urlretrieve(DATA_URL, filepath, _progress)
+    print()
+    statinfo = os.stat(filepath)
+    print('Successfully downloaded', filename, statinfo.st_size, 'bytes.')
+    
 
 def train():
   # Get SVHN dataset
+  svhn_maybe_download_and_extract();
   file_name=os.path.join(FLAGS.svhn_data_dir,"train_32x32.mat");
   train=sio.loadmat(file_name);
   tr_data_svhn=np.zeros((len(train['y']),32*32*3),dtype=float);

@@ -4,7 +4,7 @@ from __future__ import print_function
 
 import argparse
 import sys,os
-
+import scipy.io as sio
 import tensorflow as tf
 
 import cifar10
@@ -16,11 +16,33 @@ FLAGS = None
 
 
 def train():
+  # Get SVHN dataset
+  file_name=os.path.join(FLAGS.svhn_data_dir,"train_32x32.mat");
+  train=sio.loadmat(file_name);
+  tr_data_svhn=np.zeros((len(train['y']),32*32*3),dtype=float);
+  tr_label_svhn=np.zeros((len(train['y']),10),dtype=float);
+  for i in range(len(train['y'])):
+    tr_data_svhn[i]=np.reshape(train['X'][:,:,:,i],[1,32*32*3]);
+    tr_label_svhn[i,train['y'][i][0]-1]=1.0;
+  tr_data_svhn=tr_data_svhn/255.0;  
+  tr_label_svhn=np.zeros((len(train['y']),10),dtype=float);
+  
+  file_name=os.path.join(FLAGS.svhn_data_dir,"test_32x32.mat");
+  test=sio.loadmat(file_name);
+  ts_data_svhn=np.zeros((len(test['y']),32*32*3),dtype=float);
+  ts_label_svhn=np.zeros((len(test['y']),10),dtype=float);
+  for i in range(len(test['y'])):
+    ts_data_svhn[i]=np.reshape(test['X'][:,:,:,i],[1,32*32*3]);
+    ts_label_svhn[i,test['y'][i][0]-1]=1.0;
+  ts_data_svhn=ts_data_svhn/255.0;    
+  data_num_len_svhn=len(tr_label_svhn);
+  
+  # Get CIFAR 10  dataset
   cifar10.maybe_download_and_extract();
   tr_label_cifar10=np.zeros((50000,10),dtype=float);
   ts_label_cifar10=np.zeros((10000,10),dtype=float);
   for i in range(1,6):
-    file_name=os.path.join(FLAGS.data_dir,"data_batch_"+str(i)+".bin");
+    file_name=os.path.join(FLAGS.cifar_data_dir,"data_batch_"+str(i)+".bin");
     f = open(file_name,"rb");
     data=np.reshape(bytearray(f.read()),[10000,3073]);
     if(i==1):
@@ -29,7 +51,7 @@ def train():
       tr_data_cifar10=np.append(tr_data_cifar10,data[:,1:]/255.0,axis=0);
     for j in range(len(data)):
       tr_label_cifar10[(i-1)*10000+j,data[j,0]]=1.0;
-  file_name=os.path.join(FLAGS.data_dir,"test_batch.bin");
+  file_name=os.path.join(FLAGS.cifar_data_dir,"test_batch.bin");
   f = open(file_name,"rb");
   data=np.reshape(bytearray(f.read()),[10000,3073]);
   for i in range(len(data)):
@@ -37,7 +59,14 @@ def train():
   ts_data_cifar10=data[:,1:]/255.0;
   data_num_len_cifar10=len(tr_label_cifar10);
   
-  ## TASK 1 (CIFAR10)
+  tr_data1=tr_data_cifar10;
+  tr_label1=tr_label_cifar10;
+  data_num_len1=data_num_len_cifar10;
+  tr_data2=tr_data_svhn;
+  tr_label2=tr_label_svhn;
+  data_num_len2=data_num_len_svhn;
+  
+  ## TASK 1 (SVHN)
   sess = tf.InteractiveSession()
   # Create a multilayer model.
 
@@ -125,10 +154,10 @@ def train():
   def feed_dict(train,tr_flag=0):
     #Make a TensorFlow feed_dict: maps data onto Tensor placeholders.
     if train or FLAGS.fake_data:
-      xs=tr_data_cifar10[tr_flag:tr_flag+16,:]; ys=tr_label_cifar10[tr_flag:tr_flag+16,:];
+      xs=tr_data1[tr_flag:tr_flag+16,:]; ys=tr_label1[tr_flag:tr_flag+16,:];
       k = FLAGS.dropout
     else:
-      xs=ts_data_cifar10;ys=ts_label_cifar10;
+      xs=ts_data1;ys=ts_label1;
       k = 1.0
     return {x: xs, y_: ys}
 
@@ -161,7 +190,7 @@ def train():
     tr_flag_bak=tr_flag;
     for j in range(FLAGS.T):
       summary_geo1_tr, _ = sess.run([merged,train_step], feed_dict=feed_dict(train=True,tr_flag=tr_flag));
-      tr_flag=(tr_flag+16)%data_num_len_cifar10;
+      tr_flag=(tr_flag+16)%data_num_len1;
     summary_geo1_ts, acc_geo1 = sess.run([merged, accuracy], feed_dict=feed_dict(train=False));
     var_list_task1=pathnet.parameters_backup(var_list_to_learn);
     tr_flag=tr_flag_bak;
@@ -170,7 +199,7 @@ def train():
     pathnet.parameters_update(var_list_to_learn,var_list_backup);
     for j in range(FLAGS.T):
       summary_geo2_tr, _ = sess.run([merged,train_step], feed_dict=feed_dict(train=True,tr_flag=tr_flag));
-      tr_flag=(tr_flag+16)%data_num_len_cifar10;
+      tr_flag=(tr_flag+16)%data_num_len1;
     summary_geo2_ts, acc_geo2 = sess.run([merged, accuracy], feed_dict=feed_dict(train=False));
     var_list_task2=pathnet.parameters_backup(var_list_to_learn);
     
@@ -195,8 +224,7 @@ def train():
   else:
     task1_acc=acc_geo2;    
   
-  exit(1);
-  ## TASK 2 (8,9 CLASSIFICATION) 
+  ## TASK 2 (CIFAR 10) 
   # Fix task1 Optimal Path
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):
@@ -249,14 +277,13 @@ def train():
   test_writer = tf.summary.FileWriter(FLAGS.log_dir + '/test')
   tf.global_variables_initializer().run()
 
-  def feed_dict2(train,tr_8_9_flag=0):
+  def feed_dict2(train,tr_flag=0):
     #Make a TensorFlow feed_dict: maps data onto Tensor placeholders.
     if train or FLAGS.fake_data:
-      xs=tr_data_8_9[tr_8_9_flag:tr_8_9_flag+16,:]; ys=tr_label_8_9[tr_8_9_flag:tr_8_9_flag+16,:];
-      tr_8_9_flag+=16;
+      xs=tr_data2[tr_flag:tr_flag+16,:]; ys=tr_label2[tr_flag:tr_flag+16,:];
       k = FLAGS.dropout
     else:
-      xs=ts_data_8_9;ys=ts_label_8_9;
+      xs=ts_data2;ys=ts_label2;
       k = 1.0
     return {x: xs, y_: ys}
   
@@ -264,88 +291,53 @@ def train():
   geopath_set=np.zeros(FLAGS.candi,dtype=object);
   for i in range(FLAGS.candi):
     geopath_set[i]=pathnet.get_geopath(FLAGS.L,FLAGS.M,FLAGS.N);
-    
+  
+  tr_flag=0;
   for i in range(FLAGS.max_steps):
     # Select Two Candidate to Tournament 
     first,second=pathnet.select_two_candi(FLAGS.candi);
     
     # First Candidate
     pathnet.geopath_insert(geopath,geopath_set[first],FLAGS.L,FLAGS.M);
-    #tr_8_9_flag_bak=tr_8_9_flag;
-    #var_list_backup=pathnet.parameters_backup(var_list_to_learn);
-    acc_geo1_tr=0;
-    for j in range(FLAGS.T-1):
-      summary_geo1_tr, _, acc_geo1_tmp = sess.run([merged2, train_step2,accuracy2], feed_dict=feed_dict2(True,tr_8_9_flag))
-      tr_8_9_flag=(tr_8_9_flag+16)%len(tr_data_8_9);
-      acc_geo1_tr+=acc_geo1_tmp;
-    run_options_geo1 = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
-    run_metadata_geo1 = tf.RunMetadata()
-    summary_geo1_tr, _, acc_geo1_tmp = sess.run([merged2, train_step2,accuracy2],
-                              feed_dict=feed_dict2(True,tr_8_9_flag),
-                              options=run_options_geo1,
-                              run_metadata=run_metadata_geo1)
-    tr_8_9_flag=(tr_8_9_flag+16)%len(tr_data_8_9);
-    acc_geo1_tr+=acc_geo1_tmp;
+    tr_flag_bak=tr_flag;
+    var_list_backup=pathnet.parameters_backup(var_list_to_learn);
+    for j in range(FLAGS.T):
+      summary_geo1_tr, _ = sess.run([merged2, train_step2], feed_dict=feed_dict2(True,tr_flag))
+      tr_8_9_flag=(tr_8_9_flag+16)%data_num_len2;
     summary_geo1_ts, acc_geo1 = sess.run([merged2, accuracy2], feed_dict=feed_dict2(False))
-    #var_list_task1=pathnet.parameters_backup(var_list_to_learn);
+    var_list_task1=pathnet.parameters_backup(var_list_to_learn);
+    
     # Second Candidate
-    acc_geo2_tr=0;
     pathnet.geopath_insert(geopath,geopath_set[second],FLAGS.L,FLAGS.M);
-    #tr_8_9_flag=tr_8_9_flag_bak;
-    #pathnet.parameters_update(var_list_to_learn,var_list_backup);
+    tr_flag=tr_flag_bak;
+    pathnet.parameters_update(var_list_to_learn,var_list_backup);
     for j in range(FLAGS.T-1):
-      summary_geo2_tr, _, acc_geo2_tmp = sess.run([merged2, train_step2,accuracy2], feed_dict=feed_dict2(True,tr_8_9_flag))
-      tr_8_9_flag=(tr_8_9_flag+16)%len(tr_data_8_9);
-      acc_geo2_tr+=acc_geo2_tmp;
-    run_options_geo2 = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
-    run_metadata_geo2 = tf.RunMetadata()
-    summary_geo2_tr, _, acc_geo2_tmp = sess.run([merged2, train_step2,accuracy2],
-                              feed_dict=feed_dict2(True,tr_8_9_flag),
-                              options=run_options_geo2,
-                              run_metadata=run_metadata_geo2)
-    tr_8_9_flag=(tr_8_9_flag+16)%len(tr_data_8_9);
-    acc_geo2_tr+=acc_geo2_tmp;
+      summary_geo2_tr, _, acc_geo2_tmp = sess.run([merged2, train_step2,accuracy2], feed_dict=feed_dict2(True,tr_flag))
+      tr_8_9_flag=(tr_8_9_flag+16)%data_num_len2;
     summary_geo2_ts, acc_geo2 = sess.run([merged2, accuracy2], feed_dict=feed_dict2(False))
-    #var_list_task2=pathnet.parameters_backup(var_list_to_learn);
+    var_list_task2=pathnet.parameters_backup(var_list_to_learn);
     
     # Compatition between two cases
     if(acc_geo1>acc_geo2):
       geopath_set[second]=np.copy(geopath_set[first]);
       pathnet.mutation(geopath_set[second],FLAGS.L,FLAGS.M,FLAGS.N);
-      #pathnet.parameters_update(var_list_to_learn,var_list_task1);
+      pathnet.parameters_update(var_list_to_learn,var_list_task1);
       train_writer.add_summary(summary_geo1_tr, i);
-      train_writer.add_run_metadata(run_metadata_geo1, 'step%03d' % i);
       test_writer.add_summary(summary_geo1_ts, i);
       print('Accuracy at step %s: %s' % (i, acc_geo1));
-      print('Training Accuracy at step %s: %s' % (i, acc_geo1_tr/FLAGS.T));
-      if(acc_geo1_tr/FLAGS.T >= 0.998):
-        print('Learning Done!!');
-        print('Optimal Path is as followed.');
-        print(geopath_set[first]);
-        task2_optimal_path=geopath_set[first];
-        break;
     else:
       geopath_set[first]=np.copy(geopath_set[second]);
       pathnet.mutation(geopath_set[first],FLAGS.L,FLAGS.M,FLAGS.N);
-      #pathnet.parameters_update(var_list_to_learn,var_list_task2);
+      pathnet.parameters_update(var_list_to_learn,var_list_task2);
       train_writer.add_summary(summary_geo2_tr, i);
-      train_writer.add_run_metadata(run_metadata_geo2, 'step%03d' % i);
       test_writer.add_summary(summary_geo2_ts, i);
       print('Accuracy at step %s: %s' % (i, acc_geo2));
-      print('Training Accuracy at step %s: %s' % (i, acc_geo2_tr/FLAGS.T));
-      if(acc_geo2_tr/FLAGS.T >= 0.998):
-        print('Learning Done!!');
-        print('Optimal Path is as followed.');
-        print(geopath_set[second]);
-        task2_optimal_path=geopath_set[second];
-        break;
-  iter_task2=i;      
-  overlap=0;
-  for i in range(len(task1_optimal_path)):
-    for j in range(len(task1_optimal_path[0])):
-      if(task1_optimal_path[i,j]==task2_optimal_path[i,j])&(task1_optimal_path[i,j]==1.0):
-        overlap+=1;
-  print("Entire Iter:"+str(iter_task1+iter_task2)+",Overlap:"+str(overlap));
+  
+  if(acc_geo1>acc_geo2): 
+    task2_acc=acc_geo1;
+  else:
+    task2_acc=acc_geo2;        
+  print("SVHN Acc:"+str(task1_acc)+",CIFAR10:"+str(task2_acc));
   
   train_writer.close()
   test_writer.close()
@@ -368,7 +360,9 @@ if __name__ == '__main__':
                       help='Number of steps to run trainer.')
   parser.add_argument('--dropout', type=float, default=0.9,
                       help='Keep probability for training dropout.')
-  parser.add_argument('--data_dir', type=str, default='/tmp/cifar10_data/cifar-10-batches-bin',
+  parser.add_argument('--cifar_data_dir', type=str, default='/tmp/cifar10_data/cifar-10-batches-bin',
+                      help='Directory for storing input data')
+  parser.add_argument('--svhn_data_dir', type=str, default='/tmp/svhn_dataset',
                       help='Directory for storing input data')
   parser.add_argument('--log_dir', type=str, default='/tmp/tensorflow/mnist/logs/pathnet',
                       help='Summaries log directory')

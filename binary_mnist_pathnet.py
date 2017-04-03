@@ -437,7 +437,7 @@ if __name__ == '__main__':
                       help='Keep probability for training dropout.')
   parser.add_argument('--data_dir', type=str, default='/tmp/tensorflow/mnist/input_data',
                       help='Directory for storing input data')
-  parser.add_argument('--log_dir', type=str, default='/tmp/tensorflow/mnist/logs/pathnet',
+  parser.add_argument('--log_dir', type=str, default='/tmp/tensorflow/pathnet/logs/binary_mnist',
                       help='Summaries log directory')
   parser.add_argument('--M', type=int, default=10,
                       help='The Number of Modules per Layer')

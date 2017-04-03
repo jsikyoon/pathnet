@@ -97,9 +97,13 @@ def train():
   
   tr_data1=tr_data_svhn;
   tr_label1=tr_label_svhn;
+  ts_data1=ts_data_svhn;
+  ts_label1=ts_label_svhn;
   data_num_len1=data_num_len_svhn;
   tr_data2=tr_data_cifar10;
   tr_label2=tr_label_cifar10;
+  ts_data2=ts_data_cifar10;
+  ts_label2=ts_label_cifar10;
   data_num_len2=data_num_len_cifar10;
   
   ## TASK 1 (SVHN)

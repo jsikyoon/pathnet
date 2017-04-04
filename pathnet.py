@@ -13,15 +13,14 @@ def parameters_backup(var_list_to_learn):
     var_list_backup[i]=var_list_to_learn[i].eval();
   return var_list_backup;
 
-def parameters_update(var_list_to_learn,var_list_backup):
-  for i in range(len(var_list_to_learn)):
-    var_list_to_learn[i].assign(var_list_backup[i]).op.run();
+def parameters_update(sess,var_update_placeholders,var_update_ops,var_list_backup):
+  for i in range(len(var_update_placeholders)):
+    sess.run(var_update_ops[i],{var_update_placeholders[i]:var_list_backup[i]});
     
-def geopath_insert(geopath,candi,L,M):
+def geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,candi,L,M):
   for i in range(L):
     for j in range(M):
-      geopath[i,j].assign(candi[i,j]).op.run();
-      
+      sess.run(geopath_update_ops[i,j],{geopath_update_placeholders[i,j]:candi[i,j]});
 
 def geopath_initializer(L,M):
   geopath=np.zeros((L,M),dtype=object);

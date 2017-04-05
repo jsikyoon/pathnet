@@ -51,7 +51,7 @@ def train():
   tr_data_6_7=total_tr_data[(total_tr_label[:,6]==1.0)|(total_tr_label[:,7]==1.0)];
   for i in range(len(tr_data_6_7)):
     for j in range(len(tr_data_6_7[0])):
-      rand_num=np.random.rand()*10;
+      rand_num=np.random.rand()*2;
       if(rand_num<1):
         if(rand_num<0.5):
           tr_data_6_7[i,j]=0.0;
@@ -62,7 +62,7 @@ def train():
   ts_data_6_7=total_ts_data[(total_ts_label[:,6]==1.0)|(total_ts_label[:,7]==1.0)];
   for i in range(len(ts_data_6_7)):
     for j in range(len(ts_data_6_7[0])):
-      rand_num=np.random.rand()*10;
+      rand_num=np.random.rand()*2;
       if(rand_num<1):
         if(rand_num<0.5):
           ts_data_6_7[i,j]=0.0;
@@ -318,7 +318,7 @@ def train():
   test_writer = tf.summary.FileWriter(FLAGS.log_dir + '/test')
   tf.global_variables_initializer().run()
 
-  def feed_dict2(train,tr_8_9_flag=0):
+  def feed_dict2(train,tr_flag=0):
     #Make a TensorFlow feed_dict: maps data onto Tensor placeholders.
     if train or FLAGS.fake_data:
       xs=tr_data2[tr_flag:tr_flag+16,:]; ys=tr_label2[tr_flag:tr_flag+16,:];

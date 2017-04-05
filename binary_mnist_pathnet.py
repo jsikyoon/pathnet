@@ -226,6 +226,7 @@ def train():
       summary_geo1_tr, _, acc_geo1_tmp = sess.run([merged, train_step,accuracy], feed_dict=feed_dict(True,tr_flag))
       tr_5_6_flag=(tr_flag+16)%data_num_len1;
       acc_geo1_tr+=acc_geo1_tmp;
+    summary_geo1_ts, acc_geo1 = sess.run([merged, accuracy], feed_dict=feed_dict(False))
     var_list_task1=pathnet.parameters_backup(var_list_to_learn);
     tr_flag=tr_flag_bak;
     # Second Candidate
@@ -236,10 +237,11 @@ def train():
       summary_geo2_tr, _, acc_geo2_tmp = sess.run([merged, train_step,accuracy], feed_dict=feed_dict(True,tr_flag))
       tr_flag=(tr_flag+16)%data_num_len1;
       acc_geo2_tr+=acc_geo2_tmp;
+    summary_geo2_ts, acc_geo2 = sess.run([merged, accuracy], feed_dict=feed_dict(False))
     var_list_task2=pathnet.parameters_backup(var_list_to_learn);
     
     # Compatition between two cases
-    if(acc_geo1_tr>acc_geo2_tr):
+    if(acc_geo1>acc_geo2):
       geopath_set[second]=np.copy(geopath_set[first]);
       pathnet.mutation(geopath_set[second],FLAGS.L,FLAGS.M,FLAGS.N);
       pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_task1);

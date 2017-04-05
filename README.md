@@ -38,7 +38,5 @@ Learning_rate and geopath set are reset after finishing task1.
 
 ### Results
 
-![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/generationsVSoverlap.PNG)
-
-### Failure history
+![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/binary_mnist.PNG)
 

@@ -47,6 +47,7 @@ def train():
   ts_label_5_6=total_ts_label[(total_ts_label[:,5]==1.0)|(total_ts_label[:,6]==1.0)];
   ts_label_5_6=ts_label_5_6[:,5:7]; 
   
+  """
   # Gathering 8,9 Data
   tr_data_8_9=total_tr_data[(total_tr_label[:,8]==1.0)|(total_tr_label[:,9]==1.0)];
   for i in range(len(tr_data_8_9)):
@@ -70,8 +71,9 @@ def train():
           ts_data_8_9[i,j]=1.0;
   ts_label_8_9=total_ts_label[(total_ts_label[:,8]==1.0)|(total_ts_label[:,9]==1.0)];
   ts_label_8_9=ts_label_8_9[:,8:10];
+  """
   
-    # Gathering 6,7 Data
+  # Gathering 6,7 Data
   tr_data_6_7=total_tr_data[(total_tr_label[:,6]==1.0)|(total_tr_label[:,7]==1.0)];
   for i in range(len(tr_data_6_7)):
     for j in range(len(tr_data_6_7[0])):
@@ -100,11 +102,11 @@ def train():
   ts_data1=ts_data_5_6;
   ts_label1=ts_label_5_6;
   data_num_len1=len(tr_data_5_6);
-  tr_data2=tr_data_8_9;
-  tr_label2=tr_label_8_9;  
-  ts_data2=ts_data_8_9;
-  ts_label2=ts_label_8_9;  
-  data_num_len2=len(tr_data_8_9);
+  tr_data2=tr_data_6_7;
+  tr_label2=tr_label_6_7;  
+  ts_data2=ts_data_6_7;
+  ts_label2=ts_label_6_7;  
+  data_num_len2=len(tr_data_6_7);
   
   ## TASK 1
   sess = tf.InteractiveSession()
@@ -250,7 +252,6 @@ def train():
       summary_geo1_tr, _, acc_geo1_tmp = sess.run([merged, train_step,accuracy], feed_dict=feed_dict(True,tr_flag))
       tr_5_6_flag=(tr_flag+16)%data_num_len1;
       acc_geo1_tr+=acc_geo1_tmp;
-    summary_geo1_ts, acc_geo1 = sess.run([merged, accuracy], feed_dict=feed_dict(False))
     var_list_task1=pathnet.parameters_backup(var_list_to_learn);
     tr_flag=tr_flag_bak;
     # Second Candidate
@@ -261,11 +262,10 @@ def train():
       summary_geo2_tr, _, acc_geo2_tmp = sess.run([merged, train_step,accuracy], feed_dict=feed_dict(True,tr_flag))
       tr_flag=(tr_flag+16)%data_num_len1;
       acc_geo2_tr+=acc_geo2_tmp;
-    summary_geo2_ts, acc_geo2 = sess.run([merged, accuracy], feed_dict=feed_dict(False))
     var_list_task2=pathnet.parameters_backup(var_list_to_learn);
     
     # Compatition between two cases
-    if(acc_geo1>acc_geo2):
+    if(acc_geo1_tr>acc_geo2_tr):
       geopath_set[second]=np.copy(geopath_set[first]);
       pathnet.mutation(geopath_set[second],FLAGS.L,FLAGS.M,FLAGS.N);
       pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_task1);

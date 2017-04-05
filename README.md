@@ -12,8 +12,6 @@ Form Paper
 
 ![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/pathnet.PNG)
 
-**The version before 2016-04-05, has memory leak problem. If you cloned that, then please pull current version.**
-
 Binary MNIST classification tasks
 -------------------
 
@@ -40,16 +38,7 @@ Learning_rate and geopath set are reset after finishing task1.
 
 ### Results
 
-For just task 1, saturation speed of pathnet(L=3,M=10,N=3) is slower than selected size network(L=3,N=3). Almost generations for task1 and task2 are just for task1 (over than 90%). In this experiment, "6" class was learned in task1, thus quickly learned in task2.
-
 ![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/generationsVSoverlap.PNG)
 
 ### Failure history
 
-When I did try this experiment, I setted 5 versus 6 for task 1 and 8 versus 9 for task2. 
-
-Then, saturation speed is really really slow impressively. For both tasks, pathnet is slower than selected size network. 
-
-I think in this case, there are no common patterns, thus, when learning task2, parameters are needed tobe re-learned. 
-
-Interesting thing is, in this case also, overlap is 3 or 4 even if parameters of optimal path in task 1 are fixed. That can mean some patterns are commonly used or path with learned parameters is quickly learned, thus, other paths are losed, and removed (just my thinking ^^;;).

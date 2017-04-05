@@ -21,7 +21,7 @@ def train():
                                     one_hot=True,
                                     fake_data=FLAGS.fake_data)
   total_tr_data, total_tr_label = mnist.train.next_batch(mnist.train._num_examples);
-  total_ts_data, total_ts_label = mnist.test.next_batch(mnist.test._num_examples);
+  
   # Gathering 5,6 Data
   tr_data_5_6=total_tr_data[(total_tr_label[:,5]==1.0)|(total_tr_label[:,6]==1.0)];
   for i in range(len(tr_data_5_6)):
@@ -34,20 +34,7 @@ def train():
           tr_data_5_6[i,j]=1.0;
   tr_label_5_6=total_tr_label[(total_tr_label[:,5]==1.0)|(total_tr_label[:,6]==1.0)];
   tr_label_5_6=tr_label_5_6[:,5:7]; 
-  tr_5_6_flag=0;
-  ts_data_5_6=total_ts_data[(total_ts_label[:,5]==1.0)|(total_ts_label[:,6]==1.0)];
-  for i in range(len(ts_data_5_6)):
-    for j in range(len(ts_data_5_6[0])):
-      rand_num=np.random.rand()*2;
-      if(rand_num<1):
-        if(rand_num<0.5):
-          ts_data_5_6[i,j]=0.0;
-        else:
-          ts_data_5_6[i,j]=1.0;
-  ts_label_5_6=total_ts_label[(total_ts_label[:,5]==1.0)|(total_ts_label[:,6]==1.0)];
-  ts_label_5_6=ts_label_5_6[:,5:7]; 
-  
-  """
+ 
   # Gathering 8,9 Data
   tr_data_8_9=total_tr_data[(total_tr_label[:,8]==1.0)|(total_tr_label[:,9]==1.0)];
   for i in range(len(tr_data_8_9)):
@@ -60,18 +47,6 @@ def train():
           tr_data_8_9[i,j]=1.0;
   tr_label_8_9=total_tr_label[(total_tr_label[:,8]==1.0)|(total_tr_label[:,9]==1.0)];
   tr_label_8_9=tr_label_8_9[:,8:10];
-  ts_data_8_9=total_ts_data[(total_ts_label[:,8]==1.0)|(total_ts_label[:,9]==1.0)];
-  for i in range(len(ts_data_8_9)):
-    for j in range(len(ts_data_8_9[0])):
-      rand_num=np.random.rand()*2;
-      if(rand_num<1):
-        if(rand_num<0.5):
-          ts_data_8_9[i,j]=0.0;
-        else:
-          ts_data_8_9[i,j]=1.0;
-  ts_label_8_9=total_ts_label[(total_ts_label[:,8]==1.0)|(total_ts_label[:,9]==1.0)];
-  ts_label_8_9=ts_label_8_9[:,8:10];
-  """
   
   # Gathering 6,7 Data
   tr_data_6_7=total_tr_data[(total_tr_label[:,6]==1.0)|(total_tr_label[:,7]==1.0)];
@@ -85,27 +60,12 @@ def train():
           tr_data_6_7[i,j]=1.0;
   tr_label_6_7=total_tr_label[(total_tr_label[:,6]==1.0)|(total_tr_label[:,7]==1.0)];
   tr_label_6_7=tr_label_6_7[:,6:8];
-  ts_data_6_7=total_ts_data[(total_ts_label[:,6]==1.0)|(total_ts_label[:,7]==1.0)];
-  for i in range(len(ts_data_6_7)):
-    for j in range(len(ts_data_6_7[0])):
-      rand_num=np.random.rand()*2;
-      if(rand_num<1):
-        if(rand_num<0.5):
-          ts_data_6_7[i,j]=0.0;
-        else:
-          ts_data_6_7[i,j]=1.0;
-  ts_label_6_7=total_ts_label[(total_ts_label[:,6]==1.0)|(total_ts_label[:,7]==1.0)];
-  ts_label_6_7=ts_label_6_7[:,6:8];
   
   tr_data1=tr_data_5_6;
   tr_label1=tr_label_5_6;
-  ts_data1=ts_data_5_6;
-  ts_label1=ts_label_5_6;
   data_num_len1=len(tr_data_5_6);
   tr_data2=tr_data_6_7;
   tr_label2=tr_label_6_7;  
-  ts_data2=ts_data_6_7;
-  ts_label2=ts_label_6_7;  
   data_num_len2=len(tr_data_6_7);
   
   ## TASK 1
@@ -212,9 +172,6 @@ def train():
     if train or FLAGS.fake_data:
       xs=tr_data1[tr_flag:tr_flag+16,:]; ys=tr_label1[tr_flag:tr_flag+16,:];
       k = FLAGS.dropout
-    else:
-      xs=ts_data1;ys=ts_label1;
-      k = 1.0
     return {x: xs, y_: ys}
     #return {x: xs, y_: ys, keep_prob: k}
 
@@ -348,11 +305,7 @@ def train():
     #Make a TensorFlow feed_dict: maps data onto Tensor placeholders.
     if train or FLAGS.fake_data:
       xs=tr_data2[tr_flag:tr_flag+16,:]; ys=tr_label2[tr_flag:tr_flag+16,:];
-      tr_flag+=16;
       k = FLAGS.dropout
-    else:
-      xs=ts_data2;ys=ts_label2;
-      k = 1.0
     return {x: xs, y_: ys}
   
   # Generating randomly geopath
@@ -377,9 +330,9 @@ def train():
     tr_flag_bak=tr_flag;
     var_list_backup=pathnet.parameters_backup(var_list_to_learn);
     acc_geo1_tr=0;
-    for j in range(FLAGS.T-1):
+    for j in range(FLAGS.T):
       summary_geo1_tr, _, acc_geo1_tmp = sess.run([merged2, train_step2,accuracy2], feed_dict=feed_dict2(True,tr_flag))
-      tr_flag=(tr_flag+16)%len(tr_data2);
+      tr_flag=(tr_flag+16)%data_num_len2;
       acc_geo1_tr+=acc_geo1_tmp;
     var_list_task1=pathnet.parameters_backup(var_list_to_learn);
     
@@ -390,7 +343,7 @@ def train():
     pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_backup);
     for j in range(FLAGS.T):
       summary_geo2_tr, _, acc_geo2_tmp = sess.run([merged2, train_step2,accuracy2], feed_dict=feed_dict2(True,tr_flag))
-      tr_flag=(tr_flag+16)%len(tr_data2);
+      tr_flag=(tr_flag+16)%data_num_len2;
       acc_geo2_tr+=acc_geo2_tmp;
     var_list_task2=pathnet.parameters_backup(var_list_to_learn);
     

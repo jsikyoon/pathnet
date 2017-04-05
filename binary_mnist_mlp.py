@@ -21,7 +21,7 @@ def train():
                                     one_hot=True,
                                     fake_data=FLAGS.fake_data)
   total_tr_data, total_tr_label = mnist.train.next_batch(mnist.train._num_examples);
-  total_ts_data, total_ts_label = mnist.test.next_batch(mnist.test._num_examples);
+  
   # Gathering 5,6 Data
   tr_data_5_6=total_tr_data[(total_tr_label[:,5]==1.0)|(total_tr_label[:,6]==1.0)];
   for i in range(len(tr_data_5_6)):
@@ -33,18 +33,37 @@ def train():
         else:
           tr_data_5_6[i,j]=1.0;
   tr_label_5_6=total_tr_label[(total_tr_label[:,5]==1.0)|(total_tr_label[:,6]==1.0)];
-  tr_label_5_6=tr_label_5_6[:,5:7]; tr_5_6_flag=0;
-  ts_data_5_6=total_ts_data[(total_ts_label[:,5]==1.0)|(total_ts_label[:,6]==1.0)];
-  for i in range(len(ts_data_5_6)):
-    for j in range(len(ts_data_5_6[0])):
+  tr_label_5_6=tr_label_5_6[:,5:7];
+  
+  # Gathering 6,7 Data
+  tr_data_6_7=total_tr_data[(total_tr_label[:,6]==1.0)|(total_tr_label[:,7]==1.0)];
+  for i in range(len(tr_data_6_7)):
+    for j in range(len(tr_data_6_7[0])):
       rand_num=np.random.rand()*2;
       if(rand_num<1):
         if(rand_num<0.5):
-          ts_data_5_6[i,j]=0.0;
+          tr_data_6_7[i,j]=0.0;
         else:
-          ts_data_5_6[i,j]=1.0;
-  ts_label_5_6=total_ts_label[(total_ts_label[:,5]==1.0)|(total_ts_label[:,6]==1.0)];
-  ts_label_5_6=ts_label_5_6[:,5:7];
+          tr_data_6_7[i,j]=1.0;
+  tr_label_6_7=total_tr_label[(total_tr_label[:,6]==1.0)|(total_tr_label[:,7]==1.0)];
+  tr_label_6_7=tr_label_6_7[:,6:8];
+  
+  # Gathering 8,9 Data
+  tr_data_8_9=total_tr_data[(total_tr_label[:,8]==1.0)|(total_tr_label[:,9]==1.0)];
+  for i in range(len(tr_data_8_9)):
+    for j in range(len(tr_data_8_9[0])):
+      rand_num=np.random.rand()*2;
+      if(rand_num<1):
+        if(rand_num<0.5):
+          tr_data_8_9[i,j]=0.0;
+        else:
+          tr_data_8_9[i,j]=1.0;
+  tr_label_8_9=total_tr_label[(total_tr_label[:,8]==1.0)|(total_tr_label[:,9]==1.0)];
+  tr_label_8_9=tr_label_8_9[:,8:10];
+  
+  tr_data=tr_data_6_7;
+  tr_label=tr_label_6_7;
+  data_num_len=len(tr_data);
   
   ## TASK 1 (5,6 CLASSIFICATION)
   sess = tf.InteractiveSession()
@@ -119,6 +138,7 @@ def train():
     with tf.name_scope('total'):
       cross_entropy = tf.reduce_mean(diff)
   tf.summary.scalar('cross_entropy', cross_entropy)
+
   # Need to learn variables
   #var_list_to_learn=[]+input_weights+input_biases+output_weights+output_biases;
   var_list_to_learn=[]+output_weights+output_biases;
@@ -130,9 +150,6 @@ def train():
   with tf.name_scope('train'):
     train_step = tf.train.AdamOptimizer(FLAGS.learning_rate).minimize(
         cross_entropy,var_list=var_list_to_learn)
-    #train_step = tf.train.GradientDescentOptimizer(FLAGS.learning_rate).minimize(
-    #    cross_entropy,var_list=var_list_to_learn)
-        
 
   with tf.name_scope('accuracy'):
     with tf.name_scope('correct_prediction'):
@@ -146,48 +163,35 @@ def train():
   train_writer = tf.summary.FileWriter(FLAGS.log_dir + '/train', sess.graph)
   test_writer = tf.summary.FileWriter(FLAGS.log_dir + '/test')
   tf.global_variables_initializer().run()
-  def feed_dict(train,tr_5_6_flag=0):
-    """Make a TensorFlow feed_dict: maps data onto Tensor placeholders."""
+  def feed_dict(train,tr_flag=0):
     if train or FLAGS.fake_data:
-      xs=tr_data_5_6[tr_5_6_flag:tr_5_6_flag+16,:]; ys=tr_label_5_6[tr_5_6_flag:tr_5_6_flag+16,:];
+      xs=tr_data[tr_flag:tr_flag+16,:]; ys=tr_label[tr_flag:tr_flag+16,:];
       k = FLAGS.dropout
     else:
-      xs=ts_data_5_6;ys=ts_label_5_6;
+      xs=ts_data;ys=ts_label;
       k = 1.0
     return {x: xs, y_: ys}
     #return {x: xs, y_: ys, keep_prob: k}
 
+  tr_flag=0;
   for i in range(FLAGS.max_steps):
     # First Candidate
     acc_geo1_tr=0;
-    for j in range(FLAGS.T-1):
-      summary_geo1_tr, _, acc_geo1_tmp = sess.run([merged, train_step,accuracy], feed_dict=feed_dict(True,tr_5_6_flag))
-      tr_5_6_flag=(tr_5_6_flag+16)%len(tr_data_5_6);
+    for j in range(FLAGS.T):
+      summary_geo1_tr, _, acc_geo1_tmp = sess.run([merged, train_step,accuracy], feed_dict=feed_dict(True,tr_flag))
+      tr_flag=(tr_flag+16)%data_num_len;
       acc_geo1_tr+=acc_geo1_tmp;
-    run_options_geo1 = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
-    run_metadata_geo1 = tf.RunMetadata()
-    summary_geo1_tr, _, acc_geo1_tmp = sess.run([merged, train_step,accuracy],
-                              feed_dict=feed_dict(True,tr_5_6_flag),
-                              options=run_options_geo1,
-                              run_metadata=run_metadata_geo1)
-    tr_5_6_flag=(tr_5_6_flag+16)%len(tr_data_5_6);
-    acc_geo1_tr+=acc_geo1_tmp;
-    summary_geo1_ts, acc_geo1 = sess.run([merged, accuracy], feed_dict=feed_dict(False))
     
-    # Compatition between two cases
     if(True):
       train_writer.add_summary(summary_geo1_tr, i);
-      train_writer.add_run_metadata(run_metadata_geo1, 'step%03d' % i);
-      test_writer.add_summary(summary_geo1_ts, i);
-      print('Accuracy at step %s: %s' % (i, acc_geo1));
       print('Training Accuracy at step %s: %s' % (i, acc_geo1_tr/FLAGS.T));
       if(acc_geo1_tr/FLAGS.T >= 0.998):
         print('Learning Done!!');
         print('Optimal Path is as followed.');
         break;
-  iter_task1=i;      
+  iter_task=i;      
   
-  print("Entire Iter:"+str(iter_task1));
+  print("Entire Iter:"+str(iter_task));
 
   train_writer.close()
   test_writer.close()

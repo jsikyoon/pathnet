@@ -58,7 +58,7 @@ def train():
         else:
           tr_data_8_9[i,j]=1.0;
   tr_label_8_9=total_tr_label[(total_tr_label[:,8]==1.0)|(total_tr_label[:,9]==1.0)];
-  tr_label_8_9=tr_label_8_9[:,6:8];
+  tr_label_8_9=tr_label_8_9[:,8:10];
   ts_data_8_9=total_ts_data[(total_ts_label[:,8]==1.0)|(total_ts_label[:,9]==1.0)];
   for i in range(len(ts_data_8_9)):
     for j in range(len(ts_data_8_9[0])):
@@ -70,7 +70,31 @@ def train():
           ts_data_8_9[i,j]=1.0;
   ts_label_8_9=total_ts_label[(total_ts_label[:,8]==1.0)|(total_ts_label[:,9]==1.0)];
   ts_label_8_9=ts_label_8_9[:,8:10];
-
+  
+    # Gathering 6,7 Data
+  tr_data_6_7=total_tr_data[(total_tr_label[:,6]==1.0)|(total_tr_label[:,7]==1.0)];
+  for i in range(len(tr_data_6_7)):
+    for j in range(len(tr_data_6_7[0])):
+      rand_num=np.random.rand()*2;
+      if(rand_num<1):
+        if(rand_num<0.5):
+          tr_data_6_7[i,j]=0.0;
+        else:
+          tr_data_6_7[i,j]=1.0;
+  tr_label_6_7=total_tr_label[(total_tr_label[:,6]==1.0)|(total_tr_label[:,7]==1.0)];
+  tr_label_6_7=tr_label_6_7[:,6:8];
+  ts_data_6_7=total_ts_data[(total_ts_label[:,6]==1.0)|(total_ts_label[:,7]==1.0)];
+  for i in range(len(ts_data_6_7)):
+    for j in range(len(ts_data_6_7[0])):
+      rand_num=np.random.rand()*2;
+      if(rand_num<1):
+        if(rand_num<0.5):
+          ts_data_6_7[i,j]=0.0;
+        else:
+          ts_data_6_7[i,j]=1.0;
+  ts_label_6_7=total_ts_label[(total_ts_label[:,6]==1.0)|(total_ts_label[:,7]==1.0)];
+  ts_label_6_7=ts_label_6_7[:,6:8];
+  
   tr_data1=tr_data_5_6;
   tr_label1=tr_label_5_6;
   ts_data1=ts_data_5_6;
@@ -82,7 +106,7 @@ def train():
   ts_label2=ts_label_8_9;  
   data_num_len2=len(tr_data_8_9);
   
-  ## TASK 1 (5,6 CLASSIFICATION)
+  ## TASK 1
   sess = tf.InteractiveSession()
   # Create a multilayer model.
 
@@ -268,7 +292,7 @@ def train():
         
   iter_task1=i;    
   
-  ## TASK 2 (6,7 CLASSIFICATION) 
+  ## TASK 2
   # Fix task1 Optimal Path
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):

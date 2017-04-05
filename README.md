@@ -12,6 +12,7 @@ Form Paper
 
 ![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/pathnet.PNG)
 
+**The version before 2016-04-05, has memory leak problem. If you cloned that, then please pull current version.**
 
 Binary MNIST classification tasks
 -------------------
@@ -32,7 +33,7 @@ Basically, almost parameters are used same to paper, however, I used AdamOptimiz
 
 Task1 is classification between "5" and "6", and task2 is classification between "6" and "7".
 
-When two candidates are learned & evaluated, learned parameters from each candidates are saved, and winner parameters are updated to model.
+When two candidates are learned & evaluated (evaluation is based on training data accuracy), learned parameters from each candidates are saved, and winner parameters are updated to model.
 In above process, two candidates use same data batchs.
 
 Learning_rate and geopath set are reset after finishing task1.

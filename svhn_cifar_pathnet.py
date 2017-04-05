@@ -347,14 +347,21 @@ def train():
   geopath_set=np.zeros(FLAGS.candi,dtype=object);
   for i in range(FLAGS.candi):
     geopath_set[i]=pathnet.get_geopath(FLAGS.L,FLAGS.M,FLAGS.N);
-  
+
+  # parameters placeholders and ops 
+  var_update_ops=np.zeros(len(var_list_to_learn),dtype=object);
+  var_update_placeholders=np.zeros(len(var_list_to_learn),dtype=object);
+  for i in range(len(var_list_to_learn)):
+    var_update_placeholders[i]=tf.placeholder(var_list_to_learn[i].dtype,shape=var_list_to_learn[i].get_shape());
+    var_update_ops[i]=var_list_to_learn[i].assign(var_update_placeholders[i]);
+    
   tr_flag=0;
   for i in range(FLAGS.max_steps):
     # Select Two Candidate to Tournament 
     first,second=pathnet.select_two_candi(FLAGS.candi);
     
     # First Candidate
-    pathnet.geopath_insert(geopath,geopath_set[first],FLAGS.L,FLAGS.M);
+    pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[first],FLAGS.L,FLAGS.M);
     tr_flag_bak=tr_flag;
     var_list_backup=pathnet.parameters_backup(var_list_to_learn);
     for j in range(FLAGS.T):
@@ -364,9 +371,9 @@ def train():
     var_list_task1=pathnet.parameters_backup(var_list_to_learn);
     
     # Second Candidate
-    pathnet.geopath_insert(geopath,geopath_set[second],FLAGS.L,FLAGS.M);
+    pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[first],FLAGS.L,FLAGS.M);
     tr_flag=tr_flag_bak;
-    pathnet.parameters_update(var_list_to_learn,var_list_backup);
+    pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_backup);
     for j in range(FLAGS.T-1):
       summary_geo2_tr, _, acc_geo2_tmp = sess.run([merged2, train_step2,accuracy2], feed_dict=feed_dict2(True,tr_flag))
       tr_8_9_flag=(tr_8_9_flag+16)%data_num_len2;
@@ -377,14 +384,14 @@ def train():
     if(acc_geo1>acc_geo2):
       geopath_set[second]=np.copy(geopath_set[first]);
       pathnet.mutation(geopath_set[second],FLAGS.L,FLAGS.M,FLAGS.N);
-      pathnet.parameters_update(var_list_to_learn,var_list_task1);
+      pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_task1);
       train_writer.add_summary(summary_geo1_tr, i);
       test_writer.add_summary(summary_geo1_ts, i);
       print('Accuracy at step %s: %s' % (i, acc_geo1));
     else:
       geopath_set[first]=np.copy(geopath_set[second]);
       pathnet.mutation(geopath_set[first],FLAGS.L,FLAGS.M,FLAGS.N);
-      pathnet.parameters_update(var_list_to_learn,var_list_task2);
+      pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_task2);
       train_writer.add_summary(summary_geo2_tr, i);
       test_writer.add_summary(summary_geo2_ts, i);
       print('Accuracy at step %s: %s' % (i, acc_geo2));

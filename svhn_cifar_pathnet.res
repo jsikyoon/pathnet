@@ -1,0 +1,2 @@
+1 Iteration,  SVHN Acc:0.159381,CIFAR10:0.2388
+2 Iteration,  SVHN Acc:0.11071,CIFAR10:0.2684

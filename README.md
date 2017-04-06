@@ -12,6 +12,13 @@ Form Paper
 
 ![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/pathnet.PNG)
 
+### Failure Story
+
+When implementing pathnet, the path activation values are needed to be changed per each geopath (In serial pathnet case, learned parameters are needed to be reset after first candidate learning & evaluation, for fair competitions.).
+In general examples, varables for parameters and activation values are just assigned as Tensor Variables, because normally those things are not changed. 
+However, in pathnet, those variables are changed. If you just assign new values to those variables for each generation, then Tensor assigns new variables for every your assigning commends. (That cause memory leak.)
+Thus, in this net, you need to set variables for those values with placeholders as the implementation.
+
 Binary MNIST classification tasks
 -------------------
 

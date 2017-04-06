@@ -402,7 +402,7 @@ def train():
     task2_acc=acc_geo1;
   else:
     task2_acc=acc_geo2;        
-  print("SVHN Acc:"+str(task1_acc)+",CIFAR10:"+str(task2_acc));
+  print("CIFAR10 Acc:"+str(task1_acc)+",SVHN:"+str(task2_acc));
   
   train_writer.close()
   test_writer.close()

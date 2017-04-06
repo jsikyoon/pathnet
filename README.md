@@ -38,5 +38,8 @@ Learning_rate and geopath set are reset after finishing task1.
 
 ### Results
 
+With above settings, the experiments were run about 1,200 times. 
+In bellow figure, we can check lots of times 3~5 overlapped modules are used for both tasks, and the case, which is the number of overlapped modules is over 5, shows worse results than other's results.
+
 ![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/binary_mnist.PNG)
 

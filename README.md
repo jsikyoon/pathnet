@@ -43,3 +43,8 @@ In bellow figure, we can check lots of times 3~5 overlapped modules are used for
 
 ![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/binary_mnist.PNG)
 
+### Failure Story
+
+At first time of experiment, two tasks are 5 vs 6 and 8 vs 9. In that case, pathnet performance is slower than just mlp networks learned from scratch. Specially second task was really slow. 
+My opinion is the network can not learn enoughly because, the parameters in optimal path of first task are fixed, and there are rarely common pattern between "5", "6" and "8", "9". 
+Thus, the network need to learn lots patterns from data, however, some modules parameters are fixed. Those condition can be the reason why this case second task needs really a huge generations.

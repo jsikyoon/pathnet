@@ -1,0 +1,95 @@
+Extracting /tmp/tensorflow/mnist/input_data/train-images-idx3-ubyte.gz
+Extracting /tmp/tensorflow/mnist/input_data/train-labels-idx1-ubyte.gz
+Extracting /tmp/tensorflow/mnist/input_data/t10k-images-idx3-ubyte.gz
+Extracting /tmp/tensorflow/mnist/input_data/t10k-labels-idx1-ubyte.gz
+Training Accuracy at step 0: 0.9625
+Training Accuracy at step 1: 0.9775
+Training Accuracy at step 2: 0.9875
+Training Accuracy at step 3: 0.98
+Training Accuracy at step 4: 0.98625
+Training Accuracy at step 5: 0.98875
+Training Accuracy at step 6: 0.96875
+Training Accuracy at step 7: 0.99125
+Training Accuracy at step 8: 0.9825
+Training Accuracy at step 9: 0.995
+Training Accuracy at step 10: 0.98
+Training Accuracy at step 11: 0.925
+Training Accuracy at step 12: 0.9875
+Training Accuracy at step 13: 0.995
+Training Accuracy at step 14: 1.0
+Learning Done!!
+Optimal Path is as followed.
+[[ 1.  1.  0.  0.  0.  0.  0.  1.  1.  0.]
+ [ 0.  0.  1.  0.  1.  0.  0.  0.  0.  0.]
+ [ 0.  0.  0.  1.  1.  0.  0.  1.  0.  1.]]
+Training Accuracy at step 0: 0.80125
+Training Accuracy at step 1: 0.945
+Training Accuracy at step 2: 0.86
+Training Accuracy at step 3: 0.91625
+Training Accuracy at step 4: 0.79375
+Training Accuracy at step 5: 0.9025
+Training Accuracy at step 6: 0.965
+Training Accuracy at step 7: 0.91
+Training Accuracy at step 8: 0.9575
+Training Accuracy at step 9: 0.905
+Training Accuracy at step 10: 0.96125
+Training Accuracy at step 11: 0.9575
+Training Accuracy at step 12: 0.97875
+Training Accuracy at step 13: 0.582916666269
+Training Accuracy at step 14: 0.97125
+Training Accuracy at step 15: 0.945
+Training Accuracy at step 16: 0.9725
+Training Accuracy at step 17: 0.97875
+Training Accuracy at step 18: 0.96375
+Training Accuracy at step 19: 0.9675
+Training Accuracy at step 20: 0.98625
+Training Accuracy at step 21: 0.9725
+Training Accuracy at step 22: 0.99125
+Training Accuracy at step 23: 0.975
+Training Accuracy at step 24: 0.98
+Training Accuracy at step 25: 0.96375
+Training Accuracy at step 26: 0.9675
+Training Accuracy at step 27: 0.985
+Training Accuracy at step 28: 0.9675
+Training Accuracy at step 29: 0.95625
+Training Accuracy at step 30: 0.97
+Training Accuracy at step 31: 0.9875
+Training Accuracy at step 32: 0.9825
+Training Accuracy at step 33: 0.97
+Training Accuracy at step 34: 0.8575
+Training Accuracy at step 35: 0.96125
+Training Accuracy at step 36: 0.98125
+Training Accuracy at step 37: 0.98125
+Training Accuracy at step 38: 0.985
+Training Accuracy at step 39: 0.98875
+Training Accuracy at step 40: 0.97
+Training Accuracy at step 41: 0.96125
+Training Accuracy at step 42: 0.98375
+Training Accuracy at step 43: 0.5675
+Training Accuracy at step 44: 0.95875
+Training Accuracy at step 45: 0.9925
+Training Accuracy at step 46: 0.98625
+Training Accuracy at step 47: 0.97625
+Training Accuracy at step 48: 0.9825
+Training Accuracy at step 49: 0.98625
+Training Accuracy at step 50: 0.9925
+Training Accuracy at step 51: 0.975
+Training Accuracy at step 52: 0.95875
+Training Accuracy at step 53: 0.97
+Training Accuracy at step 54: 0.9875
+Training Accuracy at step 55: 0.97625
+Training Accuracy at step 56: 0.98625
+Training Accuracy at step 57: 0.9875
+Training Accuracy at step 58: 0.96625
+Training Accuracy at step 59: 0.96875
+Training Accuracy at step 60: 0.97
+Training Accuracy at step 61: 0.97375
+Training Accuracy at step 62: 0.98875
+Training Accuracy at step 63: 0.97875
+Training Accuracy at step 64: 0.99875
+Learning Done!!
+Optimal Path is as followed.
+[[ 0.  0.  0.  0.  0.  1.  0.  1.  0.  1.]
+ [ 0.  0.  0.  0.  0.  0.  1.  1.  1.  0.]
+ [ 0.  1.  0.  0.  0.  1.  1.  0.  0.  1.]]
+Entire Iter:78,Overlap:2

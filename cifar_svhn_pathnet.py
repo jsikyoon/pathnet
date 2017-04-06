@@ -107,7 +107,7 @@ def train():
   ts_label2=ts_label_svhn;
   data_num_len2=data_num_len_svhn;
   
-  ## TASK 1 (SVHN)
+  ## TASK 1 (CIFAR 10)
   sess = tf.InteractiveSession()
   # Create a multilayer model.
 
@@ -266,21 +266,23 @@ def train():
       pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_task1);
       train_writer.add_summary(summary_geo1_tr, i);
       test_writer.add_summary(summary_geo1_ts, i);
-      print('Accuracy at step %s: %s' % (i, acc_geo1));
+      print('Accuracy at step %s: %s' % (i+1, acc_geo1));
     else:
       geopath_set[first]=np.copy(geopath_set[second]);
       pathnet.mutation(geopath_set[first],FLAGS.L,FLAGS.M,FLAGS.N);
       pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_task2);
       train_writer.add_summary(summary_geo2_tr, i);
       test_writer.add_summary(summary_geo2_ts, i);
-      print('Accuracy at step %s: %s' % (i, acc_geo2));
+      print('Accuracy at step %s: %s' % (i+1, acc_geo2));
  
   if(acc_geo1>acc_geo2): 
     task1_acc=acc_geo1;
+    task1_optimal_path=geopath_set[first];
   else:
     task1_acc=acc_geo2;    
+    task1_optimal_path=geopath_set[second];
   
-  ## TASK 2 (CIFAR 10) 
+  ## TASK 2 (SVHN) 
   # Fix task1 Optimal Path
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):
@@ -297,8 +299,8 @@ def train():
   tf.variables_initializer(var_list=var_list_to_reinitial).run();
 
   # Output Layer for Task2
-  output_weights2=pathnet.module_weight_variable([FLAGS.filt,2]);
-  output_biases2=pathnet.module_bias_variable([2]);
+  output_weights2=pathnet.module_weight_variable([FLAGS.filt,10]);
+  output_biases2=pathnet.module_bias_variable([10]);
   y2 = pathnet.nn_layer(net,output_weights2,output_biases2,'output_layer2', act=tf.identity);  
 
   with tf.name_scope('cross_entropy2'):
@@ -366,7 +368,7 @@ def train():
     var_list_backup=pathnet.parameters_backup(var_list_to_learn);
     for j in range(FLAGS.T):
       summary_geo1_tr, _ = sess.run([merged2, train_step2], feed_dict=feed_dict2(True,tr_flag))
-      tr_8_9_flag=(tr_8_9_flag+16)%data_num_len2;
+      tr_flag=(tr_flag+16)%data_num_len2;
     summary_geo1_ts, acc_geo1 = sess.run([merged2, accuracy2], feed_dict=feed_dict2(False))
     var_list_task1=pathnet.parameters_backup(var_list_to_learn);
     
@@ -376,7 +378,7 @@ def train():
     pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_backup);
     for j in range(FLAGS.T-1):
       summary_geo2_tr, _, acc_geo2_tmp = sess.run([merged2, train_step2,accuracy2], feed_dict=feed_dict2(True,tr_flag))
-      tr_8_9_flag=(tr_8_9_flag+16)%data_num_len2;
+      tr_flag=(tr_flag+16)%data_num_len2;
     summary_geo2_ts, acc_geo2 = sess.run([merged2, accuracy2], feed_dict=feed_dict2(False))
     var_list_task2=pathnet.parameters_backup(var_list_to_learn);
     

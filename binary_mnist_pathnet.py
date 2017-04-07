@@ -207,7 +207,7 @@ def train():
     tr_flag_bak=tr_flag;
     for j in range(FLAGS.T):
       summary_geo1_tr, _, acc_geo1_tmp = sess.run([merged, train_step,accuracy], feed_dict=feed_dict(True,tr_flag))
-      tr_5_6_flag=(tr_flag+16)%data_num_len1;
+      tr_flag=(tr_flag+16)%data_num_len1;
       acc_geo1_tr+=acc_geo1_tmp;
     var_list_task1=pathnet.parameters_backup(var_list_to_learn);
     tr_flag=tr_flag_bak;

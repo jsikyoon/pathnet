@@ -331,8 +331,8 @@ def train():
 
   # Merge all the summaries and write them out to /tmp/tensorflow/mnist/logs/mnist_with_summaries (by default)
   merged2 = tf.summary.merge_all()
-  train_writer = tf.summary.FileWriter(FLAGS.log_dir + '/train', sess.graph)
-  test_writer = tf.summary.FileWriter(FLAGS.log_dir + '/test')
+  train_writer = tf.summary.FileWriter(FLAGS.log_dir + '/train2', sess.graph)
+  test_writer = tf.summary.FileWriter(FLAGS.log_dir + '/test2')
   tf.global_variables_initializer().run()
 
   def feed_dict2(train,tr_flag=0):

@@ -68,15 +68,6 @@ def train():
   tr_label2=tr_label_6_7;  
   data_num_len2=len(tr_data_6_7);
   
-  """
-  tr_data2=tr_data_5_6;
-  tr_label2=tr_label_5_6;
-  data_num_len2=len(tr_data_5_6);
-  tr_data1=tr_data_6_7;
-  tr_label1=tr_label_6_7;  
-  data_num_len1=len(tr_data_6_7);
-  """
-
   ## TASK 1
   sess = tf.InteractiveSession()
   # Create a multilayer model.
@@ -98,6 +89,12 @@ def train():
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):
       fixed_list[i,j]='0';    
+  
+  # reinitializing weights list
+  rein_list=np.ones((FLAGS.L,FLAGS.M),dtype=str);
+  for i in range(FLAGS.L):
+    for j in range(FLAGS.M):
+      rein_list[i,j]='0';    
   
   # Input Layer
   """
@@ -231,7 +228,7 @@ def train():
       pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_task1);
       train_writer.add_summary(summary_geo1_tr, i);
       print('Training Accuracy at step %s: %s' % (i, acc_geo1_tr/FLAGS.T));
-      if(acc_geo1_tr/FLAGS.T >= 0.998):
+      if(acc_geo1_tr/FLAGS.T >= 0.8):
         print('Learning Done!!');
         print('Optimal Path is as followed.');
         print(geopath_set[first]);
@@ -243,7 +240,7 @@ def train():
       pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_task2);
       train_writer.add_summary(summary_geo2_tr, i);
       print('Training Accuracy at step %s: %s' % (i, acc_geo2_tr/FLAGS.T));
-      if(acc_geo2_tr/FLAGS.T >= 0.998):
+      if(acc_geo2_tr/FLAGS.T >= 0.8):
         print('Learning Done!!');
         print('Optimal Path is as followed.');
         print(geopath_set[second]);
@@ -252,29 +249,36 @@ def train():
         
   iter_task1=i;    
 
+  for i in range(FLAGS.L):
+    for j in range(FLAGS.M):
+      if(task1_optimal_path[i,j]==1.0):
+        print(biases_list[i,j][0].eval());
+        break;
+    break;
+ 
+  ## TASK 2
   # Fix task1 Optimal Path
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):
       if(task1_optimal_path[i,j]==1.0):
         fixed_list[i,j]='1';
-
-  # Get variables of fixed list
-  var_list_to_fix=[]+output_weights+output_biases;
+      else:
+        rein_list[i,j]='1';      
+  # reinitializing weights          
+  var_list_to_reinitial=[];
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):
-     if(fixed_list[i,j]=='1'):
-       var_list_to_fix+=weights_list[i,j]+biases_list[i,j];
-  var_list_fix=pathnet.parameters_backup(var_list_to_fix);
- 
-  # parameters placeholders and ops 
-  var_fix_ops=np.zeros(len(var_list_to_fix),dtype=object);
-  var_fix_placeholders=np.zeros(len(var_list_to_fix),dtype=object);
-  for i in range(len(var_list_to_fix)):
-    var_fix_placeholders[i]=tf.placeholder(var_list_to_fix[i].dtype,shape=var_list_to_fix[i].get_shape());
-    var_fix_ops[i]=var_list_to_fix[i].assign(var_fix_placeholders[i]);
- 
+      if (rein_list[i,j]=='1'):
+        var_list_to_reinitial+=weights_list[i,j]+biases_list[i,j];
+  tf.variables_initializer(var_list=var_list_to_reinitial).run();
+
+  for i in range(FLAGS.L):
+    for j in range(FLAGS.M):
+      if(task1_optimal_path[i,j]==1.0):
+        print(biases_list[i,j][0].eval());
+        break;
+    break;
   
-  ## TASK 2
   # Output Layer for Task2
   output_weights2=pathnet.module_weight_variable([FLAGS.filt,2]);
   output_biases2=pathnet.module_bias_variable([2]);
@@ -311,15 +315,13 @@ def train():
   test_writer = tf.summary.FileWriter(FLAGS.log_dir + '/test2')
   tf.global_variables_initializer().run()
  
-  # Update fixed values
-  pathnet.parameters_update(sess,var_fix_placeholders,var_fix_ops,var_list_fix);
-
-  for ii in range(FLAGS.L):
-    for jj in range(FLAGS.M):
-      if(fixed_list[ii,jj]=='1'):
-        print(biases_list[ii,jj][0].eval());
+  for i in range(FLAGS.L):
+    for j in range(FLAGS.M):
+      if(task1_optimal_path[i,j]==1.0):
+        print(biases_list[i,j][0].eval());
         break;
     break;
+  exit(1);
 
   def feed_dict2(train,tr_flag=0):
     #Make a TensorFlow feed_dict: maps data onto Tensor placeholders.
@@ -392,12 +394,6 @@ def train():
         print(geopath_set[second]);
         task2_optimal_path=geopath_set[second];
         break;
-  for ii in range(FLAGS.L):
-    for jj in range(FLAGS.M):
-      if(fixed_list[ii,jj]=='1'):
-        print(biases_list[ii,jj][0].eval());
-        break;
-    break;
         
   iter_task2=i;      
   overlap=0;

@@ -251,13 +251,13 @@ def train():
         break;
         
   iter_task1=i;    
-
+  
   # Fix task1 Optimal Path
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):
       if(task1_optimal_path[i,j]==1.0):
         fixed_list[i,j]='1';
-
+  
   # Get variables of fixed list
   var_list_to_fix=[]+output_weights+output_biases;
   for i in range(FLAGS.L):
@@ -313,13 +313,6 @@ def train():
  
   # Update fixed values
   pathnet.parameters_update(sess,var_fix_placeholders,var_fix_ops,var_list_fix);
-
-  for ii in range(FLAGS.L):
-    for jj in range(FLAGS.M):
-      if(fixed_list[ii,jj]=='1'):
-        print(biases_list[ii,jj][0].eval());
-        break;
-    break;
 
   def feed_dict2(train,tr_flag=0):
     #Make a TensorFlow feed_dict: maps data onto Tensor placeholders.
@@ -392,12 +385,6 @@ def train():
         print(geopath_set[second]);
         task2_optimal_path=geopath_set[second];
         break;
-  for ii in range(FLAGS.L):
-    for jj in range(FLAGS.M):
-      if(fixed_list[ii,jj]=='1'):
-        print(biases_list[ii,jj][0].eval());
-        break;
-    break;
         
   iter_task2=i;      
   overlap=0;

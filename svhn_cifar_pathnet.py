@@ -281,23 +281,30 @@ def train():
   else:
     task1_acc=acc_geo2;    
     task1_optimal_path=geopath_set[second];
-  
-  ## TASK 2 (CIFAR 10) 
+
   # Fix task1 Optimal Path
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):
       if(task1_optimal_path[i,j]==1.0):
         fixed_list[i,j]='1';
-      else:
-        rein_list[i,j]='1';      
-  # reinitializing weights          
-  var_list_to_reinitial=[];
+
+  # Get variables of fixed list
+  var_list_to_fix=[]+output_weights+output_biases;
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):
-      if (rein_list[i,j]=='1'):
-        var_list_to_reinitial+=weights_list[i,j]+biases_list[i,j];
-  tf.variables_initializer(var_list=var_list_to_reinitial).run();
+     if(fixed_list[i,j]=='1'):
+       var_list_to_fix+=weights_list[i,j]+biases_list[i,j];
+  var_list_fix=pathnet.parameters_backup(var_list_to_fix);
 
+  # parameters placeholders and ops
+  var_fix_ops=np.zeros(len(var_list_to_fix),dtype=object);
+  var_fix_placeholders=np.zeros(len(var_list_to_fix),dtype=object);
+  for i in range(len(var_list_to_fix)):
+    var_fix_placeholders[i]=tf.placeholder(var_list_to_fix[i].dtype,shape=var_list_to_fix[i].get_shape());
+    var_fix_ops[i]=var_list_to_fix[i].assign(var_fix_placeholders[i]);
+
+ 
+  ## TASK 2 (CIFAR 10) 
   # Output Layer for Task2
   output_weights2=pathnet.module_weight_variable([FLAGS.filt,10]);
   output_biases2=pathnet.module_bias_variable([10]);
@@ -308,6 +315,7 @@ def train():
     with tf.name_scope('total2'):
       cross_entropy2 = tf.reduce_mean(diff2)
   tf.summary.scalar('cross_entropy2', cross_entropy2)
+  
   # Need to learn variables
   #var_list_to_learn=[]+input_weights+input_biases+output_weights2+output_biases2;
   var_list_to_learn=[]+output_weights2+output_biases2;
@@ -331,9 +339,12 @@ def train():
 
   # Merge all the summaries and write them out to /tmp/tensorflow/mnist/logs/mnist_with_summaries (by default)
   merged2 = tf.summary.merge_all()
-  train_writer = tf.summary.FileWriter(FLAGS.log_dir + '/train', sess.graph)
-  test_writer = tf.summary.FileWriter(FLAGS.log_dir + '/test')
+  train_writer = tf.summary.FileWriter(FLAGS.log_dir + '/train2', sess.graph)
+  test_writer = tf.summary.FileWriter(FLAGS.log_dir + '/test2')
   tf.global_variables_initializer().run()
+
+  # Update fixed values
+  pathnet.parameters_update(sess,var_fix_placeholders,var_fix_ops,var_list_fix);
 
   def feed_dict2(train,tr_flag=0):
     #Make a TensorFlow feed_dict: maps data onto Tensor placeholders.
@@ -389,14 +400,14 @@ def train():
       pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_task1);
       train_writer.add_summary(summary_geo1_tr, i);
       test_writer.add_summary(summary_geo1_ts, i);
-      print('Accuracy at step %s: %s' % (i, acc_geo1));
+      print('Accuracy at step %s: %s' % (i+1, acc_geo1));
     else:
       geopath_set[first]=np.copy(geopath_set[second]);
       pathnet.mutation(geopath_set[first],FLAGS.L,FLAGS.M,FLAGS.N);
       pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_task2);
       train_writer.add_summary(summary_geo2_tr, i);
       test_writer.add_summary(summary_geo2_ts, i);
-      print('Accuracy at step %s: %s' % (i, acc_geo2));
+      print('Accuracy at step %s: %s' % (i+1, acc_geo2));
   
   if(acc_geo1>acc_geo2): 
     task2_acc=acc_geo1;

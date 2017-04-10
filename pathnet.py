@@ -39,6 +39,7 @@ def mutation(geopath,L,M,N):
           rand_value2=int(np.random.rand()*4-2);
           if(((j+rand_value2)>=0)&((j+rand_value2)<M)):
             geopath[i,j+rand_value2]=1;
+  return geopath;
 
 def select_two_candi(M):
   selected=np.zeros(2,dtype=int);

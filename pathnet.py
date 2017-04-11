@@ -36,9 +36,15 @@ def mutation(geopath,L,M,N):
         rand_value=int(np.random.rand()*L*N);
         if(rand_value<=1):
           geopath[i,j]=0;
-          rand_value2=int(np.random.rand()*4-2);
+          rand_value2=int(np.random.rand()*6-3);
+          if(rand_value2==3):
+            rand_value2=2;
+          if(rand_value2==-3):
+            rand_value2=-2;
           if(((j+rand_value2)>=0)&((j+rand_value2)<M)):
             geopath[i,j+rand_value2]=1;
+          else:
+            geopath[i,j]=1;
   return geopath;
 
 def select_two_candi(M):
@@ -98,12 +104,6 @@ def variable_summaries(var):
     tf.summary.histogram('histogram', var)
 
 def module(input_tensor, weights, biases, layer_name, act=tf.nn.relu):
-  """Reusable code for making a simple neural net layer.
-
-  It does a matrix multiply, bias add, and then uses relu to nonlinearize.
-  It also sets up name scoping so that the resultant graph is easy to read,
-  and adds a number of summary ops.
-  """
   # Adding a name scope ensures logical grouping of the layers in the graph.
   with tf.name_scope(layer_name):
     # This Variable will hold the state of the weights for the layer
@@ -118,14 +118,40 @@ def module(input_tensor, weights, biases, layer_name, act=tf.nn.relu):
     tf.summary.histogram('activations', activations)
     return activations
 
+def module2(i,input_tensor, weights, biases, layer_name, act=tf.nn.relu):
+  # Adding a name scope ensures logical grouping of the layers in the graph.
+  with tf.name_scope(layer_name):
+    # Skip Layer
+    if(i%3==0):
+      return input_tensor;
+    # Linear Layer with relu
+    elif(i%3==1):
+      # This Variable will hold the state of the weights for the layer
+      with tf.name_scope('weights'):
+        variable_summaries(weights[0])
+      with tf.name_scope('biases'):
+        variable_summaries(biases[0])
+      with tf.name_scope('Wx_plus_b'):
+        preactivate = tf.matmul(input_tensor, weights[0]) + biases
+        tf.summary.histogram('pre_activations', preactivate)
+      activations = act(preactivate, name='activation')
+      tf.summary.histogram('activations', activations)
+      return activations
+    # Residual Layer with relu
+    elif(i%3==2):
+      # This Variable will hold the state of the weights for the layer
+      with tf.name_scope('weights'):
+        variable_summaries(weights[0])
+      with tf.name_scope('biases'):
+        variable_summaries(biases[0])
+      with tf.name_scope('Wx_plus_b'):
+        preactivate = tf.matmul(input_tensor, weights[0]) + biases
+        tf.summary.histogram('pre_activations', preactivate)
+      activations = act(preactivate, name='activation')+input_tensor
+      tf.summary.histogram('activations', activations)
+      return activations
  
 def nn_layer(input_tensor, weights, biases, layer_name, act=tf.nn.relu):
-  """Reusable code for making a simple neural net layer.
-
-  It does a matrix multiply, bias add, and then uses relu to nonlinearize.
-  It also sets up name scoping so that the resultant graph is easy to read,
-  and adds a number of summary ops.
-  """
   # Adding a name scope ensures logical grouping of the layers in the graph.
   with tf.name_scope(layer_name):
     # This Variable will hold the state of the weights for the layer
@@ -136,6 +162,7 @@ def nn_layer(input_tensor, weights, biases, layer_name, act=tf.nn.relu):
     with tf.name_scope('Wx_plus_b'):
       preactivate = tf.matmul(input_tensor, weights[0]) + biases
       tf.summary.histogram('pre_activations', preactivate)
-    activations = act(preactivate, name='activation')
-    tf.summary.histogram('activations', activations)
-    return activations
+    return preactivate;
+    #activations = act(preactivate, name='activation')
+    #tf.summary.histogram('activations', activations)
+    #return activations

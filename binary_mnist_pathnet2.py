@@ -24,17 +24,6 @@ def train():
   
   # Gathering a1 Data
   tr_data_a1=total_tr_data[(total_tr_label[:,FLAGS.a1]==1.0)];
-  """
-  for i in range(len(tr_data_a1)):
-    for j in range(len(tr_data_a1[0])):
-      rand_num=np.random.rand()*2;
-      if(rand_num<1):
-        if(rand_num<0.5):
-          tr_data_a1[i,j]=0.0;
-        else:
-          tr_data_a1[i,j]=1.0;
-  """
-  
   for i in range(len(tr_data_a1)):
     for j in range(len(tr_data_a1[0])):
       rand_num=np.random.rand();
@@ -43,17 +32,6 @@ def train():
   
   # Gathering a2 Data
   tr_data_a2=total_tr_data[(total_tr_label[:,FLAGS.a2]==1.0)];
-  """
-  for i in range(len(tr_data_a2)):
-    for j in range(len(tr_data_a2[0])):
-      rand_num=np.random.rand()*2;
-      if(rand_num<1):
-        if(rand_num<0.5):
-          tr_data_a2[i,j]=0.0;
-        else:
-          tr_data_a2[i,j]=1.0;
-  """
-  
   for i in range(len(tr_data_a2)):
     for j in range(len(tr_data_a2[0])):
       rand_num=np.random.rand();
@@ -62,17 +40,6 @@ def train():
   
   # Gathering b1 Data
   tr_data_b1=total_tr_data[(total_tr_label[:,FLAGS.b1]==1.0)];
-  """
-  for i in range(len(tr_data_b1)):
-    for j in range(len(tr_data_b1[0])):
-      rand_num=np.random.rand()*2;
-      if(rand_num<1):
-        if(rand_num<0.5):
-          tr_data_b1[i,j]=0.0;
-        else:
-          tr_data_b1[i,j]=1.0;
-  """
-  
   for i in range(len(tr_data_b1)):
     for j in range(len(tr_data_b1[0])):
       rand_num=np.random.rand();
@@ -81,17 +48,6 @@ def train():
 
   # Gathering b2 Data
   tr_data_b2=total_tr_data[(total_tr_label[:,FLAGS.b2]==1.0)];
-  """
-  for i in range(len(tr_data_b2)):
-    for j in range(len(tr_data_b2[0])):
-      rand_num=np.random.rand()*2;
-      if(rand_num<1):
-        if(rand_num<0.5):
-          tr_data_b2[i,j]=0.0;
-        else:
-          tr_data_b2[i,j]=1.0;
-  """
-  
   for i in range(len(tr_data_b2)):
     for j in range(len(tr_data_b2[0])):
       rand_num=np.random.rand();
@@ -137,13 +93,13 @@ def train():
       if(i==0):
         layer_modules_list[j]=pathnet.module(x, weights_list[i,j], biases_list[i,j], 'layer'+str(i+1)+"_"+str(j+1))*geopath[i,j];
       else:
-        layer_modules_list[j]=pathnet.module(net, weights_list[i,j], biases_list[i,j], 'layer'+str(i+1)+"_"+str(j+1))*geopath[i,j];
+        layer_modules_list[j]=pathnet.module2(j,net, weights_list[i,j], biases_list[i,j], 'layer'+str(i+1)+"_"+str(j+1))*geopath[i,j];
     net=np.sum(layer_modules_list);
   
   # Output Layer
   output_weights=pathnet.module_weight_variable([FLAGS.filt,2]);
   output_biases=pathnet.module_bias_variable([2]);
-  y = pathnet.nn_layer(net,output_weights,output_biases,'output_layer', act=tf.identity);
+  y = pathnet.nn_layer(net,output_weights,output_biases,'output_layer');
 
   # Cross Entropy
   with tf.name_scope('cross_entropy'):
@@ -178,17 +134,17 @@ def train():
   tf.global_variables_initializer().run()
     
   # Make a TensorFlow feed_dict: maps data onto Tensor placeholders.
-  def feed_dict(train,tr_flag1=0,tr_flag2=0):
+  def feed_dict(train,batch_num=0,tr_flag1=0,tr_flag2=0):
     if train or FLAGS.fake_data:
-      x_1=tr_data_a1[tr_flag1:tr_flag1+8,:]; x_2=tr_data_a2[tr_flag2:tr_flag2+8,:];
-      if(len(x_1)<8):
-        x_1=np.append(x_1,tr_data_a1[:(tr_flag1+8)%len(tr_data_a1),:],axis=0);
-      if(len(x_2)<8):
-        x_2=np.append(x_2,tr_data_a2[:(tr_flag2+8)%len(tr_data_a2),:],axis=0);
+      x_1=tr_data_a1[tr_flag1:tr_flag1+batch_num,:]; x_2=tr_data_a2[tr_flag2:tr_flag2+batch_num,:];
+      if(len(x_1)<batch_num):
+        x_1=np.append(x_1,tr_data_a1[:(tr_flag1+batch_num)%len(tr_data_a1),:],axis=0);
+      if(len(x_2)<batch_num):
+        x_2=np.append(x_2,tr_data_a2[:(tr_flag2+batch_num)%len(tr_data_a2),:],axis=0);
       xs=np.append(x_1,x_2,axis=0);
-      ys=np.zeros((8*2,2),dtype=float);
+      ys=np.zeros((batch_num*2,2),dtype=float);
       for i in range(len(ys)):
-        if(i<8):
+        if(i<batch_num):
           ys[i,0]=1.0;
         else:
           ys[i,1]=1.0;
@@ -221,13 +177,13 @@ def train():
     
     # First Candidate
     pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[first],FLAGS.L,FLAGS.M);
-    #var_list_backup=pathnet.parameters_backup(var_list_to_learn);
     acc_geo1_tr=0;
+    #var_list_backup=pathnet.parameters_backup(var_list_to_learn);
     #tr_flag_bak=tr_flag;
     for j in range(FLAGS.T):
-      summary_geo1_tr, _, acc_geo1_tmp = sess.run([merged, train_step,accuracy], feed_dict=feed_dict(True,tr_flag1,tr_flag2))
-      tr_flag1=(tr_flag1+8)%data_num1;
-      tr_flag2=(tr_flag2+8)%data_num2;
+      summary_geo1_tr, _, acc_geo1_tmp = sess.run([merged, train_step,accuracy], feed_dict=feed_dict(True,int(FLAGS.batch_num/2),int(tr_flag1),int(tr_flag2)));
+      tr_flag1=(tr_flag1+FLAGS.batch_num/2)%data_num1;
+      tr_flag2=(tr_flag2+FLAGS.batch_num/2)%data_num2;
       acc_geo1_tr+=acc_geo1_tmp;
     #var_list_task1=pathnet.parameters_backup(var_list_to_learn);
     #tr_flag=tr_flag_bak;
@@ -236,9 +192,9 @@ def train():
     acc_geo2_tr=0;
     #pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_backup);
     for j in range(FLAGS.T):
-      summary_geo2_tr, _, acc_geo2_tmp = sess.run([merged, train_step,accuracy], feed_dict=feed_dict(True,tr_flag1,tr_flag2))
-      tr_flag1=(tr_flag1+8)%data_num1;
-      tr_flag2=(tr_flag2+8)%data_num2;
+      summary_geo2_tr, _, acc_geo2_tmp = sess.run([merged, train_step, accuracy], feed_dict=feed_dict(True,int(FLAGS.batch_num/2),int(tr_flag1),int(tr_flag2)));
+      tr_flag1=(tr_flag1+FLAGS.batch_num/2)%data_num1;
+      tr_flag2=(tr_flag2+FLAGS.batch_num/2)%data_num2;
       acc_geo2_tr+=acc_geo2_tmp;
     #var_list_task2=pathnet.parameters_backup(var_list_to_learn);
     
@@ -324,17 +280,17 @@ def train():
     train_step = tf.train.GradientDescentOptimizer(FLAGS.learning_rate).minimize(cross_entropy,var_list=var_list_to_learn);
   
   # Make a TensorFlow feed_dict: maps data onto Tensor placeholders.
-  def feed_dict(train,tr_flag1=0,tr_flag2=0):
+  def feed_dict(train,batch_num,tr_flag1=0,tr_flag2=0):
     if train or FLAGS.fake_data:
-      x_1=tr_data_b1[tr_flag1:tr_flag1+8,:]; x_2=tr_data_b2[tr_flag2:tr_flag2+8,:];
-      if(len(x_1)<8):
-        x_1=np.append(x_1,tr_data_b1[:(tr_flag1+8)%len(tr_data_b1),:],axis=0);
-      if(len(x_2)<8):
-        x_2=np.append(x_2,tr_data_b2[:(tr_flag2+8)%len(tr_data_b2),:],axis=0);
+      x_1=tr_data_b1[tr_flag1:tr_flag1+batch_num,:]; x_2=tr_data_b2[tr_flag2:tr_flag2+batch_num,:];
+      if(len(x_1)<batch_num):
+        x_1=np.append(x_1,tr_data_b1[:(tr_flag1+batch_num)%len(tr_data_b1),:],axis=0);
+      if(len(x_2)<batch_num):
+        x_2=np.append(x_2,tr_data_b2[:(tr_flag2+batch_num)%len(tr_data_b2),:],axis=0);
       xs=np.append(x_1,x_2,axis=0);
-      ys=np.zeros((8*2,2),dtype=float);
+      ys=np.zeros((batch_num*2,2),dtype=float);
       for i in range(len(ys)):
-        if(i<8):
+        if(i<batch_num):
           ys[i,0]=1.0;
         else:
           ys[i,1]=1.0;
@@ -359,26 +315,35 @@ def train():
     
     # First Candidate
     pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[first],FLAGS.L,FLAGS.M);
-    #tr_flag_bak=tr_flag;
+    acc_geo1_tr=0; tr_flag1_bak=tr_flag1; tr_flag2_bak=tr_flag2;
     #var_list_backup=pathnet.parameters_backup(var_list_to_learn);
-    acc_geo1_tr=0;
+    #tr_flag_bak=tr_flag;
     for j in range(FLAGS.T):
-      summary_geo1_tr, _, acc_geo1_tmp = sess.run([merged, train_step,accuracy], feed_dict=feed_dict(True,tr_flag1,tr_flag2))
-      tr_flag1=(tr_flag1+8)%data_num1;
-      tr_flag2=(tr_flag2+8)%data_num2;
-      acc_geo1_tr+=acc_geo1_tmp;
+      summary_geo1_tr, _ = sess.run([merged, train_step], feed_dict=feed_dict(True,int(FLAGS.batch_num/2),int(tr_flag1),int(tr_flag2)));
+      tr_flag1=(tr_flag1+FLAGS.batch_num/2)%data_num1;
+      tr_flag2=(tr_flag2+FLAGS.batch_num/2)%data_num2;
+    tr_flag1=tr_flag1_bak; tr_flag2=tr_flag2_bak;
+    for j in range(FLAGS.T):
+      acc_geo1_tmp = sess.run([accuracy], feed_dict=feed_dict(True,int(FLAGS.batch_num/2),int(tr_flag1),int(tr_flag2)));
+      tr_flag1=(tr_flag1+FLAGS.batch_num/2)%data_num1;
+      tr_flag2=(tr_flag2+FLAGS.batch_num/2)%data_num2;
+      acc_geo1_tr+=acc_geo1_tmp[0];
     #var_list_task1=pathnet.parameters_backup(var_list_to_learn);
-    
-    # Second Candidate
-    acc_geo2_tr=0;
-    pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[first],FLAGS.L,FLAGS.M);
     #tr_flag=tr_flag_bak;
+    # Second Candidate
+    pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[second],FLAGS.L,FLAGS.M);
+    acc_geo2_tr=0; tr_flag1=tr_flag1_bak; tr_flag2=tr_flag2_bak;
     #pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_backup);
     for j in range(FLAGS.T):
-      summary_geo2_tr, _, acc_geo2_tmp = sess.run([merged, train_step,accuracy], feed_dict=feed_dict(True,tr_flag1,tr_flag2))
-      tr_flag1=(tr_flag1+8)%data_num1;
-      tr_flag2=(tr_flag2+8)%data_num2;
-      acc_geo2_tr+=acc_geo2_tmp;
+      summary_geo2_tr, _ = sess.run([merged, train_step], feed_dict=feed_dict(True,int(FLAGS.batch_num/2),int(tr_flag1),int(tr_flag2)));
+      tr_flag1=(tr_flag1+FLAGS.batch_num/2)%data_num1;
+      tr_flag2=(tr_flag2+FLAGS.batch_num/2)%data_num2;
+    tr_flag1=tr_flag1_bak; tr_flag2=tr_flag2_bak;
+    for j in range(FLAGS.T):
+      acc_geo2_tmp = sess.run([accuracy], feed_dict=feed_dict(True,int(FLAGS.batch_num/2),int(tr_flag1),int(tr_flag2)));
+      tr_flag1=(tr_flag1+FLAGS.batch_num/2)%data_num1;
+      tr_flag2=(tr_flag2+FLAGS.batch_num/2)%data_num2;
+      acc_geo2_tr+=acc_geo2_tmp[0];
     #var_list_task2=pathnet.parameters_backup(var_list_to_learn);
     
     # Compatition between two cases
@@ -447,19 +412,21 @@ if __name__ == '__main__':
                       help='The Number of Layers')
   parser.add_argument('--N', type=int, default=3,
                       help='The Number of Selected Modules per Layer')
-  parser.add_argument('--T', type=int, default=51,
+  parser.add_argument('--T', type=int, default=50,
                       help='The Number of epoch per each geopath')
+  parser.add_argument('--batch_num', type=int, default=16,
+                      help='The Number of batches per each geopath')
   parser.add_argument('--filt', type=int, default=20,
                       help='The Number of Filters per Module')
   parser.add_argument('--candi', type=int, default=20,
                       help='The Number of Candidates of geopath')
-  parser.add_argument('--a1', type=int, default=8,
+  parser.add_argument('--a1', type=int, default=1,
                       help='The first class of task1')
-  parser.add_argument('--a2', type=int, default=9,
+  parser.add_argument('--a2', type=int, default=3,
                       help='The second class of task1')
-  parser.add_argument('--b1', type=int, default=5,
+  parser.add_argument('--b1', type=int, default=1,
                       help='The first class of task2')
-  parser.add_argument('--b2', type=int, default=6,
+  parser.add_argument('--b2', type=int, default=3,
                       help='The second class of task2')
   FLAGS, unparsed = parser.parse_known_args()
   tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)

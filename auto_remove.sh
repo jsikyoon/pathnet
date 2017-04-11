@@ -1,1 +1,1 @@
-rm -rf /tmp/tensorflow/mnist/logs/pathnet/*
+rm -rf /tmp/tensorflow/pathnet/*

@@ -42,7 +42,10 @@ def mutation(geopath,L,M,N):
           if(rand_value2==-3):
             rand_value2=-2;
           if(((j+rand_value2)>=0)&((j+rand_value2)<M)):
-            geopath[i,j+rand_value2]=1;
+            if(geopath[i,j+rand_value2]==1):
+              geopath[i,j]=1;
+            else:
+              geopath[i,j+rand_value2]=1;
           else:
             geopath[i,j]=1;
   return geopath;
@@ -65,9 +68,10 @@ def get_geopath(L,M,N):
   for i in range(L):
     j=0;
     #Active module # can be smaller than N
-    while j<=N:
+    while j<N:
       rand_value=int(np.random.rand()*M);
-      geopath[i,rand_value]=1.0;j+=1;
+      if(geopath[i,rand_value]==0.0):
+        geopath[i,rand_value]=1.0;j+=1;
   return geopath;
       
 

@@ -109,10 +109,9 @@ def train():
       if(i==0):
         layer_modules_list[j]=pathnet.module(x, weights_list[i,j], biases_list[i,j], 'layer'+str(i+1)+"_"+str(j+1))*geopath[i,j];
       else:
-        layer_modules_list[j]=pathnet.module2(j+1,net, weights_list[i,j], biases_list[i,j], 'layer'+str(i+1)+"_"+str(j+1))*geopath[i,j];
+        layer_modules_list[j]=pathnet.module(net, weights_list[i,j], biases_list[i,j], 'layer'+str(i+1)+"_"+str(j+1))*geopath[i,j];
     net=np.sum(layer_modules_list);
-
-  net=net/FLAGS.N; 
+  
   # Output Layer
   output_weights=pathnet.module_weight_variable([FLAGS.filt,2]);
   output_biases=pathnet.module_bias_variable([2]);
@@ -169,42 +168,36 @@ def train():
     for j in range(len(geopath[0])):
       geopath_update_placeholders[i,j]=tf.placeholder(geopath[i,j].dtype,shape=geopath[i,j].get_shape());
       geopath_update_ops[i,j]=geopath[i,j].assign(geopath_update_placeholders[i,j]);
-      
+     
+  acc_geo=np.zeros(FLAGS.candi,dtype=float); 
+  summary_geo=np.zeros(FLAGS.candi,dtype=object); 
   for i in range(FLAGS.max_steps):
-    # Shuffle the data
-    idx=range(len(tr_data1));
-    np.random.shuffle(idx);
-    tr_data1=tr_data1[idx];tr_label1=tr_label1[idx];
+    for geo_idx in range(FLAGS.candi):
+      # Shuffle the data
+      idx=range(len(tr_data1));
+      np.random.shuffle(idx);
+      tr_data1=tr_data1[idx];tr_label1=tr_label1[idx];
+      # Insert Candidate
+      pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[geo_idx],FLAGS.L,FLAGS.M);
+      acc_geo_tr=0;
+      for j in range(FLAGS.T):
+        summary_geo_tr, _, acc_geo_tmp = sess.run([merged, train_step,accuracy], feed_dict={x:tr_data1[j*FLAGS.batch_num:(j+1)*FLAGS.batch_num,:],y_:tr_label1[j*FLAGS.batch_num:(j+1)*FLAGS.batch_num,:]});
+        acc_geo_tr+=acc_geo_tmp;
+      acc_geo[geo_idx]=acc_geo_tr/FLAGS.T;
+      summary_geo[geo_idx]=summary_geo_tr;
     
     # Select Two Candidate to Tournament 
     first,second=pathnet.select_two_candi(FLAGS.candi);
-
-    # First Candidate
-    pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[first],FLAGS.L,FLAGS.M);
-    acc_geo1_tr=0;
-    for j in range(FLAGS.T):
-      summary_geo1_tr, _, acc_geo1_tmp = sess.run([merged, train_step,accuracy], feed_dict={x:tr_data1[j*FLAGS.batch_num:(j+1)*FLAGS.batch_num,:],y_:tr_label1[j*FLAGS.batch_num:(j+1)*FLAGS.batch_num,:]});
-      acc_geo1_tr+=acc_geo1_tmp;
-    
-    # Shuffle the data
-    idx=range(len(tr_data1));
-    np.random.shuffle(idx);
-    tr_data1=tr_data1[idx];tr_label1=tr_label1[idx];
-    
-    # Second Candidate
-    pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[second],FLAGS.L,FLAGS.M);
-    acc_geo2_tr=0;
-    for j in range(FLAGS.T):
-      summary_geo2_tr, _, acc_geo2_tmp = sess.run([merged, train_step,accuracy], feed_dict={x:tr_data1[j*FLAGS.batch_num:(j+1)*FLAGS.batch_num,:],y_:tr_label1[j*FLAGS.batch_num:(j+1)*FLAGS.batch_num,:]});
-      acc_geo2_tr+=acc_geo2_tmp;
+    acc_geo1_tr=acc_geo[first]; acc_geo2_tr=acc_geo[second];
+    summary_geo1_tr=summary_geo[first]; summary_geo2_tr=summary_geo[second];
     
     # Compatition between two cases
     if(acc_geo1_tr>acc_geo2_tr):
       geopath_set[second]=np.copy(geopath_set[first]);
-      geopath_set[second]=pathnet.mutation(geopath_set[second],FLAGS.L,FLAGS.M,FLAGS.N);
+      #geopath_set[second]=pathnet.mutation(geopath_set[second],FLAGS.L,FLAGS.M,FLAGS.N);
       train_writer.add_summary(summary_geo1_tr, i);
-      print('Training Accuracy at step %s: %s' % (i, acc_geo1_tr/FLAGS.T));
-      if(acc_geo1_tr/FLAGS.T >= 0.998):
+      print('Training Accuracy at step %s: %s' % (i, acc_geo1_tr));
+      if(acc_geo1_tr >= 0.988):
         print('Learning Done!!');
         print('Optimal Path is as followed.');
         print(geopath_set[first]);
@@ -212,10 +205,10 @@ def train():
         break;
     else:
       geopath_set[first]=np.copy(geopath_set[second]);
-      geopath_set[first]=pathnet.mutation(geopath_set[first],FLAGS.L,FLAGS.M,FLAGS.N);
+      #geopath_set[first]=pathnet.mutation(geopath_set[first],FLAGS.L,FLAGS.M,FLAGS.N);
       train_writer.add_summary(summary_geo2_tr, i);
-      print('Training Accuracy at step %s: %s' % (i, acc_geo2_tr/FLAGS.T));
-      if(acc_geo2_tr/FLAGS.T >= 0.998):
+      print('Training Accuracy at step %s: %s' % (i, acc_geo2_tr));
+      if(acc_geo2_tr >= 0.988):
         print('Learning Done!!');
         print('Optimal Path is as followed.');
         print(geopath_set[second]);
@@ -223,19 +216,19 @@ def train():
         break;
         
   iter_task1=i;    
-  
+  """
   # Fix task1 Optimal Path
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):
       if(task1_optimal_path[i,j]==1.0):
         fixed_list[i,j]='1';
-  
+  """
   # Get variables of fixed list
   var_list_to_fix=[];
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):
-     if(fixed_list[i,j]=='1'):
-       var_list_to_fix+=weights_list[i,j]+biases_list[i,j];
+      #if(fixed_list[i,j]=='1'):
+      var_list_to_fix+=weights_list[i,j]+biases_list[i,j];
   var_list_fix=pathnet.parameters_backup(var_list_to_fix);
  
   # parameters placeholders and ops 
@@ -252,7 +245,7 @@ def train():
     for j in range(FLAGS.M):
       if (fixed_list[i,j]=='0'):
         var_list_to_learn+=weights_list[i,j]+biases_list[i,j];
- 
+  
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):
       if(fixed_list[i,j]=='1'):
@@ -284,42 +277,36 @@ def train():
   for i in range(len(var_list_to_learn)):
     var_update_placeholders[i]=tf.placeholder(var_list_to_learn[i].dtype,shape=var_list_to_learn[i].get_shape());
     var_update_ops[i]=var_list_to_learn[i].assign(var_update_placeholders[i]);
-    
+  
+  acc_geo=np.zeros(FLAGS.candi,dtype=float); 
+  summary_geo=np.zeros(FLAGS.candi,dtype=object); 
   for i in range(FLAGS.max_steps):
-    # Shuffle the data
-    idx=range(len(tr_data2));
-    np.random.shuffle(idx);
-    tr_data2=tr_data2[idx];tr_label2=tr_label2[idx];
+    for geo_idx in range(FLAGS.candi):
+      # Shuffle the data
+      idx=range(len(tr_data2));
+      np.random.shuffle(idx);
+      tr_data2=tr_data2[idx];tr_label2=tr_label2[idx];
+      # Insert Candidate
+      pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[geo_idx],FLAGS.L,FLAGS.M);
+      acc_geo_tr=0;
+      for j in range(FLAGS.T):
+        summary_geo_tr, _, acc_geo_tmp = sess.run([merged, train_step,accuracy], feed_dict={x:tr_data2[j*FLAGS.batch_num:(j+1)*FLAGS.batch_num,:],y_:tr_label2[j*FLAGS.batch_num:(j+1)*FLAGS.batch_num,:]});
+        acc_geo_tr+=acc_geo_tmp;
+      acc_geo[geo_idx]=acc_geo_tr/FLAGS.T;
+      summary_geo[geo_idx]=summary_geo_tr;
     
     # Select Two Candidate to Tournament 
     first,second=pathnet.select_two_candi(FLAGS.candi);
-    
-    # First Candidate
-    pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[first],FLAGS.L,FLAGS.M);
-    acc_geo1_tr=0;
-    for j in range(FLAGS.T):
-      summary_geo1_tr, _, acc_geo1_tmp = sess.run([merged, train_step,accuracy], feed_dict={x:tr_data2[j*FLAGS.batch_num:(j+1)*FLAGS.batch_num,:],y_:tr_label2[j*FLAGS.batch_num:(j+1)*FLAGS.batch_num,:]});
-      acc_geo1_tr+=acc_geo1_tmp;
-    
-    # Shuffle the data
-    idx=range(len(tr_data2));
-    np.random.shuffle(idx);
-    tr_data2=tr_data2[idx];tr_label2=tr_label2[idx];
-    
-    # Second Candidate
-    pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[second],FLAGS.L,FLAGS.M);
-    acc_geo2_tr=0;
-    for j in range(FLAGS.T):
-      summary_geo2_tr, _, acc_geo2_tmp = sess.run([merged, train_step,accuracy], feed_dict={x:tr_data2[j*FLAGS.batch_num:(j+1)*FLAGS.batch_num,:],y_:tr_label2[j*FLAGS.batch_num:(j+1)*FLAGS.batch_num,:]});
-      acc_geo2_tr+=acc_geo2_tmp;
+    acc_geo1_tr=acc_geo[first]; acc_geo2_tr=acc_geo[second];
+    summary_geo1_tr=summary_geo[first]; summary_geo2_tr=summary_geo[second];
     
     # Compatition between two cases
     if(acc_geo1_tr>acc_geo2_tr):
       geopath_set[second]=np.copy(geopath_set[first]);
-      pathnet.mutation(geopath_set[second],FLAGS.L,FLAGS.M,FLAGS.N);
+      #geopath_set[second]=pathnet.mutation(geopath_set[second],FLAGS.L,FLAGS.M,FLAGS.N);
       train_writer.add_summary(summary_geo1_tr, i);
-      print('Training Accuracy at step %s: %s' % (i, acc_geo1_tr/FLAGS.T));
-      if(acc_geo1_tr/FLAGS.T >= 0.998):
+      print('Training Accuracy at step %s: %s' % (i, acc_geo1_tr));
+      if(acc_geo1_tr >= 0.988):
         print('Learning Done!!');
         print('Optimal Path is as followed.');
         print(geopath_set[first]);
@@ -327,16 +314,16 @@ def train():
         break;
     else:
       geopath_set[first]=np.copy(geopath_set[second]);
-      pathnet.mutation(geopath_set[first],FLAGS.L,FLAGS.M,FLAGS.N);
+      #geopath_set[first]=pathnet.mutation(geopath_set[first],FLAGS.L,FLAGS.M,FLAGS.N);
       train_writer.add_summary(summary_geo2_tr, i);
-      print('Training Accuracy at step %s: %s' % (i, acc_geo2_tr/FLAGS.T));
-      if(acc_geo2_tr/FLAGS.T >= 0.998):
+      print('Training Accuracy at step %s: %s' % (i, acc_geo2_tr));
+      if(acc_geo2_tr >= 0.988):
         print('Learning Done!!');
         print('Optimal Path is as followed.');
         print(geopath_set[second]);
         task2_optimal_path=geopath_set[second];
         break;
-        
+    
   iter_task2=i;      
   overlap=0;
   for i in range(len(task1_optimal_path)):
@@ -344,7 +331,7 @@ def train():
       if(task1_optimal_path[i,j]==task2_optimal_path[i,j])&(task1_optimal_path[i,j]==1.0):
         overlap+=1;
   print("Entire Iter:"+str(iter_task1+iter_task2)+",TASK1:"+str(iter_task1)+",TASK2:"+str(iter_task2)+",Overlap:"+str(overlap));
-  
+ 
   train_writer.close()
   test_writer.close()
 
@@ -361,7 +348,7 @@ if __name__ == '__main__':
   parser.add_argument('--fake_data', nargs='?', const=True, type=bool,
                       default=False,
                       help='If true, uses fake data for unit testing.')
-  parser.add_argument('--learning_rate', type=float, default=0.001,
+  parser.add_argument('--learning_rate', type=float, default=0.0001,
                       help='Initial learning rate')
   parser.add_argument('--max_steps', type=int, default=1000,
                       help='Number of steps to run trainer.')
@@ -371,7 +358,7 @@ if __name__ == '__main__':
                       help='Directory for storing input data')
   parser.add_argument('--log_dir', type=str, default='/tmp/tensorflow/pathnet/logs/binary_mnist',
                       help='Summaries log directory')
-  parser.add_argument('--M', type=int, default=10,
+  parser.add_argument('--M', type=int, default=3,
                       help='The Number of Modules per Layer')
   parser.add_argument('--L', type=int, default=3,
                       help='The Number of Layers')
@@ -385,13 +372,13 @@ if __name__ == '__main__':
                       help='The Number of Filters per Module')
   parser.add_argument('--candi', type=int, default=20,
                       help='The Number of Candidates of geopath')
-  parser.add_argument('--a1', type=int, default=1,
+  parser.add_argument('--a1', type=int, default=8,
                       help='The first class of task1')
-  parser.add_argument('--a2', type=int, default=3,
+  parser.add_argument('--a2', type=int, default=9,
                       help='The second class of task1')
-  parser.add_argument('--b1', type=int, default=1,
+  parser.add_argument('--b1', type=int, default=5,
                       help='The first class of task2')
-  parser.add_argument('--b2', type=int, default=3,
+  parser.add_argument('--b2', type=int, default=6,
                       help='The second class of task2')
   FLAGS, unparsed = parser.parse_known_args()
   tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)

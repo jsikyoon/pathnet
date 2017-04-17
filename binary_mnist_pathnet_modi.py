@@ -111,8 +111,7 @@ def train():
       else:
         layer_modules_list[j]=pathnet.module2(j+1,net, weights_list[i,j], biases_list[i,j], 'layer'+str(i+1)+"_"+str(j+1))*geopath[i,j];
     net=np.sum(layer_modules_list);
-
-  net=net/FLAGS.N; 
+  
   # Output Layer
   output_weights=pathnet.module_weight_variable([FLAGS.filt,2]);
   output_biases=pathnet.module_bias_variable([2]);
@@ -179,17 +178,20 @@ def train():
     # Select Two Candidate to Tournament 
     first,second=pathnet.select_two_candi(FLAGS.candi);
 
+    # Variable Backup
+    var_list_backup=pathnet.parameters_backup(var_list_to_learn);
+
     # First Candidate
     pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[first],FLAGS.L,FLAGS.M);
     acc_geo1_tr=0;
     for j in range(FLAGS.T):
       summary_geo1_tr, _, acc_geo1_tmp = sess.run([merged, train_step,accuracy], feed_dict={x:tr_data1[j*FLAGS.batch_num:(j+1)*FLAGS.batch_num,:],y_:tr_label1[j*FLAGS.batch_num:(j+1)*FLAGS.batch_num,:]});
       acc_geo1_tr+=acc_geo1_tmp;
-    
-    # Shuffle the data
-    idx=range(len(tr_data1));
-    np.random.shuffle(idx);
-    tr_data1=tr_data1[idx];tr_label1=tr_label1[idx];
+
+    # Variable learned from first candi. Backup
+    var_list_task1=pathnet.parameters_backup(var_list_to_learn);
+    # Variable Roll-back
+    pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_backup);
     
     # Second Candidate
     pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[second],FLAGS.L,FLAGS.M);
@@ -198,10 +200,14 @@ def train():
       summary_geo2_tr, _, acc_geo2_tmp = sess.run([merged, train_step,accuracy], feed_dict={x:tr_data1[j*FLAGS.batch_num:(j+1)*FLAGS.batch_num,:],y_:tr_label1[j*FLAGS.batch_num:(j+1)*FLAGS.batch_num,:]});
       acc_geo2_tr+=acc_geo2_tmp;
     
+    # Variable learned from second candi. Backup
+    var_list_task2=pathnet.parameters_backup(var_list_to_learn);
+    
     # Compatition between two cases
     if(acc_geo1_tr>acc_geo2_tr):
       geopath_set[second]=np.copy(geopath_set[first]);
       geopath_set[second]=pathnet.mutation(geopath_set[second],FLAGS.L,FLAGS.M,FLAGS.N);
+      pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_task1);
       train_writer.add_summary(summary_geo1_tr, i);
       print('Training Accuracy at step %s: %s' % (i, acc_geo1_tr/FLAGS.T));
       if(acc_geo1_tr/FLAGS.T >= 0.998):
@@ -213,6 +219,7 @@ def train():
     else:
       geopath_set[first]=np.copy(geopath_set[second]);
       geopath_set[first]=pathnet.mutation(geopath_set[first],FLAGS.L,FLAGS.M,FLAGS.N);
+      pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_task2);
       train_writer.add_summary(summary_geo2_tr, i);
       print('Training Accuracy at step %s: %s' % (i, acc_geo2_tr/FLAGS.T));
       if(acc_geo2_tr/FLAGS.T >= 0.998):
@@ -294,6 +301,9 @@ def train():
     # Select Two Candidate to Tournament 
     first,second=pathnet.select_two_candi(FLAGS.candi);
     
+    # Variable Backup
+    var_list_backup=pathnet.parameters_backup(var_list_to_learn);
+    
     # First Candidate
     pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[first],FLAGS.L,FLAGS.M);
     acc_geo1_tr=0;
@@ -301,10 +311,10 @@ def train():
       summary_geo1_tr, _, acc_geo1_tmp = sess.run([merged, train_step,accuracy], feed_dict={x:tr_data2[j*FLAGS.batch_num:(j+1)*FLAGS.batch_num,:],y_:tr_label2[j*FLAGS.batch_num:(j+1)*FLAGS.batch_num,:]});
       acc_geo1_tr+=acc_geo1_tmp;
     
-    # Shuffle the data
-    idx=range(len(tr_data2));
-    np.random.shuffle(idx);
-    tr_data2=tr_data2[idx];tr_label2=tr_label2[idx];
+    # Variable learned from first candi. Backup
+    var_list_task1=pathnet.parameters_backup(var_list_to_learn);
+    # Variable Roll-back
+    pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_backup);
     
     # Second Candidate
     pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[second],FLAGS.L,FLAGS.M);
@@ -313,10 +323,14 @@ def train():
       summary_geo2_tr, _, acc_geo2_tmp = sess.run([merged, train_step,accuracy], feed_dict={x:tr_data2[j*FLAGS.batch_num:(j+1)*FLAGS.batch_num,:],y_:tr_label2[j*FLAGS.batch_num:(j+1)*FLAGS.batch_num,:]});
       acc_geo2_tr+=acc_geo2_tmp;
     
+    # Variable learned from second candi. Backup
+    var_list_task2=pathnet.parameters_backup(var_list_to_learn);
+    
     # Compatition between two cases
     if(acc_geo1_tr>acc_geo2_tr):
       geopath_set[second]=np.copy(geopath_set[first]);
       pathnet.mutation(geopath_set[second],FLAGS.L,FLAGS.M,FLAGS.N);
+      pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_task1);
       train_writer.add_summary(summary_geo1_tr, i);
       print('Training Accuracy at step %s: %s' % (i, acc_geo1_tr/FLAGS.T));
       if(acc_geo1_tr/FLAGS.T >= 0.998):
@@ -328,6 +342,7 @@ def train():
     else:
       geopath_set[first]=np.copy(geopath_set[second]);
       pathnet.mutation(geopath_set[first],FLAGS.L,FLAGS.M,FLAGS.N);
+      pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_task2);
       train_writer.add_summary(summary_geo2_tr, i);
       print('Training Accuracy at step %s: %s' % (i, acc_geo2_tr/FLAGS.T));
       if(acc_geo2_tr/FLAGS.T >= 0.998):
@@ -361,7 +376,7 @@ if __name__ == '__main__':
   parser.add_argument('--fake_data', nargs='?', const=True, type=bool,
                       default=False,
                       help='If true, uses fake data for unit testing.')
-  parser.add_argument('--learning_rate', type=float, default=0.001,
+  parser.add_argument('--learning_rate', type=float, default=0.01,
                       help='Initial learning rate')
   parser.add_argument('--max_steps', type=int, default=1000,
                       help='Number of steps to run trainer.')
@@ -391,7 +406,7 @@ if __name__ == '__main__':
                       help='The second class of task1')
   parser.add_argument('--b1', type=int, default=1,
                       help='The first class of task2')
-  parser.add_argument('--b2', type=int, default=3,
+  parser.add_argument('--b2', type=int, default=2,
                       help='The second class of task2')
   FLAGS, unparsed = parser.parse_known_args()
   tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)

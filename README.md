@@ -35,8 +35,7 @@ Basically, almost parameters are used same to paper, however, I used learning_ra
 
 When two candidates are learned & evaluated (evaluation is based on training data accuracy), learned parameters from each candidates are saved, and winner parameters are updated to model.
 In above process, two candidates use same data batchs.
-
-Learning_rate and geopath set are reset after finishing task1.
+geopath set are reset after finishing task1.
 
 ### Results
 

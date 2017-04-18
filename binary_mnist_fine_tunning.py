@@ -130,7 +130,7 @@ def train():
     for j in range(FLAGS.M):
       if (fixed_list[i,j]=='0'):
         var_list_to_learn+=weights_list[i,j]+biases_list[i,j];
- 
+  
   # GradientDescent 
   with tf.name_scope('train'):
     train_step = tf.train.GradientDescentOptimizer(FLAGS.learning_rate).minimize(cross_entropy,var_list=var_list_to_learn);

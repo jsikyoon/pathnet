@@ -228,8 +228,8 @@ def train():
   #var_list_to_fix=[]+output_weights+output_biases;
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):
-      #if(fixed_list[i,j]=='1'):
-      var_list_to_fix+=weights_list[i,j]+biases_list[i,j];
+      if(fixed_list[i,j]=='1'):
+        var_list_to_fix+=weights_list[i,j]+biases_list[i,j];
   var_list_fix=pathnet.parameters_backup(var_list_to_fix);
  
   # parameters placeholders and ops 
@@ -375,13 +375,13 @@ if __name__ == '__main__':
                       help='The Number of Candidates of geopath')
   parser.add_argument('--B', type=int, default=2,
                       help='The Number of Candidates for each competition')
-  parser.add_argument('--a1', type=int, default=8,
+  parser.add_argument('--a1', type=int, default=5,
                       help='The first class of task1')
-  parser.add_argument('--a2', type=int, default=9,
+  parser.add_argument('--a2', type=int, default=6,
                       help='The second class of task1')
-  parser.add_argument('--b1', type=int, default=5,
+  parser.add_argument('--b1', type=int, default=8,
                       help='The first class of task2')
-  parser.add_argument('--b2', type=int, default=6,
+  parser.add_argument('--b2', type=int, default=9,
                       help='The second class of task2')
   FLAGS, unparsed = parser.parse_known_args()
   tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)

@@ -384,6 +384,8 @@ if __name__ == '__main__':
                       help='Keep probability for training dropout.')
   parser.add_argument('--svhn_data_dir', type=str, default='/tmp/tensorflow/svhn/input_data',
                       help='Directory for storing input data')
+  parser.add_argument('--cifar_data_dir', type=str, default='/tmp/cifar10_data/cifar-10-batches-bin/',
+                      help='Directory for storing input data')
   parser.add_argument('--log_dir', type=str, default='/tmp/tensorflow/pathnet/cifar_svhn/pathnet/',
                       help='Summaries log directory')
   parser.add_argument('--M', type=int, default=20,

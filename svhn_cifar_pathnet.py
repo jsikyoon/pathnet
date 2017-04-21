@@ -96,20 +96,19 @@ def train():
   ts_data_cifar10=data[:,1:]/255.0;
   data_num_len_cifar10=len(tr_label_cifar10);
   
-  tr_data1=tr_data_svhn;
-  tr_label1=tr_label_svhn;
-  ts_data1=ts_data_svhn;
-  ts_label1=ts_label_svhn;
-  data_num_len1=data_num_len_svhn;
   tr_data2=tr_data_cifar10;
   tr_label2=tr_label_cifar10;
   ts_data2=ts_data_cifar10;
   ts_label2=ts_label_cifar10;
   data_num_len2=data_num_len_cifar10;
+  tr_data1=tr_data_svhn;
+  tr_label1=tr_label_svhn;
+  ts_data1=ts_data_svhn;
+  ts_label1=ts_label_svhn;
+  data_num_len1=data_num_len_svhn;
   
-  ## TASK 1 (SVHN)
+  ## TASK 1
   sess = tf.InteractiveSession()
-  # Create a multilayer model.
 
   # Input placeholders
   with tf.name_scope('input'):
@@ -117,7 +116,7 @@ def train():
     y_ = tf.placeholder(tf.float32, [None, 10], name='y-input')
 
   with tf.name_scope('input_reshape'):
-    image_shaped_input = tf.reshape(x, [-1, 32, 32, 3])
+    image_shaped_input = tf.reshape(x, [-1, 32, 32, 1])
     tf.summary.image('input', image_shaped_input, 10)
 
   # geopath_examples
@@ -128,19 +127,6 @@ def train():
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):
       fixed_list[i,j]='0';    
-  
-  # reinitializing weights list
-  rein_list=np.ones((FLAGS.L,FLAGS.M),dtype=str);
-  for i in range(FLAGS.L):
-    for j in range(FLAGS.M):
-      rein_list[i,j]='0';    
-  
-  # Input Layer
-  """
-  input_weights=pathnet.module_weight_variable([784,FLAGS.filt]);
-  input_biases=pathnet.module_bias_variable([FLAGS.filt]);
-  net = pathnet.nn_layer(x,input_weights,input_biases,'input_layer');
-  """
 
   # Hidden Layers
   weights_list=np.zeros((FLAGS.L,FLAGS.M),dtype=object);
@@ -160,48 +146,33 @@ def train():
       if(i==0):
         layer_modules_list[j]=pathnet.module(x, weights_list[i,j], biases_list[i,j], 'layer'+str(i+1)+"_"+str(j+1))*geopath[i,j];
       else:
-        layer_modules_list[j]=pathnet.module(net, weights_list[i,j], biases_list[i,j], 'layer'+str(i+1)+"_"+str(j+1))*geopath[i,j];
+        layer_modules_list[j]=pathnet.module2(j,net, weights_list[i,j], biases_list[i,j], 'layer'+str(i+1)+"_"+str(j+1))*geopath[i,j];
     net=np.sum(layer_modules_list);
-    
-  """
-  with tf.name_scope('dropout'):
-    keep_prob = tf.placeholder(tf.float32)
-    tf.summary.scalar('dropout_keep_probability', keep_prob)
-    dropped = tf.nn.dropout(hidden1, keep_prob)
-  """
   
-  # Do not apply softmax activation yet, see below.
+  # Output Layer
   output_weights=pathnet.module_weight_variable([FLAGS.filt,10]);
   output_biases=pathnet.module_bias_variable([10]);
-  y = pathnet.nn_layer(net,output_weights,output_biases,'output_layer', act=tf.identity);
+  y = pathnet.nn_layer(net,output_weights,output_biases,'output_layer');
 
+  # Cross Entropy
   with tf.name_scope('cross_entropy'):
     diff = tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y)
     with tf.name_scope('total'):
       cross_entropy = tf.reduce_mean(diff)
   tf.summary.scalar('cross_entropy', cross_entropy)
+  
   # Need to learn variables
-  #var_list_to_learn=[]+input_weights+input_biases+output_weights+output_biases;
   var_list_to_learn=[]+output_weights+output_biases;
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):
       if (fixed_list[i,j]=='0'):
         var_list_to_learn+=weights_list[i,j]+biases_list[i,j];
-        
+  
+  # GradientDescent 
   with tf.name_scope('train'):
-    train_step = tf.train.AdamOptimizer(FLAGS.learning_rate).minimize(
-        cross_entropy,var_list=var_list_to_learn)
-        
-  def feed_dict(train,tr_flag=0):
-    #Make a TensorFlow feed_dict: maps data onto Tensor placeholders.
-    if train or FLAGS.fake_data:
-      xs=tr_data1[tr_flag:tr_flag+16,:]; ys=tr_label1[tr_flag:tr_flag+16,:];
-      k = FLAGS.dropout
-    else:
-      xs=ts_data1;ys=ts_label1;
-      k = 1.0
-    return {x: xs, y_: ys}
+    train_step = tf.train.GradientDescentOptimizer(FLAGS.learning_rate).minimize(cross_entropy,var_list=var_list_to_learn);
 
+  # Accuracy 
   with tf.name_scope('accuracy'):
     with tf.name_scope('correct_prediction'):
       correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
@@ -211,15 +182,15 @@ def train():
 
   # Merge all the summaries and write them out to /tmp/tensorflow/mnist/logs/mnist_with_summaries (by default)
   merged = tf.summary.merge_all()
-  train_writer = tf.summary.FileWriter(FLAGS.log_dir + '/train', sess.graph)
-  test_writer = tf.summary.FileWriter(FLAGS.log_dir + '/test')
+  train_writer = tf.summary.FileWriter(FLAGS.log_dir + '/train1', sess.graph)
+  test_writer = tf.summary.FileWriter(FLAGS.log_dir + '/test1')
   tf.global_variables_initializer().run()
 
   # Generating randomly geopath
   geopath_set=np.zeros(FLAGS.candi,dtype=object);
   for i in range(FLAGS.candi):
     geopath_set[i]=pathnet.get_geopath(FLAGS.L,FLAGS.M,FLAGS.N);
- 
+  
   # parameters placeholders and ops 
   var_update_ops=np.zeros(len(var_list_to_learn),dtype=object);
   var_update_placeholders=np.zeros(len(var_list_to_learn),dtype=object);
@@ -234,191 +205,166 @@ def train():
     for j in range(len(geopath[0])):
       geopath_update_placeholders[i,j]=tf.placeholder(geopath[i,j].dtype,shape=geopath[i,j].get_shape());
       geopath_update_ops[i,j]=geopath[i,j].assign(geopath_update_placeholders[i,j]);
-
-  tr_flag=0; 
+     
+  acc_geo=np.zeros(FLAGS.B,dtype=float); 
+  summary_geo=np.zeros(FLAGS.B,dtype=object); 
   for i in range(FLAGS.max_steps):
-    # Select Two Candidate to Tournament 
-    first,second=pathnet.select_two_candi(FLAGS.candi);
-    
-    # First Candidate
-    pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[first],FLAGS.L,FLAGS.M);
-    var_list_backup=pathnet.parameters_backup(var_list_to_learn);
-    tr_flag_bak=tr_flag;
-    for j in range(FLAGS.T):
-      summary_geo1_tr, _ = sess.run([merged,train_step], feed_dict=feed_dict(train=True,tr_flag=tr_flag));
-      tr_flag=(tr_flag+16)%data_num_len1;
-    summary_geo1_ts, acc_geo1 = sess.run([merged, accuracy], feed_dict=feed_dict(train=False));
-    var_list_task1=pathnet.parameters_backup(var_list_to_learn);
-    tr_flag=tr_flag_bak;
-    # Second Candidate
-    pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[second],FLAGS.L,FLAGS.M);
-    pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_backup);
-    for j in range(FLAGS.T):
-      summary_geo2_tr, _ = sess.run([merged,train_step], feed_dict=feed_dict(train=True,tr_flag=tr_flag));
-      tr_flag=(tr_flag+16)%data_num_len1;
-    summary_geo2_ts, acc_geo2 = sess.run([merged, accuracy], feed_dict=feed_dict(train=False));
-    var_list_task2=pathnet.parameters_backup(var_list_to_learn);
-    
-    # Compatition between two cases
-    if(acc_geo1>acc_geo2):
-      geopath_set[second]=np.copy(geopath_set[first]);
-      pathnet.mutation(geopath_set[second],FLAGS.L,FLAGS.M,FLAGS.N);
-      pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_task1);
-      train_writer.add_summary(summary_geo1_tr, i);
-      test_writer.add_summary(summary_geo1_ts, i);
-      print('Accuracy at step %s: %s' % (i+1, acc_geo1));
-    else:
-      geopath_set[first]=np.copy(geopath_set[second]);
-      pathnet.mutation(geopath_set[first],FLAGS.L,FLAGS.M,FLAGS.N);
-      pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_task2);
-      train_writer.add_summary(summary_geo2_tr, i);
-      test_writer.add_summary(summary_geo2_ts, i);
-      print('Accuracy at step %s: %s' % (i+1, acc_geo2));
- 
-  if(acc_geo1>acc_geo2): 
-    task1_acc=acc_geo1;
-    task1_optimal_path=geopath_set[first];
-  else:
-    task1_acc=acc_geo2;    
-    task1_optimal_path=geopath_set[second];
-
+    # Select Candidates to Tournament
+    compet_idx=range(FLAGS.candi);
+    np.random.shuffle(compet_idx);
+    compet_idx=compet_idx[:FLAGS.B];
+    # Learning & Evaluating
+    for j in range(len(compet_idx)):
+      # Shuffle the data
+      idx=range(len(tr_data1));
+      np.random.shuffle(idx);
+      tr_data1=tr_data1[idx];tr_label1=tr_label1[idx];
+      # Insert Candidate
+      pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[j],FLAGS.L,FLAGS.M);
+      acc_geo_tr=0;
+      for k in range(FLAGS.T):
+        summary_geo_tr, _, acc_geo_tmp = sess.run([merged, train_step,accuracy], feed_dict={x:tr_data1[k*FLAGS.batch_num:(k+1)*FLAGS.batch_num,:],y_:tr_label1[k*FLAGS.batch_num:(k+1)*FLAGS.batch_num,:]});
+        acc_geo_tr+=acc_geo_tmp;
+      acc_geo[j]=acc_geo_tr/FLAGS.T;
+      summary_geo[j]=summary_geo_tr;
+    # Tournament
+    winner_idx=np.argmax(acc_geo);
+    acc=acc_geo[winner_idx];
+    summary=summary_geo[winner_idx];
+    # Copy and Mutation
+    for j in range(len(compet_idx)):
+      if(j!=winner_idx):
+        geopath_set[compet_idx[j]]=np.copy(geopath_set[compet_idx[winner_idx]]);
+        geopath_set[compet_idx[j]]=pathnet.mutation(geopath_set[compet_idx[j]],FLAGS.L,FLAGS.M,FLAGS.N);
+    train_writer.add_summary(summary, i);
+    print('Training Accuracy at step %s: %s' % (i, acc));
+    geopath_sum=np.zeros((len(geopath),len(geopath[0])),dtype=float);
+    for j in range(len(geopath_set)):
+      for k in range(len(geopath)):
+        for l in range(len(geopath[0])):
+          geopath_sum[k][l]+=geopath_set[j][k][l];
+    print(geopath_sum);
+        
+  task1_optimal_path=geopath_set[compet_idx[winner_idx]];      
+  acc_task1=acc;    
+  
   # Fix task1 Optimal Path
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):
       if(task1_optimal_path[i,j]==1.0):
         fixed_list[i,j]='1';
-
+  
   # Get variables of fixed list
-  var_list_to_fix=[]+output_weights+output_biases;
+  var_list_to_fix=[];
+  #var_list_to_fix=[]+output_weights+output_biases;
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):
-     if(fixed_list[i,j]=='1'):
-       var_list_to_fix+=weights_list[i,j]+biases_list[i,j];
+      if(fixed_list[i,j]=='1'):
+        var_list_to_fix+=weights_list[i,j]+biases_list[i,j];
   var_list_fix=pathnet.parameters_backup(var_list_to_fix);
-
-  # parameters placeholders and ops
+ 
+  # parameters placeholders and ops 
   var_fix_ops=np.zeros(len(var_list_to_fix),dtype=object);
   var_fix_placeholders=np.zeros(len(var_list_to_fix),dtype=object);
   for i in range(len(var_list_to_fix)):
     var_fix_placeholders[i]=tf.placeholder(var_list_to_fix[i].dtype,shape=var_list_to_fix[i].get_shape());
     var_fix_ops[i]=var_list_to_fix[i].assign(var_fix_placeholders[i]);
-
  
-  ## TASK 2 (CIFAR 10) 
-  # Output Layer for Task2
-  output_weights2=pathnet.module_weight_variable([FLAGS.filt,10]);
-  output_biases2=pathnet.module_bias_variable([10]);
-  y2 = pathnet.nn_layer(net,output_weights2,output_biases2,'output_layer2', act=tf.identity);  
-
-  with tf.name_scope('cross_entropy2'):
-    diff2 = tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y2)
-    with tf.name_scope('total2'):
-      cross_entropy2 = tf.reduce_mean(diff2)
-  tf.summary.scalar('cross_entropy2', cross_entropy2)
-  
+  ## TASK 2
   # Need to learn variables
-  #var_list_to_learn=[]+input_weights+input_biases+output_weights2+output_biases2;
-  var_list_to_learn=[]+output_weights2+output_biases2;
+  var_list_to_learn=[]+output_weights+output_biases;
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):
       if (fixed_list[i,j]=='0'):
         var_list_to_learn+=weights_list[i,j]+biases_list[i,j];
-        
-  with tf.name_scope('train2'):
-    train_step2 = tf.train.AdamOptimizer(FLAGS.learning_rate).minimize(
-        cross_entropy2,var_list=var_list_to_learn)  
-    #train_step2 = tf.train.GradientDescentOptimizer(FLAGS.learning_rate).minimize(
-    #    cross_entropy2,var_list=var_list_to_learn)  
   
-  with tf.name_scope('accuracy2'):
-    with tf.name_scope('correct_prediction2'):
-      correct_prediction2 = tf.equal(tf.argmax(y2, 1), tf.argmax(y_, 1))
-    with tf.name_scope('accuracy2'):
-      accuracy2 = tf.reduce_mean(tf.cast(correct_prediction2, tf.float32))
-  tf.summary.scalar('accuracy2', accuracy2)
+  for i in range(FLAGS.L):
+    for j in range(FLAGS.M):
+      if(fixed_list[i,j]=='1'):
+        tmp=biases_list[i,j][0];
+        break;
+    break;
 
-  # Merge all the summaries and write them out to /tmp/tensorflow/mnist/logs/mnist_with_summaries (by default)
-  merged2 = tf.summary.merge_all()
+  # Initialization
+  merged = tf.summary.merge_all()
   train_writer = tf.summary.FileWriter(FLAGS.log_dir + '/train2', sess.graph)
   test_writer = tf.summary.FileWriter(FLAGS.log_dir + '/test2')
   tf.global_variables_initializer().run()
-
+  
   # Update fixed values
   pathnet.parameters_update(sess,var_fix_placeholders,var_fix_ops,var_list_fix);
-
-  def feed_dict2(train,tr_flag=0):
-    #Make a TensorFlow feed_dict: maps data onto Tensor placeholders.
-    if train or FLAGS.fake_data:
-      xs=tr_data2[tr_flag:tr_flag+16,:]; ys=tr_label2[tr_flag:tr_flag+16,:];
-      k = FLAGS.dropout
-    else:
-      xs=ts_data2;ys=ts_label2;
-      k = 1.0
-    return {x: xs, y_: ys}
+ 
+  # GradientDescent  
+  with tf.name_scope('train'):
+    train_step = tf.train.GradientDescentOptimizer(FLAGS.learning_rate).minimize(cross_entropy,var_list=var_list_to_learn);
   
   # Generating randomly geopath
   geopath_set=np.zeros(FLAGS.candi,dtype=object);
   for i in range(FLAGS.candi):
     geopath_set[i]=pathnet.get_geopath(FLAGS.L,FLAGS.M,FLAGS.N);
-
+  
   # parameters placeholders and ops 
   var_update_ops=np.zeros(len(var_list_to_learn),dtype=object);
   var_update_placeholders=np.zeros(len(var_list_to_learn),dtype=object);
   for i in range(len(var_list_to_learn)):
     var_update_placeholders[i]=tf.placeholder(var_list_to_learn[i].dtype,shape=var_list_to_learn[i].get_shape());
     var_update_ops[i]=var_list_to_learn[i].assign(var_update_placeholders[i]);
-    
-  tr_flag=0;
+  
+  acc_geo=np.zeros(FLAGS.B,dtype=float); 
+  summary_geo=np.zeros(FLAGS.B,dtype=object); 
   for i in range(FLAGS.max_steps):
-    # Select Two Candidate to Tournament 
-    first,second=pathnet.select_two_candi(FLAGS.candi);
+    # Select Candidates to Tournament
+    compet_idx=range(FLAGS.candi);
+    np.random.shuffle(compet_idx);
+    compet_idx=compet_idx[:FLAGS.B];
+    # Learning & Evaluating
+    for j in range(len(compet_idx)):
+      # Shuffle the data
+      idx=range(len(tr_data2));
+      np.random.shuffle(idx);
+      tr_data2=tr_data2[idx];tr_label2=tr_label2[idx];
+      # Insert Candidate
+      pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[j],FLAGS.L,FLAGS.M);
+      acc_geo_tr=0;
+      for k in range(FLAGS.T):
+        summary_geo_tr, _, acc_geo_tmp = sess.run([merged, train_step,accuracy], feed_dict={x:tr_data2[k*FLAGS.batch_num:(k+1)*FLAGS.batch_num,:],y_:tr_label2[k*FLAGS.batch_num:(k+1)*FLAGS.batch_num,:]});
+        acc_geo_tr+=acc_geo_tmp;
+      acc_geo[j]=acc_geo_tr/FLAGS.T;
+      summary_geo[j]=summary_geo_tr;
+    # Tournament
+    winner_idx=np.argmax(acc_geo);
+    acc=acc_geo[winner_idx];
+    summary=summary_geo[winner_idx];
+    # Copy and Mutation
+    for j in range(len(compet_idx)):
+      if(j!=winner_idx):
+        geopath_set[compet_idx[j]]=np.copy(geopath_set[compet_idx[winner_idx]]);
+        geopath_set[compet_idx[j]]=pathnet.mutation(geopath_set[compet_idx[j]],FLAGS.L,FLAGS.M,FLAGS.N);
+    train_writer.add_summary(summary, i);
+    print('Training Accuracy at step %s: %s' % (i, acc));
+    geopath_sum=np.zeros((len(geopath),len(geopath[0])),dtype=float);
+    for j in range(len(geopath_set)):
+      for k in range(len(geopath)):
+        for l in range(len(geopath[0])):
+          geopath_sum[k][l]+=geopath_set[j][k][l];
+    print(geopath_sum);
     
-    # First Candidate
-    pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[first],FLAGS.L,FLAGS.M);
-    tr_flag_bak=tr_flag;
-    var_list_backup=pathnet.parameters_backup(var_list_to_learn);
-    for j in range(FLAGS.T):
-      summary_geo1_tr, _ = sess.run([merged2, train_step2], feed_dict=feed_dict2(True,tr_flag))
-      tr_flag=(tr_flag+16)%data_num_len2;
-    summary_geo1_ts, acc_geo1 = sess.run([merged2, accuracy2], feed_dict=feed_dict2(False))
-    var_list_task1=pathnet.parameters_backup(var_list_to_learn);
-    
-    # Second Candidate
-    pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[first],FLAGS.L,FLAGS.M);
-    tr_flag=tr_flag_bak;
-    pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_backup);
-    for j in range(FLAGS.T-1):
-      summary_geo2_tr, _, acc_geo2_tmp = sess.run([merged2, train_step2,accuracy2], feed_dict=feed_dict2(True,tr_flag))
-      tr_flag=(tr_flag+16)%data_num_len2;
-    summary_geo2_ts, acc_geo2 = sess.run([merged2, accuracy2], feed_dict=feed_dict2(False))
-    var_list_task2=pathnet.parameters_backup(var_list_to_learn);
-    
-    # Compatition between two cases
-    if(acc_geo1>acc_geo2):
-      geopath_set[second]=np.copy(geopath_set[first]);
-      pathnet.mutation(geopath_set[second],FLAGS.L,FLAGS.M,FLAGS.N);
-      pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_task1);
-      train_writer.add_summary(summary_geo1_tr, i);
-      test_writer.add_summary(summary_geo1_ts, i);
-      print('Accuracy at step %s: %s' % (i+1, acc_geo1));
-    else:
-      geopath_set[first]=np.copy(geopath_set[second]);
-      pathnet.mutation(geopath_set[first],FLAGS.L,FLAGS.M,FLAGS.N);
-      pathnet.parameters_update(sess,var_update_placeholders,var_update_ops,var_list_task2);
-      train_writer.add_summary(summary_geo2_tr, i);
-      test_writer.add_summary(summary_geo2_ts, i);
-      print('Accuracy at step %s: %s' % (i+1, acc_geo2));
-  
-  if(acc_geo1>acc_geo2): 
-    task2_acc=acc_geo1;
-  else:
-    task2_acc=acc_geo2;        
-  print("SVHN Acc:"+str(task1_acc)+",CIFAR10:"+str(task2_acc));
-  
+  task2_optimal_path=geopath_set[compet_idx[winner_idx]];
+  acc_task2=i;
+
+  overlap=0;
+  for i in range(len(task1_optimal_path)):
+    for j in range(len(task1_optimal_path[0])):
+      if(task1_optimal_path[i,j]==task2_optimal_path[i,j])&(task1_optimal_path[i,j]==1.0):
+        overlap+=1;
+  print("CIFAR10 Acc:"+str(acc_task1)+",SVHN Acc:"+str(acc_task2)+",Overlap:"+str(overlap));
+ 
   train_writer.close()
   test_writer.close()
 
+
 def main(_):
+  FLAGS.log_dir+=str(int(time.time()));
   if tf.gfile.Exists(FLAGS.log_dir):
     tf.gfile.DeleteRecursively(FLAGS.log_dir)
   tf.gfile.MakeDirs(FLAGS.log_dir)
@@ -430,29 +376,34 @@ if __name__ == '__main__':
   parser.add_argument('--fake_data', nargs='?', const=True, type=bool,
                       default=False,
                       help='If true, uses fake data for unit testing.')
-  parser.add_argument('--learning_rate', type=float, default=0.001,
+  parser.add_argument('--learning_rate', type=float, default=0.01,
                       help='Initial learning rate')
   parser.add_argument('--max_steps', type=int, default=500,
                       help='Number of steps to run trainer.')
   parser.add_argument('--dropout', type=float, default=0.9,
                       help='Keep probability for training dropout.')
-  parser.add_argument('--cifar_data_dir', type=str, default='/tmp/cifar10_data/cifar-10-batches-bin',
+  parser.add_argument('--svhn_data_dir', type=str, default='/tmp/tensorflow/svhn/input_data',
                       help='Directory for storing input data')
-  parser.add_argument('--svhn_data_dir', type=str, default='/tmp/svhn_dataset',
+  parser.add_argument('--cifar_data_dir', type=str, default='/tmp/cifar10_data/cifar-10-batches-bin/',
                       help='Directory for storing input data')
-  parser.add_argument('--log_dir', type=str, default='/tmp/tensorflow/pathnet/logs/svhn_cifar10',
+  parser.add_argument('--log_dir', type=str, default='/tmp/tensorflow/pathnet/cifar_svhn/pathnet/',
                       help='Summaries log directory')
-  parser.add_argument('--M', type=int, default=10,
+  parser.add_argument('--M', type=int, default=20,
                       help='The Number of Modules per Layer')
   parser.add_argument('--L', type=int, default=3,
                       help='The Number of Layers')
-  parser.add_argument('--N', type=int, default=4,
+  parser.add_argument('--N', type=int, default=5,
                       help='The Number of Selected Modules per Layer')
   parser.add_argument('--T', type=int, default=50,
                       help='The Number of epoch per each geopath')
+  parser.add_argument('--batch_num', type=int, default=16,
+                      help='The Number of batches per each geopath')
   parser.add_argument('--filt', type=int, default=20,
                       help='The Number of Filters per Module')
-  parser.add_argument('--candi', type=int, default=64,
+  parser.add_argument('--candi', type=int, default=20,
                       help='The Number of Candidates of geopath')
+  parser.add_argument('--B', type=int, default=2,
+                      help='The Number of Candidates for each competition')
   FLAGS, unparsed = parser.parse_known_args()
   tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)
+

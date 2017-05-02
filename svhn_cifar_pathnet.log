@@ -1,1001 +1,1001 @@
-Accuracy at step 1: 0.108866
-Accuracy at step 2: 0.075945
-Accuracy at step 3: 0.11071
-Accuracy at step 4: 0.159381
-Accuracy at step 5: 0.195874
-Accuracy at step 6: 0.0969192
-Accuracy at step 7: 0.11071
-Accuracy at step 8: 0.195874
-Accuracy at step 9: 0.159381
-Accuracy at step 10: 0.195874
-Accuracy at step 11: 0.195874
-Accuracy at step 12: 0.0775584
-Accuracy at step 13: 0.0969192
-Accuracy at step 14: 0.159381
-Accuracy at step 15: 0.0775584
-Accuracy at step 16: 0.0915796
-Accuracy at step 17: 0.0669945
-Accuracy at step 18: 0.0915796
-Accuracy at step 19: 0.0612707
-Accuracy at step 20: 0.159381
-Accuracy at step 21: 0.11071
-Accuracy at step 22: 0.0612707
-Accuracy at step 23: 0.0969192
-Accuracy at step 24: 0.195874
-Accuracy at step 25: 0.0969192
-Accuracy at step 26: 0.0969192
-Accuracy at step 27: 0.159381
-Accuracy at step 28: 0.195874
-Accuracy at step 29: 0.0915796
-Accuracy at step 30: 0.195874
-Accuracy at step 31: 0.0915796
-Accuracy at step 32: 0.159381
-Accuracy at step 33: 0.0669945
-Accuracy at step 34: 0.0775584
-Accuracy at step 35: 0.195874
-Accuracy at step 36: 0.0775584
-Accuracy at step 37: 0.195874
-Accuracy at step 38: 0.195413
-Accuracy at step 39: 0.11071
-Accuracy at step 40: 0.0775584
-Accuracy at step 41: 0.159381
-Accuracy at step 42: 0.0637677
-Accuracy at step 43: 0.195874
-Accuracy at step 44: 0.195874
-Accuracy at step 45: 0.195874
-Accuracy at step 46: 0.11071
-Accuracy at step 47: 0.075945
-Accuracy at step 48: 0.195874
-Accuracy at step 49: 0.159381
-Accuracy at step 50: 0.0612707
-Accuracy at step 51: 0.195874
-Accuracy at step 52: 0.11071
-Accuracy at step 53: 0.195874
-Accuracy at step 54: 0.159381
-Accuracy at step 55: 0.195874
-Accuracy at step 56: 0.0775584
-Accuracy at step 57: 0.195874
-Accuracy at step 58: 0.159381
-Accuracy at step 59: 0.195874
-Accuracy at step 60: 0.0915796
-Accuracy at step 61: 0.195874
-Accuracy at step 62: 0.075945
-Accuracy at step 63: 0.159381
-Accuracy at step 64: 0.11071
-Accuracy at step 65: 0.0969192
-Accuracy at step 66: 0.0915796
-Accuracy at step 67: 0.0775584
-Accuracy at step 68: 0.11071
-Accuracy at step 69: 0.0969192
-Accuracy at step 70: 0.0915796
-Accuracy at step 71: 0.159381
-Accuracy at step 72: 0.195874
-Accuracy at step 73: 0.159381
-Accuracy at step 74: 0.11071
-Accuracy at step 75: 0.0775584
-Accuracy at step 76: 0.159381
-Accuracy at step 77: 0.159381
-Accuracy at step 78: 0.0969192
-Accuracy at step 79: 0.0669945
-Accuracy at step 80: 0.159381
-Accuracy at step 81: 0.159381
-Accuracy at step 82: 0.075945
-Accuracy at step 83: 0.195874
-Accuracy at step 84: 0.0969192
-Accuracy at step 85: 0.0915796
-Accuracy at step 86: 0.0969192
-Accuracy at step 87: 0.0969192
-Accuracy at step 88: 0.0969192
-Accuracy at step 89: 0.075945
-Accuracy at step 90: 0.11071
-Accuracy at step 91: 0.195874
-Accuracy at step 92: 0.159381
-Accuracy at step 93: 0.075945
-Accuracy at step 94: 0.0969192
-Accuracy at step 95: 0.075945
-Accuracy at step 96: 0.0775584
-Accuracy at step 97: 0.195874
-Accuracy at step 98: 0.0775584
-Accuracy at step 99: 0.11071
-Accuracy at step 100: 0.0915796
-Accuracy at step 101: 0.195874
-Accuracy at step 102: 0.195874
-Accuracy at step 103: 0.159381
-Accuracy at step 104: 0.11071
-Accuracy at step 105: 0.0669945
-Accuracy at step 106: 0.0915796
-Accuracy at step 107: 0.0775584
-Accuracy at step 108: 0.159381
-Accuracy at step 109: 0.159381
-Accuracy at step 110: 0.0969192
-Accuracy at step 111: 0.195874
-Accuracy at step 112: 0.0669945
-Accuracy at step 113: 0.11071
-Accuracy at step 114: 0.0969192
-Accuracy at step 115: 0.0775584
-Accuracy at step 116: 0.0775584
-Accuracy at step 117: 0.0915796
-Accuracy at step 118: 0.11071
-Accuracy at step 119: 0.075945
-Accuracy at step 120: 0.0637677
-Accuracy at step 121: 0.0915796
-Accuracy at step 122: 0.075945
-Accuracy at step 123: 0.0775584
-Accuracy at step 124: 0.11071
-Accuracy at step 125: 0.075945
-Accuracy at step 126: 0.0775584
-Accuracy at step 127: 0.0915796
-Accuracy at step 128: 0.0775584
-Accuracy at step 129: 0.0915796
-Accuracy at step 130: 0.11071
-Accuracy at step 131: 0.11071
-Accuracy at step 132: 0.075945
-Accuracy at step 133: 0.195874
-Accuracy at step 134: 0.195874
-Accuracy at step 135: 0.0775584
-Accuracy at step 136: 0.0915796
-Accuracy at step 137: 0.0775584
-Accuracy at step 138: 0.0915796
-Accuracy at step 139: 0.159381
-Accuracy at step 140: 0.11071
-Accuracy at step 141: 0.0915796
-Accuracy at step 142: 0.11071
-Accuracy at step 143: 0.0915796
-Accuracy at step 144: 0.0775584
-Accuracy at step 145: 0.0775584
-Accuracy at step 146: 0.159381
-Accuracy at step 147: 0.0969192
-Accuracy at step 148: 0.159381
-Accuracy at step 149: 0.0669945
-Accuracy at step 150: 0.11071
-Accuracy at step 151: 0.11071
-Accuracy at step 152: 0.0969192
-Accuracy at step 153: 0.159381
-Accuracy at step 154: 0.0915796
-Accuracy at step 155: 0.195874
-Accuracy at step 156: 0.0969192
-Accuracy at step 157: 0.11071
-Accuracy at step 158: 0.195874
-Accuracy at step 159: 0.11071
-Accuracy at step 160: 0.075945
-Accuracy at step 161: 0.159381
-Accuracy at step 162: 0.0915796
-Accuracy at step 163: 0.0969192
-Accuracy at step 164: 0.075945
-Accuracy at step 165: 0.159381
-Accuracy at step 166: 0.0915796
-Accuracy at step 167: 0.159381
-Accuracy at step 168: 0.159381
-Accuracy at step 169: 0.11071
-Accuracy at step 170: 0.0915796
-Accuracy at step 171: 0.0969192
-Accuracy at step 172: 0.0915796
-Accuracy at step 173: 0.11071
-Accuracy at step 174: 0.159381
-Accuracy at step 175: 0.0969192
-Accuracy at step 176: 0.0775584
-Accuracy at step 177: 0.0775584
-Accuracy at step 178: 0.11071
-Accuracy at step 179: 0.159381
-Accuracy at step 180: 0.11071
-Accuracy at step 181: 0.11071
-Accuracy at step 182: 0.0969192
-Accuracy at step 183: 0.0669945
-Accuracy at step 184: 0.11071
-Accuracy at step 185: 0.0969192
-Accuracy at step 186: 0.0969192
-Accuracy at step 187: 0.159381
-Accuracy at step 188: 0.106177
-Accuracy at step 189: 0.0969192
-Accuracy at step 190: 0.195874
-Accuracy at step 191: 0.11071
-Accuracy at step 192: 0.11071
-Accuracy at step 193: 0.0637677
-Accuracy at step 194: 0.11071
-Accuracy at step 195: 0.11071
-Accuracy at step 196: 0.195874
-Accuracy at step 197: 0.0969192
-Accuracy at step 198: 0.195874
-Accuracy at step 199: 0.195874
-Accuracy at step 200: 0.159381
-Accuracy at step 201: 0.11071
-Accuracy at step 202: 0.075945
-Accuracy at step 203: 0.11071
-Accuracy at step 204: 0.195874
-Accuracy at step 205: 0.159381
-Accuracy at step 206: 0.195874
-Accuracy at step 207: 0.0969192
-Accuracy at step 208: 0.0915796
-Accuracy at step 209: 0.11071
-Accuracy at step 210: 0.159381
-Accuracy at step 211: 0.159381
-Accuracy at step 212: 0.0612707
-Accuracy at step 213: 0.195874
-Accuracy at step 214: 0.0775584
-Accuracy at step 215: 0.159381
-Accuracy at step 216: 0.0775584
-Accuracy at step 217: 0.11071
-Accuracy at step 218: 0.0669945
-Accuracy at step 219: 0.159381
-Accuracy at step 220: 0.0669945
-Accuracy at step 221: 0.0669945
-Accuracy at step 222: 0.0915796
-Accuracy at step 223: 0.195874
-Accuracy at step 224: 0.159381
-Accuracy at step 225: 0.0775584
-Accuracy at step 226: 0.159381
-Accuracy at step 227: 0.159381
-Accuracy at step 228: 0.195874
-Accuracy at step 229: 0.0915796
-Accuracy at step 230: 0.075945
-Accuracy at step 231: 0.195874
-Accuracy at step 232: 0.0915796
-Accuracy at step 233: 0.0915796
-Accuracy at step 234: 0.11071
-Accuracy at step 235: 0.195874
-Accuracy at step 236: 0.0915796
-Accuracy at step 237: 0.075945
-Accuracy at step 238: 0.195874
-Accuracy at step 239: 0.159381
-Accuracy at step 240: 0.0775584
-Accuracy at step 241: 0.195874
-Accuracy at step 242: 0.075945
-Accuracy at step 243: 0.0969192
-Accuracy at step 244: 0.195874
-Accuracy at step 245: 0.0969192
-Accuracy at step 246: 0.195874
-Accuracy at step 247: 0.195874
-Accuracy at step 248: 0.0775584
-Accuracy at step 249: 0.0915796
-Accuracy at step 250: 0.0915796
-Accuracy at step 251: 0.075945
-Accuracy at step 252: 0.159381
-Accuracy at step 253: 0.195874
-Accuracy at step 254: 0.195874
-Accuracy at step 255: 0.075945
-Accuracy at step 256: 0.159381
-Accuracy at step 257: 0.0775584
-Accuracy at step 258: 0.11071
-Accuracy at step 259: 0.075945
-Accuracy at step 260: 0.11071
-Accuracy at step 261: 0.195874
-Accuracy at step 262: 0.0915796
-Accuracy at step 263: 0.11071
-Accuracy at step 264: 0.0915796
-Accuracy at step 265: 0.11071
-Accuracy at step 266: 0.0637677
-Accuracy at step 267: 0.195874
-Accuracy at step 268: 0.11071
-Accuracy at step 269: 0.0775584
-Accuracy at step 270: 0.11071
-Accuracy at step 271: 0.159381
-Accuracy at step 272: 0.075945
-Accuracy at step 273: 0.0775584
-Accuracy at step 274: 0.11071
-Accuracy at step 275: 0.159381
-Accuracy at step 276: 0.11071
-Accuracy at step 277: 0.0637677
-Accuracy at step 278: 0.195874
-Accuracy at step 279: 0.11071
-Accuracy at step 280: 0.0915796
-Accuracy at step 281: 0.0637677
-Accuracy at step 282: 0.159381
-Accuracy at step 283: 0.11071
-Accuracy at step 284: 0.0969192
-Accuracy at step 285: 0.159381
-Accuracy at step 286: 0.11071
-Accuracy at step 287: 0.11071
-Accuracy at step 288: 0.0775584
-Accuracy at step 289: 0.0915796
-Accuracy at step 290: 0.0969192
-Accuracy at step 291: 0.159381
-Accuracy at step 292: 0.159381
-Accuracy at step 293: 0.11071
-Accuracy at step 294: 0.195874
-Accuracy at step 295: 0.159381
-Accuracy at step 296: 0.159381
-Accuracy at step 297: 0.0969192
-Accuracy at step 298: 0.0969192
-Accuracy at step 299: 0.0775584
-Accuracy at step 300: 0.0775584
-Accuracy at step 301: 0.159381
-Accuracy at step 302: 0.0775584
-Accuracy at step 303: 0.11071
-Accuracy at step 304: 0.0775584
-Accuracy at step 305: 0.195874
-Accuracy at step 306: 0.0775968
-Accuracy at step 307: 0.0775584
-Accuracy at step 308: 0.11071
-Accuracy at step 309: 0.0915796
-Accuracy at step 310: 0.0775584
-Accuracy at step 311: 0.0915796
-Accuracy at step 312: 0.159381
-Accuracy at step 313: 0.159381
-Accuracy at step 314: 0.0669945
-Accuracy at step 315: 0.159381
-Accuracy at step 316: 0.0969192
-Accuracy at step 317: 0.0915796
-Accuracy at step 318: 0.0775584
-Accuracy at step 319: 0.159381
-Accuracy at step 320: 0.159381
-Accuracy at step 321: 0.11071
-Accuracy at step 322: 0.0915796
-Accuracy at step 323: 0.195874
-Accuracy at step 324: 0.195874
-Accuracy at step 325: 0.0969192
-Accuracy at step 326: 0.0969192
-Accuracy at step 327: 0.0969192
-Accuracy at step 328: 0.159381
-Accuracy at step 329: 0.11071
-Accuracy at step 330: 0.159381
-Accuracy at step 331: 0.0915796
-Accuracy at step 332: 0.195874
-Accuracy at step 333: 0.0915796
-Accuracy at step 334: 0.0775584
-Accuracy at step 335: 0.159381
-Accuracy at step 336: 0.195874
-Accuracy at step 337: 0.195874
-Accuracy at step 338: 0.195874
-Accuracy at step 339: 0.11071
-Accuracy at step 340: 0.11071
-Accuracy at step 341: 0.0969192
-Accuracy at step 342: 0.11071
-Accuracy at step 343: 0.0775584
-Accuracy at step 344: 0.0775584
-Accuracy at step 345: 0.0775584
-Accuracy at step 346: 0.0915796
-Accuracy at step 347: 0.159381
-Accuracy at step 348: 0.0915796
-Accuracy at step 349: 0.0915796
-Accuracy at step 350: 0.159381
-Accuracy at step 351: 0.0669945
-Accuracy at step 352: 0.0775584
-Accuracy at step 353: 0.195874
-Accuracy at step 354: 0.0637677
-Accuracy at step 355: 0.195874
-Accuracy at step 356: 0.0915796
-Accuracy at step 357: 0.195874
-Accuracy at step 358: 0.0669945
-Accuracy at step 359: 0.195874
-Accuracy at step 360: 0.159381
-Accuracy at step 361: 0.11071
-Accuracy at step 362: 0.075945
-Accuracy at step 363: 0.195874
-Accuracy at step 364: 0.11071
-Accuracy at step 365: 0.11071
-Accuracy at step 366: 0.075945
-Accuracy at step 367: 0.0669945
-Accuracy at step 368: 0.0775584
-Accuracy at step 369: 0.0969192
-Accuracy at step 370: 0.159381
-Accuracy at step 371: 0.11071
-Accuracy at step 372: 0.0915796
-Accuracy at step 373: 0.195874
-Accuracy at step 374: 0.0969192
-Accuracy at step 375: 0.11071
-Accuracy at step 376: 0.159381
-Accuracy at step 377: 0.0714505
-Accuracy at step 378: 0.0775584
-Accuracy at step 379: 0.195874
-Accuracy at step 380: 0.0969192
-Accuracy at step 381: 0.11071
-Accuracy at step 382: 0.11071
-Accuracy at step 383: 0.195874
-Accuracy at step 384: 0.159381
-Accuracy at step 385: 0.075945
-Accuracy at step 386: 0.0969192
-Accuracy at step 387: 0.195874
-Accuracy at step 388: 0.0775584
-Accuracy at step 389: 0.159381
-Accuracy at step 390: 0.11071
-Accuracy at step 391: 0.195874
-Accuracy at step 392: 0.0612707
-Accuracy at step 393: 0.195874
-Accuracy at step 394: 0.159381
-Accuracy at step 395: 0.0915796
-Accuracy at step 396: 0.159381
-Accuracy at step 397: 0.195874
-Accuracy at step 398: 0.0915796
-Accuracy at step 399: 0.195874
-Accuracy at step 400: 0.0775584
-Accuracy at step 401: 0.159381
-Accuracy at step 402: 0.159381
-Accuracy at step 403: 0.0775584
-Accuracy at step 404: 0.195874
-Accuracy at step 405: 0.195874
-Accuracy at step 406: 0.0969192
-Accuracy at step 407: 0.195874
-Accuracy at step 408: 0.0775584
-Accuracy at step 409: 0.195874
-Accuracy at step 410: 0.159381
-Accuracy at step 411: 0.0969192
-Accuracy at step 412: 0.0969192
-Accuracy at step 413: 0.195874
-Accuracy at step 414: 0.0775584
-Accuracy at step 415: 0.195874
-Accuracy at step 416: 0.0915796
-Accuracy at step 417: 0.0915796
-Accuracy at step 418: 0.159381
-Accuracy at step 419: 0.159381
-Accuracy at step 420: 0.195874
-Accuracy at step 421: 0.159381
-Accuracy at step 422: 0.195874
-Accuracy at step 423: 0.0915796
-Accuracy at step 424: 0.195874
-Accuracy at step 425: 0.0969192
-Accuracy at step 426: 0.195874
-Accuracy at step 427: 0.159381
-Accuracy at step 428: 0.195874
-Accuracy at step 429: 0.0669945
-Accuracy at step 430: 0.0969192
-Accuracy at step 431: 0.0669945
-Accuracy at step 432: 0.0637677
-Accuracy at step 433: 0.0612707
-Accuracy at step 434: 0.0969192
-Accuracy at step 435: 0.159381
-Accuracy at step 436: 0.159381
-Accuracy at step 437: 0.0969192
-Accuracy at step 438: 0.0915796
-Accuracy at step 439: 0.0969192
-Accuracy at step 440: 0.159381
-Accuracy at step 441: 0.195874
-Accuracy at step 442: 0.0915796
-Accuracy at step 443: 0.0637677
-Accuracy at step 444: 0.11071
-Accuracy at step 445: 0.0775584
-Accuracy at step 446: 0.0915796
-Accuracy at step 447: 0.0775584
-Accuracy at step 448: 0.195874
-Accuracy at step 449: 0.0915796
-Accuracy at step 450: 0.075945
-Accuracy at step 451: 0.11071
-Accuracy at step 452: 0.11071
-Accuracy at step 453: 0.195874
-Accuracy at step 454: 0.195874
-Accuracy at step 455: 0.0775584
-Accuracy at step 456: 0.195874
-Accuracy at step 457: 0.195874
-Accuracy at step 458: 0.11071
-Accuracy at step 459: 0.0637677
-Accuracy at step 460: 0.0915796
-Accuracy at step 461: 0.195874
-Accuracy at step 462: 0.195874
-Accuracy at step 463: 0.11071
-Accuracy at step 464: 0.0969192
-Accuracy at step 465: 0.0669945
-Accuracy at step 466: 0.11071
-Accuracy at step 467: 0.0915796
-Accuracy at step 468: 0.0915796
-Accuracy at step 469: 0.0969192
-Accuracy at step 470: 0.0775584
-Accuracy at step 471: 0.11071
-Accuracy at step 472: 0.11071
-Accuracy at step 473: 0.195874
-Accuracy at step 474: 0.195874
-Accuracy at step 475: 0.075945
-Accuracy at step 476: 0.075945
-Accuracy at step 477: 0.11071
-Accuracy at step 478: 0.159381
-Accuracy at step 479: 0.159381
-Accuracy at step 480: 0.11071
-Accuracy at step 481: 0.11071
-Accuracy at step 482: 0.11071
-Accuracy at step 483: 0.11071
-Accuracy at step 484: 0.0915796
-Accuracy at step 485: 0.159381
-Accuracy at step 486: 0.159381
-Accuracy at step 487: 0.195874
-Accuracy at step 488: 0.075945
-Accuracy at step 489: 0.195874
-Accuracy at step 490: 0.11071
-Accuracy at step 491: 0.195874
-Accuracy at step 492: 0.0969192
-Accuracy at step 493: 0.195874
-Accuracy at step 494: 0.159381
-Accuracy at step 495: 0.0969192
-Accuracy at step 496: 0.11071
-Accuracy at step 497: 0.159381
-Accuracy at step 498: 0.0946527
-Accuracy at step 499: 0.159381
-Accuracy at step 500: 0.0915796
-Accuracy at step 0: 0.1221
-Accuracy at step 1: 0.1704
-Accuracy at step 2: 0.1565
-Accuracy at step 3: 0.2052
-Accuracy at step 4: 0.1905
-Accuracy at step 5: 0.1974
-Accuracy at step 6: 0.1797
-Accuracy at step 7: 0.1669
-Accuracy at step 8: 0.1819
-Accuracy at step 9: 0.1815
-Accuracy at step 10: 0.1906
-Accuracy at step 11: 0.1931
-Accuracy at step 12: 0.1783
-Accuracy at step 13: 0.1805
-Accuracy at step 14: 0.1816
-Accuracy at step 15: 0.1884
-Accuracy at step 16: 0.1863
-Accuracy at step 17: 0.1833
-Accuracy at step 18: 0.1797
-Accuracy at step 19: 0.1749
-Accuracy at step 20: 0.1863
-Accuracy at step 21: 0.1863
-Accuracy at step 22: 0.2012
-Accuracy at step 23: 0.1727
-Accuracy at step 24: 0.1992
-Accuracy at step 25: 0.1837
-Accuracy at step 26: 0.1936
-Accuracy at step 27: 0.1937
-Accuracy at step 28: 0.1972
-Accuracy at step 29: 0.2026
-Accuracy at step 30: 0.1818
-Accuracy at step 31: 0.1794
-Accuracy at step 32: 0.1855
-Accuracy at step 33: 0.1873
-Accuracy at step 34: 0.1973
-Accuracy at step 35: 0.2023
-Accuracy at step 36: 0.1659
-Accuracy at step 37: 0.1807
-Accuracy at step 38: 0.1739
-Accuracy at step 39: 0.192
-Accuracy at step 40: 0.1774
-Accuracy at step 41: 0.1714
-Accuracy at step 42: 0.1683
-Accuracy at step 43: 0.1962
-Accuracy at step 44: 0.1922
-Accuracy at step 45: 0.1685
-Accuracy at step 46: 0.1875
-Accuracy at step 47: 0.172
-Accuracy at step 48: 0.1778
-Accuracy at step 49: 0.1829
-Accuracy at step 50: 0.1816
-Accuracy at step 51: 0.1778
-Accuracy at step 52: 0.1872
-Accuracy at step 53: 0.1829
-Accuracy at step 54: 0.1905
-Accuracy at step 55: 0.1831
-Accuracy at step 56: 0.1868
-Accuracy at step 57: 0.1723
-Accuracy at step 58: 0.189
-Accuracy at step 59: 0.1877
-Accuracy at step 60: 0.185
-Accuracy at step 61: 0.1929
-Accuracy at step 62: 0.2007
-Accuracy at step 63: 0.2046
-Accuracy at step 64: 0.1908
-Accuracy at step 65: 0.1812
-Accuracy at step 66: 0.1838
-Accuracy at step 67: 0.1973
-Accuracy at step 68: 0.1892
-Accuracy at step 69: 0.1968
-Accuracy at step 70: 0.181
-Accuracy at step 71: 0.1846
-Accuracy at step 72: 0.1876
-Accuracy at step 73: 0.1992
-Accuracy at step 74: 0.1701
-Accuracy at step 75: 0.1928
-Accuracy at step 76: 0.1848
-Accuracy at step 77: 0.1969
-Accuracy at step 78: 0.1802
-Accuracy at step 79: 0.1882
-Accuracy at step 80: 0.2012
-Accuracy at step 81: 0.2032
-Accuracy at step 82: 0.1851
-Accuracy at step 83: 0.1861
-Accuracy at step 84: 0.2183
-Accuracy at step 85: 0.191
-Accuracy at step 86: 0.1975
-Accuracy at step 87: 0.1964
-Accuracy at step 88: 0.1999
-Accuracy at step 89: 0.1973
-Accuracy at step 90: 0.1999
-Accuracy at step 91: 0.2039
-Accuracy at step 92: 0.1967
-Accuracy at step 93: 0.1948
-Accuracy at step 94: 0.2177
-Accuracy at step 95: 0.2061
-Accuracy at step 96: 0.2015
-Accuracy at step 97: 0.2072
-Accuracy at step 98: 0.1812
-Accuracy at step 99: 0.2081
-Accuracy at step 100: 0.1852
-Accuracy at step 101: 0.2136
-Accuracy at step 102: 0.2009
-Accuracy at step 103: 0.1853
-Accuracy at step 104: 0.2013
-Accuracy at step 105: 0.1881
-Accuracy at step 106: 0.1823
-Accuracy at step 107: 0.1713
-Accuracy at step 108: 0.1908
-Accuracy at step 109: 0.1856
-Accuracy at step 110: 0.205
-Accuracy at step 111: 0.1914
-Accuracy at step 112: 0.1982
-Accuracy at step 113: 0.1686
-Accuracy at step 114: 0.2108
-Accuracy at step 115: 0.2211
-Accuracy at step 116: 0.1986
-Accuracy at step 117: 0.2093
-Accuracy at step 118: 0.2027
-Accuracy at step 119: 0.1848
-Accuracy at step 120: 0.1795
-Accuracy at step 121: 0.2299
-Accuracy at step 122: 0.2031
-Accuracy at step 123: 0.208
-Accuracy at step 124: 0.1954
-Accuracy at step 125: 0.2026
-Accuracy at step 126: 0.1792
-Accuracy at step 127: 0.2084
-Accuracy at step 128: 0.218
-Accuracy at step 129: 0.1981
-Accuracy at step 130: 0.24
-Accuracy at step 131: 0.1758
-Accuracy at step 132: 0.1937
-Accuracy at step 133: 0.1874
-Accuracy at step 134: 0.2101
-Accuracy at step 135: 0.2092
-Accuracy at step 136: 0.1983
-Accuracy at step 137: 0.2027
-Accuracy at step 138: 0.1855
-Accuracy at step 139: 0.2112
-Accuracy at step 140: 0.2161
-Accuracy at step 141: 0.1925
-Accuracy at step 142: 0.208
-Accuracy at step 143: 0.2129
-Accuracy at step 144: 0.2153
-Accuracy at step 145: 0.1961
-Accuracy at step 146: 0.2194
-Accuracy at step 147: 0.2118
-Accuracy at step 148: 0.2287
-Accuracy at step 149: 0.2097
-Accuracy at step 150: 0.2106
-Accuracy at step 151: 0.22
-Accuracy at step 152: 0.2485
-Accuracy at step 153: 0.1883
-Accuracy at step 154: 0.2065
-Accuracy at step 155: 0.1903
-Accuracy at step 156: 0.1998
-Accuracy at step 157: 0.2126
-Accuracy at step 158: 0.2177
-Accuracy at step 159: 0.2105
-Accuracy at step 160: 0.2235
-Accuracy at step 161: 0.1949
-Accuracy at step 162: 0.2316
-Accuracy at step 163: 0.2443
-Accuracy at step 164: 0.1966
-Accuracy at step 165: 0.213
-Accuracy at step 166: 0.2484
-Accuracy at step 167: 0.1921
-Accuracy at step 168: 0.2135
-Accuracy at step 169: 0.2084
-Accuracy at step 170: 0.2255
-Accuracy at step 171: 0.2163
-Accuracy at step 172: 0.1997
-Accuracy at step 173: 0.2029
-Accuracy at step 174: 0.211
-Accuracy at step 175: 0.2038
-Accuracy at step 176: 0.2471
-Accuracy at step 177: 0.1902
-Accuracy at step 178: 0.2352
-Accuracy at step 179: 0.2472
-Accuracy at step 180: 0.2233
-Accuracy at step 181: 0.2121
-Accuracy at step 182: 0.1837
-Accuracy at step 183: 0.1749
-Accuracy at step 184: 0.2559
-Accuracy at step 185: 0.2512
-Accuracy at step 186: 0.2003
-Accuracy at step 187: 0.2168
-Accuracy at step 188: 0.2357
-Accuracy at step 189: 0.232
-Accuracy at step 190: 0.2115
-Accuracy at step 191: 0.2287
-Accuracy at step 192: 0.1915
-Accuracy at step 193: 0.2147
-Accuracy at step 194: 0.2333
-Accuracy at step 195: 0.2319
-Accuracy at step 196: 0.2684
-Accuracy at step 197: 0.2446
-Accuracy at step 198: 0.2123
-Accuracy at step 199: 0.2362
-Accuracy at step 200: 0.2123
-Accuracy at step 201: 0.239
-Accuracy at step 202: 0.2551
-Accuracy at step 203: 0.227
-Accuracy at step 204: 0.2301
-Accuracy at step 205: 0.1964
-Accuracy at step 206: 0.2023
-Accuracy at step 207: 0.2555
-Accuracy at step 208: 0.2303
-Accuracy at step 209: 0.2542
-Accuracy at step 210: 0.2021
-Accuracy at step 211: 0.2369
-Accuracy at step 212: 0.2036
-Accuracy at step 213: 0.2252
-Accuracy at step 214: 0.2148
-Accuracy at step 215: 0.235
-Accuracy at step 216: 0.256
-Accuracy at step 217: 0.2509
-Accuracy at step 218: 0.2183
-Accuracy at step 219: 0.2194
-Accuracy at step 220: 0.2254
-Accuracy at step 221: 0.232
-Accuracy at step 222: 0.1984
-Accuracy at step 223: 0.2288
-Accuracy at step 224: 0.2007
-Accuracy at step 225: 0.2518
-Accuracy at step 226: 0.241
-Accuracy at step 227: 0.2257
-Accuracy at step 228: 0.2218
-Accuracy at step 229: 0.2006
-Accuracy at step 230: 0.2212
-Accuracy at step 231: 0.247
-Accuracy at step 232: 0.2348
-Accuracy at step 233: 0.227
-Accuracy at step 234: 0.2382
-Accuracy at step 235: 0.2128
-Accuracy at step 236: 0.2323
-Accuracy at step 237: 0.1998
-Accuracy at step 238: 0.2177
-Accuracy at step 239: 0.187
-Accuracy at step 240: 0.2083
-Accuracy at step 241: 0.2346
-Accuracy at step 242: 0.2627
-Accuracy at step 243: 0.2535
-Accuracy at step 244: 0.2272
-Accuracy at step 245: 0.2287
-Accuracy at step 246: 0.2188
-Accuracy at step 247: 0.1734
-Accuracy at step 248: 0.1863
-Accuracy at step 249: 0.2531
-Accuracy at step 250: 0.1724
-Accuracy at step 251: 0.2429
-Accuracy at step 252: 0.2068
-Accuracy at step 253: 0.2372
-Accuracy at step 254: 0.1774
-Accuracy at step 255: 0.258
-Accuracy at step 256: 0.2577
-Accuracy at step 257: 0.2379
-Accuracy at step 258: 0.1913
-Accuracy at step 259: 0.1995
-Accuracy at step 260: 0.2191
-Accuracy at step 261: 0.2496
-Accuracy at step 262: 0.2584
-Accuracy at step 263: 0.2397
-Accuracy at step 264: 0.176
-Accuracy at step 265: 0.2661
-Accuracy at step 266: 0.2459
-Accuracy at step 267: 0.2022
-Accuracy at step 268: 0.2256
-Accuracy at step 269: 0.2519
-Accuracy at step 270: 0.2497
-Accuracy at step 271: 0.1809
-Accuracy at step 272: 0.1964
-Accuracy at step 273: 0.2128
-Accuracy at step 274: 0.2493
-Accuracy at step 275: 0.2362
-Accuracy at step 276: 0.2601
-Accuracy at step 277: 0.2465
-Accuracy at step 278: 0.2333
-Accuracy at step 279: 0.2586
-Accuracy at step 280: 0.2621
-Accuracy at step 281: 0.2481
-Accuracy at step 282: 0.216
-Accuracy at step 283: 0.2344
-Accuracy at step 284: 0.2496
-Accuracy at step 285: 0.212
-Accuracy at step 286: 0.2319
-Accuracy at step 287: 0.2297
-Accuracy at step 288: 0.2533
-Accuracy at step 289: 0.2295
-Accuracy at step 290: 0.2621
-Accuracy at step 291: 0.2381
-Accuracy at step 292: 0.263
-Accuracy at step 293: 0.2326
-Accuracy at step 294: 0.2486
-Accuracy at step 295: 0.2492
-Accuracy at step 296: 0.2407
-Accuracy at step 297: 0.2593
-Accuracy at step 298: 0.2122
-Accuracy at step 299: 0.2685
-Accuracy at step 300: 0.2122
-Accuracy at step 301: 0.2322
-Accuracy at step 302: 0.2248
-Accuracy at step 303: 0.24
-Accuracy at step 304: 0.1873
-Accuracy at step 305: 0.2379
-Accuracy at step 306: 0.2167
-Accuracy at step 307: 0.1741
-Accuracy at step 308: 0.2096
-Accuracy at step 309: 0.2065
-Accuracy at step 310: 0.2074
-Accuracy at step 311: 0.1793
-Accuracy at step 312: 0.2292
-Accuracy at step 313: 0.2039
-Accuracy at step 314: 0.2484
-Accuracy at step 315: 0.2468
-Accuracy at step 316: 0.2382
-Accuracy at step 317: 0.2581
-Accuracy at step 318: 0.2383
-Accuracy at step 319: 0.2654
-Accuracy at step 320: 0.2539
-Accuracy at step 321: 0.2461
-Accuracy at step 322: 0.26
-Accuracy at step 323: 0.2226
-Accuracy at step 324: 0.2317
-Accuracy at step 325: 0.2192
-Accuracy at step 326: 0.2377
-Accuracy at step 327: 0.1995
-Accuracy at step 328: 0.2462
-Accuracy at step 329: 0.2283
-Accuracy at step 330: 0.2382
-Accuracy at step 331: 0.2353
-Accuracy at step 332: 0.2535
-Accuracy at step 333: 0.2444
-Accuracy at step 334: 0.2499
-Accuracy at step 335: 0.2395
-Accuracy at step 336: 0.2613
-Accuracy at step 337: 0.1949
-Accuracy at step 338: 0.2417
-Accuracy at step 339: 0.2191
-Accuracy at step 340: 0.2607
-Accuracy at step 341: 0.2355
-Accuracy at step 342: 0.2131
-Accuracy at step 343: 0.2593
-Accuracy at step 344: 0.1914
-Accuracy at step 345: 0.2378
-Accuracy at step 346: 0.2603
-Accuracy at step 347: 0.2541
-Accuracy at step 348: 0.2502
-Accuracy at step 349: 0.2622
-Accuracy at step 350: 0.2355
-Accuracy at step 351: 0.2535
-Accuracy at step 352: 0.2556
-Accuracy at step 353: 0.2518
-Accuracy at step 354: 0.2553
-Accuracy at step 355: 0.2644
-Accuracy at step 356: 0.2607
-Accuracy at step 357: 0.1975
-Accuracy at step 358: 0.1987
-Accuracy at step 359: 0.2612
-Accuracy at step 360: 0.2593
-Accuracy at step 361: 0.2552
-Accuracy at step 362: 0.2678
-Accuracy at step 363: 0.2384
-Accuracy at step 364: 0.256
-Accuracy at step 365: 0.2585
-Accuracy at step 366: 0.2632
-Accuracy at step 367: 0.2375
-Accuracy at step 368: 0.2585
-Accuracy at step 369: 0.1863
-Accuracy at step 370: 0.2681
-Accuracy at step 371: 0.2632
-Accuracy at step 372: 0.2638
-Accuracy at step 373: 0.2148
-Accuracy at step 374: 0.2449
-Accuracy at step 375: 0.2568
-Accuracy at step 376: 0.2372
-Accuracy at step 377: 0.2494
-Accuracy at step 378: 0.2513
-Accuracy at step 379: 0.2481
-Accuracy at step 380: 0.2555
-Accuracy at step 381: 0.1094
-Accuracy at step 382: 0.2443
-Accuracy at step 383: 0.2641
-Accuracy at step 384: 0.1744
-Accuracy at step 385: 0.27
-Accuracy at step 386: 0.2612
-Accuracy at step 387: 0.2521
-Accuracy at step 388: 0.2072
-Accuracy at step 389: 0.2365
-Accuracy at step 390: 0.2658
-Accuracy at step 391: 0.2262
-Accuracy at step 392: 0.2131
-Accuracy at step 393: 0.2671
-Accuracy at step 394: 0.2125
-Accuracy at step 395: 0.2398
-Accuracy at step 396: 0.191
-Accuracy at step 397: 0.2143
-Accuracy at step 398: 0.1398
-Accuracy at step 399: 0.2545
-Accuracy at step 400: 0.2669
-Accuracy at step 401: 0.1001
-Accuracy at step 402: 0.2534
-Accuracy at step 403: 0.2532
-Accuracy at step 404: 0.2591
-Accuracy at step 405: 0.1595
-Accuracy at step 406: 0.2513
-Accuracy at step 407: 0.2085
-Accuracy at step 408: 0.2439
-Accuracy at step 409: 0.2768
-Accuracy at step 410: 0.188
-Accuracy at step 411: 0.1782
-Accuracy at step 412: 0.2612
-Accuracy at step 413: 0.2527
-Accuracy at step 414: 0.1579
-Accuracy at step 415: 0.2176
-Accuracy at step 416: 0.2497
-Accuracy at step 417: 0.2701
-Accuracy at step 418: 0.2624
-Accuracy at step 419: 0.2519
-Accuracy at step 420: 0.1908
-Accuracy at step 421: 0.2501
-Accuracy at step 422: 0.2526
-Accuracy at step 423: 0.1804
-Accuracy at step 424: 0.1816
-Accuracy at step 425: 0.2728
-Accuracy at step 426: 0.1767
-Accuracy at step 427: 0.1394
-Accuracy at step 428: 0.2528
-Accuracy at step 429: 0.272
-Accuracy at step 430: 0.2036
-Accuracy at step 431: 0.1864
-Accuracy at step 432: 0.1944
-Accuracy at step 433: 0.2132
-Accuracy at step 434: 0.2646
-Accuracy at step 435: 0.2216
-Accuracy at step 436: 0.2026
-Accuracy at step 437: 0.2336
-Accuracy at step 438: 0.2472
-Accuracy at step 439: 0.2612
-Accuracy at step 440: 0.2079
-Accuracy at step 441: 0.2169
-Accuracy at step 442: 0.2475
-Accuracy at step 443: 0.1554
-Accuracy at step 444: 0.2652
-Accuracy at step 445: 0.251
-Accuracy at step 446: 0.2486
-Accuracy at step 447: 0.2427
-Accuracy at step 448: 0.1804
-Accuracy at step 449: 0.2614
-Accuracy at step 450: 0.2217
-Accuracy at step 451: 0.2171
-Accuracy at step 452: 0.2475
-Accuracy at step 453: 0.2538
-Accuracy at step 454: 0.2653
-Accuracy at step 455: 0.2504
-Accuracy at step 456: 0.1848
-Accuracy at step 457: 0.2151
-Accuracy at step 458: 0.2607
-Accuracy at step 459: 0.2687
-Accuracy at step 460: 0.246
-Accuracy at step 461: 0.2759
-Accuracy at step 462: 0.2733
-Accuracy at step 463: 0.2521
-Accuracy at step 464: 0.2226
-Accuracy at step 465: 0.2709
-Accuracy at step 466: 0.1541
-Accuracy at step 467: 0.2529
-Accuracy at step 468: 0.2586
-Accuracy at step 469: 0.273
-Accuracy at step 470: 0.2428
-Accuracy at step 471: 0.2525
-Accuracy at step 472: 0.2576
-Accuracy at step 473: 0.2641
-Accuracy at step 474: 0.262
-Accuracy at step 475: 0.2357
-Accuracy at step 476: 0.2696
-Accuracy at step 477: 0.2686
-Accuracy at step 478: 0.2416
-Accuracy at step 479: 0.2501
-Accuracy at step 480: 0.2621
-Accuracy at step 481: 0.254
-Accuracy at step 482: 0.2661
-Accuracy at step 483: 0.2704
-Accuracy at step 484: 0.2402
-Accuracy at step 485: 0.269
-Accuracy at step 486: 0.2483
-Accuracy at step 487: 0.1861
-Accuracy at step 488: 0.2632
-Accuracy at step 489: 0.2025
-Accuracy at step 490: 0.2571
-Accuracy at step 491: 0.2191
-Accuracy at step 492: 0.1854
-Accuracy at step 493: 0.2661
-Accuracy at step 494: 0.2566
-Accuracy at step 495: 0.2555
-Accuracy at step 496: 0.264
-Accuracy at step 497: 0.1771
-Accuracy at step 498: 0.2764
-Accuracy at step 499: 0.2554
-SVHN Acc:0.0915796,CIFAR10:0.2554
+Accuracy at step 0: 0.194068834186
+Accuracy at step 1: 0.196027964354
+Accuracy at step 2: 0.214466810226
+Accuracy at step 3: 0.195874303579
+Accuracy at step 4: 0.196104794741
+Accuracy at step 5: 0.196796253324
+Accuracy at step 6: 0.202635213733
+Accuracy at step 7: 0.217117398977
+Accuracy at step 8: 0.22399353981
+Accuracy at step 9: 0.196412101388
+Accuracy at step 10: 0.208013221622
+Accuracy at step 11: 0.197103559971
+Accuracy at step 12: 0.224147200584
+Accuracy at step 13: 0.206937611103
+Accuracy at step 14: 0.205862015486
+Accuracy at step 15: 0.206169337034
+Accuracy at step 16: 0.228756919503
+Accuracy at step 17: 0.23555624485
+Accuracy at step 18: 0.238667786121
+Accuracy at step 19: 0.248117700219
+Accuracy at step 20: 0.253687769175
+Accuracy at step 21: 0.248463436961
+Accuracy at step 22: 0.263099253178
+Accuracy at step 23: 0.252189606428
+Accuracy at step 24: 0.255877375603
+Accuracy at step 25: 0.273394286633
+Accuracy at step 26: 0.266326069832
+Accuracy at step 27: 0.272241860628
+Accuracy at step 28: 0.246657952666
+Accuracy at step 29: 0.280769824982
+Accuracy at step 30: 0.268362015486
+Accuracy at step 31: 0.277235716581
+Accuracy at step 32: 0.275199741125
+Accuracy at step 33: 0.29905501008
+Accuracy at step 34: 0.275929629803
+Accuracy at step 35: 0.314151823521
+Accuracy at step 36: 0.341925323009
+Accuracy at step 37: 0.313882917166
+Accuracy at step 38: 0.332091271877
+Accuracy at step 39: 0.312922567129
+Accuracy at step 40: 0.350683778524
+Accuracy at step 41: 0.379917025566
+Accuracy at step 42: 0.35990318656
+Accuracy at step 43: 0.365588515997
+Accuracy at step 44: 0.382721275091
+Accuracy at step 45: 0.370159804821
+Accuracy at step 46: 0.373271346092
+Accuracy at step 47: 0.385333448648
+Accuracy at step 48: 0.382221877575
+Accuracy at step 49: 0.362131237984
+Accuracy at step 50: 0.355831295252
+Accuracy at step 51: 0.375115245581
+Accuracy at step 52: 0.407191157341
+Accuracy at step 53: 0.374078065157
+Accuracy at step 54: 0.401851564646
+Accuracy at step 55: 0.408727705479
+Accuracy at step 56: 0.361939162016
+Accuracy at step 57: 0.42305624485
+Accuracy at step 58: 0.417140454054
+Accuracy at step 59: 0.436040252447
+Accuracy at step 60: 0.423286736012
+Accuracy at step 61: 0.429471433163
+Accuracy at step 62: 0.418638586998
+Accuracy at step 63: 0.446220040321
+Accuracy at step 64: 0.467078983784
+Accuracy at step 65: 0.418677002192
+Accuracy at step 66: 0.436770141125
+Accuracy at step 67: 0.427589118481
+Accuracy at step 68: 0.455785185099
+Accuracy at step 69: 0.448909044266
+Accuracy at step 70: 0.451329141855
+Accuracy at step 71: 0.46385216713
+Accuracy at step 72: 0.461355268955
+Accuracy at step 73: 0.45855101943
+Accuracy at step 74: 0.470421016216
+Accuracy at step 75: 0.476259976625
+Accuracy at step 76: 0.468000918627
+Accuracy at step 77: 0.431238472462
+Accuracy at step 78: 0.458589434624
+Accuracy at step 79: 0.473033189774
+Accuracy at step 80: 0.445067614317
+Accuracy at step 81: 0.478641659021
+Accuracy at step 82: 0.491548866034
+Accuracy at step 83: 0.43596342206
+Accuracy at step 84: 0.463583290577
+Accuracy at step 85: 0.500845134258
+Accuracy at step 86: 0.407613694668
+Accuracy at step 87: 0.406269192696
+Accuracy at step 88: 0.487861096859
+Accuracy at step 89: 0.467501550913
+Accuracy at step 90: 0.522741258144
+Accuracy at step 91: 0.476605713367
+Accuracy at step 92: 0.521204650402
+Accuracy at step 93: 0.49250921607
+Accuracy at step 94: 0.449446827173
+Accuracy at step 95: 0.521166265011
+Accuracy at step 96: 0.486209273338
+Accuracy at step 97: 0.520205914974
+Accuracy at step 98: 0.515058398247
+Accuracy at step 99: 0.470574676991
+Accuracy at step 100: 0.500153660774
+Accuracy at step 101: 0.490818977356
+Accuracy at step 102: 0.45094498992
+Accuracy at step 103: 0.485172092915
+Accuracy at step 104: 0.526390612125
+Accuracy at step 105: 0.536301493645
+Accuracy at step 106: 0.529771029949
+Accuracy at step 107: 0.518438816071
+Accuracy at step 108: 0.478295952082
+Accuracy at step 109: 0.530846655369
+Accuracy at step 110: 0.538721561432
+Accuracy at step 111: 0.525238156319
+Accuracy at step 112: 0.499193310738
+Accuracy at step 113: 0.521358311176
+Accuracy at step 114: 0.513291358948
+Accuracy at step 115: 0.536416709423
+Accuracy at step 116: 0.530039966106
+Accuracy at step 117: 0.531230807304
+Accuracy at step 118: 0.513790726662
+Accuracy at step 119: 0.50560849905
+Accuracy at step 120: 0.538683176041
+Accuracy at step 121: 0.548440396786
+Accuracy at step 122: 0.509834051132
+Accuracy at step 123: 0.551321446896
+Accuracy at step 124: 0.523317456245
+Accuracy at step 125: 0.484749525785
+Accuracy at step 126: 0.490204364061
+Accuracy at step 127: 0.492086648941
+Accuracy at step 128: 0.503687739372
+Accuracy at step 129: 0.513329744339
+Accuracy at step 130: 0.475030720234
+Accuracy at step 131: 0.473302096128
+Accuracy at step 132: 0.49658113718
+Accuracy at step 133: 0.478257536888
+Accuracy at step 134: 0.517440080643
+Accuracy at step 135: 0.519821763039
+Accuracy at step 136: 0.524738788605
+Accuracy at step 137: 0.505339562893
+Accuracy at step 138: 0.501114010811
+Accuracy at step 139: 0.512023687363
+Accuracy at step 140: 0.528810679913
+Accuracy at step 141: 0.524700343609
+Accuracy at step 142: 0.540988028049
+Accuracy at step 143: 0.51190841198
+Accuracy at step 144: 0.552742779255
+Accuracy at step 145: 0.524661958218
+Accuracy at step 146: 0.53503382206
+Accuracy at step 147: 0.550706803799
+Accuracy at step 148: 0.544061183929
+Accuracy at step 149: 0.526083290577
+Accuracy at step 150: 0.506146252155
+Accuracy at step 151: 0.535187482834
+Accuracy at step 152: 0.539758741856
+Accuracy at step 153: 0.55489397049
+Accuracy at step 154: 0.562768876553
+Accuracy at step 155: 0.554471433163
+Accuracy at step 156: 0.530270457268
+Accuracy at step 157: 0.548363566399
+Accuracy at step 158: 0.495543956757
+Accuracy at step 159: 0.562115848064
+Accuracy at step 160: 0.544829428196
+Accuracy at step 161: 0.558312833309
+Accuracy at step 162: 0.510986506939
+Accuracy at step 163: 0.533497214317
+Accuracy at step 164: 0.547211110592
+Accuracy at step 165: 0.543561756611
+Accuracy at step 166: 0.544598937035
+Accuracy at step 167: 0.568876743317
+Accuracy at step 168: 0.554970800877
+Accuracy at step 169: 0.543638586998
+Accuracy at step 170: 0.553587913513
+Accuracy at step 171: 0.551628768444
+Accuracy at step 172: 0.541948378086
+Accuracy at step 173: 0.559388458729
+Accuracy at step 174: 0.535763680935
+Accuracy at step 175: 0.567647516727
+Accuracy at step 176: 0.574446856976
+Accuracy at step 177: 0.555201292038
+Accuracy at step 178: 0.576521217823
+Accuracy at step 179: 0.567417025566
+Accuracy at step 180: 0.54298555851
+Accuracy at step 181: 0.575560867786
+Accuracy at step 182: 0.565957307816
+Accuracy at step 183: 0.584780275822
+Accuracy at step 184: 0.577366292477
+Accuracy at step 185: 0.570835888386
+Accuracy at step 186: 0.552166581154
+Accuracy at step 187: 0.578672409058
+Accuracy at step 188: 0.577097415924
+Accuracy at step 189: 0.549131810665
+Accuracy at step 190: 0.570413351059
+Accuracy at step 191: 0.576559603214
+Accuracy at step 192: 0.581515073776
+Accuracy at step 193: 0.562115848064
+Accuracy at step 194: 0.582705914974
+Accuracy at step 195: 0.591694831848
+Accuracy at step 196: 0.576329112053
+Accuracy at step 197: 0.579632759094
+Accuracy at step 198: 0.571796238422
+Accuracy at step 199: 0.570528566837
+Accuracy at step 200: 0.571796238422
+Accuracy at step 201: 0.569260895252
+Accuracy at step 202: 0.571834683418
+Accuracy at step 203: 0.57640594244
+Accuracy at step 204: 0.5689920187
+Accuracy at step 205: 0.580862045288
+Accuracy at step 206: 0.582321763039
+Accuracy at step 207: 0.563921332359
+Accuracy at step 208: 0.594345450401
+Accuracy at step 209: 0.571412086487
+Accuracy at step 210: 0.592693626881
+Accuracy at step 211: 0.592040538788
+Accuracy at step 212: 0.566725552082
+Accuracy at step 213: 0.573755383492
+Accuracy at step 214: 0.555201292038
+Accuracy at step 215: 0.58743083477
+Accuracy at step 216: 0.586047947407
+Accuracy at step 217: 0.572449266911
+Accuracy at step 218: 0.57064384222
+Accuracy at step 219: 0.541871547699
+Accuracy at step 220: 0.589658856392
+Accuracy at step 221: 0.570874333382
+Accuracy at step 222: 0.596381366253
+Accuracy at step 223: 0.581207752228
+Accuracy at step 224: 0.581399798393
+Accuracy at step 225: 0.600991070271
+Accuracy at step 226: 0.598878324032
+Accuracy at step 227: 0.586201608181
+Accuracy at step 228: 0.569107234478
+Accuracy at step 229: 0.579901635647
+Accuracy at step 230: 0.607214212418
+Accuracy at step 231: 0.584280908108
+Accuracy at step 232: 0.605869710445
+Accuracy at step 233: 0.594883203506
+Accuracy at step 234: 0.599646568298
+Accuracy at step 235: 0.590427160263
+Accuracy at step 236: 0.60241240263
+Accuracy at step 237: 0.589543640614
+Accuracy at step 238: 0.578019380569
+Accuracy at step 239: 0.54605871439
+Accuracy at step 240: 0.541833102703
+Accuracy at step 241: 0.608712375164
+Accuracy at step 242: 0.586585760117
+Accuracy at step 243: 0.41810080409
+Accuracy at step 244: 0.425898879766
+Accuracy at step 245: 0.44499078393
+Accuracy at step 246: 0.43089273572
+Accuracy at step 247: 0.39551320672
+Accuracy at step 248: 0.421558082104
+Accuracy at step 249: 0.413414269686
+Accuracy at step 250: 0.431507378817
+Accuracy at step 251: 0.459357708693
+Accuracy at step 252: 0.452865689993
+Accuracy at step 253: 0.404809474945
+Accuracy at step 254: 0.461316853762
+Accuracy at step 255: 0.427512288094
+Accuracy at step 256: 0.482790410519
+Accuracy at step 257: 0.420674562454
+Accuracy at step 258: 0.472725868225
+Accuracy at step 259: 0.465811312199
+Accuracy at step 260: 0.474569767714
+Accuracy at step 261: 0.456438243389
+Accuracy at step 262: 0.464620471001
+Accuracy at step 263: 0.463928997517
+Accuracy at step 264: 0.448217570782
+Accuracy at step 265: 0.485248923302
+Accuracy at step 266: 0.501382887363
+Accuracy at step 267: 0.474953889847
+Accuracy at step 268: 0.506261527538
+Accuracy at step 269: 0.528580188751
+Accuracy at step 270: 0.510794401169
+Accuracy at step 271: 0.46892285347
+Accuracy at step 272: 0.495505541563
+Accuracy at step 273: 0.527850329876
+Accuracy at step 274: 0.460586965084
+Accuracy at step 275: 0.537069737911
+Accuracy at step 276: 0.498348176479
+Accuracy at step 277: 0.512830376625
+Accuracy at step 278: 0.478987395763
+Accuracy at step 279: 0.5200522542
+Accuracy at step 280: 0.497387826443
+Accuracy at step 281: 0.487169623375
+Accuracy at step 282: 0.522433936596
+Accuracy at step 283: 0.529502153397
+Accuracy at step 284: 0.523509502411
+Accuracy at step 285: 0.529386937618
+Accuracy at step 286: 0.513944387436
+Accuracy at step 287: 0.527927160263
+Accuracy at step 288: 0.514597415924
+Accuracy at step 289: 0.526275336742
+Accuracy at step 290: 0.523778438568
+Accuracy at step 291: 0.528311312199
+Accuracy at step 292: 0.522625982761
+Accuracy at step 293: 0.561693310738
+Accuracy at step 294: 0.551321446896
+Accuracy at step 295: 0.536455154419
+Accuracy at step 296: 0.550169050694
+Accuracy at step 297: 0.537914872169
+Accuracy at step 298: 0.521358311176
+Accuracy at step 299: 0.550169050694
+Accuracy at step 300: 0.543177604675
+Accuracy at step 301: 0.561155498028
+Accuracy at step 302: 0.548440396786
+Accuracy at step 303: 0.569568216801
+Accuracy at step 304: 0.526697933674
+Accuracy at step 305: 0.556353747845
+Accuracy at step 306: 0.550053775311
+Accuracy at step 307: 0.556929945946
+Accuracy at step 308: 0.556468963623
+Accuracy at step 309: 0.530308842659
+Accuracy at step 310: 0.51444375515
+Accuracy at step 311: 0.502919495106
+Accuracy at step 312: 0.54751843214
+Accuracy at step 313: 0.542793512344
+Accuracy at step 314: 0.506453573704
+Accuracy at step 315: 0.489090353251
+Accuracy at step 316: 0.491971433163
+Accuracy at step 317: 0.513713896275
+Accuracy at step 318: 0.548824548721
+Accuracy at step 319: 0.555739104748
+Accuracy at step 320: 0.55182081461
+Accuracy at step 321: 0.541372179985
+Accuracy at step 322: 0.560579299927
+Accuracy at step 323: 0.543907523155
+Accuracy at step 324: 0.575522422791
+Accuracy at step 325: 0.508758425713
+Accuracy at step 326: 0.515865087509
+Accuracy at step 327: 0.557198822498
+Accuracy at step 328: 0.570912718773
+Accuracy at step 329: 0.568531036377
+Accuracy at step 330: 0.561193943024
+Accuracy at step 331: 0.532882630825
+Accuracy at step 332: 0.562077462673
+Accuracy at step 333: 0.536301493645
+Accuracy at step 334: 0.550130605698
+Accuracy at step 335: 0.536954522133
+Accuracy at step 336: 0.546289205551
+Accuracy at step 337: 0.552473902702
+Accuracy at step 338: 0.557467758656
+Accuracy at step 339: 0.566034138203
+Accuracy at step 340: 0.552704334259
+Accuracy at step 341: 0.489935457706
+Accuracy at step 342: 0.562768876553
+Accuracy at step 343: 0.56810849905
+Accuracy at step 344: 0.5424477458
+Accuracy at step 345: 0.563229858875
+Accuracy at step 346: 0.55996465683
+Accuracy at step 347: 0.56845420599
+Accuracy at step 348: 0.571681022644
+Accuracy at step 349: 0.580977261066
+Accuracy at step 350: 0.558043956757
+Accuracy at step 351: 0.591771662235
+Accuracy at step 352: 0.516210794449
+Accuracy at step 353: 0.528657019138
+Accuracy at step 354: 0.58201444149
+Accuracy at step 355: 0.524738788605
+Accuracy at step 356: 0.573448061943
+Accuracy at step 357: 0.554202497005
+Accuracy at step 358: 0.559004306793
+Accuracy at step 359: 0.537108182907
+Accuracy at step 360: 0.528464972973
+Accuracy at step 361: 0.57298707962
+Accuracy at step 362: 0.569145679474
+Accuracy at step 363: 0.556084811687
+Accuracy at step 364: 0.523932099342
+Accuracy at step 365: 0.563806056976
+Accuracy at step 366: 0.559695780277
+Accuracy at step 367: 0.576636433601
+Accuracy at step 368: 0.566610336304
+Accuracy at step 369: 0.575253546238
+Accuracy at step 370: 0.550783634186
+Accuracy at step 371: 0.582321763039
+Accuracy at step 372: 0.563345134258
+Accuracy at step 373: 0.58543330431
+Accuracy at step 374: 0.565073728561
+Accuracy at step 375: 0.571988344193
+Accuracy at step 376: 0.565957307816
+Accuracy at step 377: 0.561078667641
+Accuracy at step 378: 0.576905369759
+Accuracy at step 379: 0.594230175018
+Accuracy at step 380: 0.593807637691
+Accuracy at step 381: 0.564766466618
+Accuracy at step 382: 0.557698190212
+Accuracy at step 383: 0.589313149452
+Accuracy at step 384: 0.530500948429
+Accuracy at step 385: 0.590004622936
+Accuracy at step 386: 0.575829744339
+Accuracy at step 387: 0.58743083477
+Accuracy at step 388: 0.483212977648
+Accuracy at step 389: 0.554970800877
+Accuracy at step 390: 0.585779070854
+Accuracy at step 391: 0.558120787144
+Accuracy at step 392: 0.576252281666
+Accuracy at step 393: 0.546481251717
+Accuracy at step 394: 0.579786419868
+Accuracy at step 395: 0.586662590504
+Accuracy at step 396: 0.483289808035
+Accuracy at step 397: 0.527619838715
+Accuracy at step 398: 0.557621359825
+Accuracy at step 399: 0.515941917896
+Accuracy at step 400: 0.569529831409
+Accuracy at step 401: 0.583743095398
+Accuracy at step 402: 0.567493855953
+Accuracy at step 403: 0.583243727684
+Accuracy at step 404: 0.565265834332
+Accuracy at step 405: 0.561578035355
+Accuracy at step 406: 0.545943439007
+Accuracy at step 407: 0.536570370197
+Accuracy at step 408: 0.582629084587
+Accuracy at step 409: 0.590734481812
+Accuracy at step 410: 0.561654865742
+Accuracy at step 411: 0.570144414902
+Accuracy at step 412: 0.588621675968
+Accuracy at step 413: 0.556814670563
+Accuracy at step 414: 0.544022738934
+Accuracy at step 415: 0.57352489233
+Accuracy at step 416: 0.532075881958
+Accuracy at step 417: 0.587661325932
+Accuracy at step 418: 0.590465605259
+Accuracy at step 419: 0.58831435442
+Accuracy at step 420: 0.547249555588
+Accuracy at step 421: 0.543216049671
+Accuracy at step 422: 0.581246137619
+Accuracy at step 423: 0.573716938496
+Accuracy at step 424: 0.573371231556
+Accuracy at step 425: 0.568185329437
+Accuracy at step 426: 0.598378896713
+Accuracy at step 427: 0.593692362309
+Accuracy at step 428: 0.565880477428
+Accuracy at step 429: 0.590235114098
+Accuracy at step 430: 0.58236014843
+Accuracy at step 431: 0.607713580132
+Accuracy at step 432: 0.588698506355
+Accuracy at step 433: 0.583896756172
+Accuracy at step 434: 0.583474159241
+Accuracy at step 435: 0.570567011833
+Accuracy at step 436: 0.569376170635
+Accuracy at step 437: 0.581745564938
+Accuracy at step 438: 0.599147200584
+Accuracy at step 439: 0.565496325493
+Accuracy at step 440: 0.612476944923
+Accuracy at step 441: 0.587930262089
+Accuracy at step 442: 0.546442866325
+Accuracy at step 443: 0.586777806282
+Accuracy at step 444: 0.603910565376
+Accuracy at step 445: 0.578864455223
+Accuracy at step 446: 0.604025840759
+Accuracy at step 447: 0.559542119503
+Accuracy at step 448: 0.588813781738
+Accuracy at step 449: 0.593192994595
+Accuracy at step 450: 0.587507665157
+Accuracy at step 451: 0.578057765961
+Accuracy at step 452: 0.601067900658
+Accuracy at step 453: 0.59104180336
+Accuracy at step 454: 0.595421016216
+Accuracy at step 455: 0.595843553543
+Accuracy at step 456: 0.606830060482
+Accuracy at step 457: 0.618892133236
+Accuracy at step 458: 0.591810107231
+Accuracy at step 459: 0.581438243389
+Accuracy at step 460: 0.591886937618
+Accuracy at step 461: 0.586393654346
+Accuracy at step 462: 0.617240309715
+Accuracy at step 463: 0.604678869247
+Accuracy at step 464: 0.605562388897
+Accuracy at step 465: 0.568876743317
+Accuracy at step 466: 0.584665000439
+Accuracy at step 467: 0.576559603214
+Accuracy at step 468: 0.596189320087
+Accuracy at step 469: 0.591272294521
+Accuracy at step 470: 0.586624145508
+Accuracy at step 471: 0.609749555588
+Accuracy at step 472: 0.599416077137
+Accuracy at step 473: 0.600914239883
+Accuracy at step 474: 0.58562541008
+Accuracy at step 475: 0.601567327976
+Accuracy at step 476: 0.617086648941
+Accuracy at step 477: 0.611286103725
+Accuracy at step 478: 0.584665000439
+Accuracy at step 479: 0.589313149452
+Accuracy at step 480: 0.585356473923
+Accuracy at step 481: 0.603065431118
+Accuracy at step 482: 0.603027045727
+Accuracy at step 483: 0.571104764938
+Accuracy at step 484: 0.599300861359
+Accuracy at step 485: 0.614858627319
+Accuracy at step 486: 0.59665030241
+Accuracy at step 487: 0.617970168591
+Accuracy at step 488: 0.596496641636
+Accuracy at step 489: 0.608789205551
+Accuracy at step 490: 0.607790410519
+Accuracy at step 491: 0.599262475967
+Accuracy at step 492: 0.609519064426
+Accuracy at step 493: 0.607867240906
+Accuracy at step 494: 0.607598364353
+Accuracy at step 495: 0.575330376625
+Accuracy at step 496: 0.615357995033
+Accuracy at step 497: 0.609096467495
+Accuracy at step 498: 0.599953889847
+Accuracy at step 499: 0.600837409496
+Training Accuracy at step 0: 0.122199997306
+Training Accuracy at step 1: 0.178399994969
+Training Accuracy at step 2: 0.187099993229
+Training Accuracy at step 3: 0.217600002885
+Training Accuracy at step 4: 0.214599996805
+Training Accuracy at step 5: 0.226799994707
+Training Accuracy at step 6: 0.214300006628
+Training Accuracy at step 7: 0.256399989128
+Training Accuracy at step 8: 0.254400014877
+Training Accuracy at step 9: 0.233300000429
+Training Accuracy at step 10: 0.257400006056
+Training Accuracy at step 11: 0.249599993229
+Training Accuracy at step 12: 0.264899998903
+Training Accuracy at step 13: 0.272399991751
+Training Accuracy at step 14: 0.272300004959
+Training Accuracy at step 15: 0.265799999237
+Training Accuracy at step 16: 0.269800007343
+Training Accuracy at step 17: 0.262499988079
+Training Accuracy at step 18: 0.281100004911
+Training Accuracy at step 19: 0.266600012779
+Training Accuracy at step 20: 0.279799997807
+Training Accuracy at step 21: 0.282099992037
+Training Accuracy at step 22: 0.271600008011
+Training Accuracy at step 23: 0.296400010586
+Training Accuracy at step 24: 0.300900012255
+Training Accuracy at step 25: 0.300000011921
+Training Accuracy at step 26: 0.286199986935
+Training Accuracy at step 27: 0.291700005531
+Training Accuracy at step 28: 0.291599988937
+Training Accuracy at step 29: 0.308200001717
+Training Accuracy at step 30: 0.306100010872
+Training Accuracy at step 31: 0.317799985409
+Training Accuracy at step 32: 0.304699987173
+Training Accuracy at step 33: 0.308800011873
+Training Accuracy at step 34: 0.322299987078
+Training Accuracy at step 35: 0.314500004053
+Training Accuracy at step 36: 0.330500006676
+Training Accuracy at step 37: 0.326400011778
+Training Accuracy at step 38: 0.32049998641
+Training Accuracy at step 39: 0.313499987125
+Training Accuracy at step 40: 0.323199987411
+Training Accuracy at step 41: 0.33520001173
+Training Accuracy at step 42: 0.340400010347
+Training Accuracy at step 43: 0.325100004673
+Training Accuracy at step 44: 0.336100012064
+Training Accuracy at step 45: 0.337599992752
+Training Accuracy at step 46: 0.337199985981
+Training Accuracy at step 47: 0.328900009394
+Training Accuracy at step 48: 0.341500014067
+Training Accuracy at step 49: 0.342500001192
+Training Accuracy at step 50: 0.343899995089
+Training Accuracy at step 51: 0.352200001478
+Training Accuracy at step 52: 0.348199993372
+Training Accuracy at step 53: 0.349500000477
+Training Accuracy at step 54: 0.34580001235
+Training Accuracy at step 55: 0.349099993706
+Training Accuracy at step 56: 0.321200013161
+Training Accuracy at step 57: 0.282700002193
+Training Accuracy at step 58: 0.291099995375
+Training Accuracy at step 59: 0.279399991035
+Training Accuracy at step 60: 0.300199985504
+Training Accuracy at step 61: 0.295599997044
+Training Accuracy at step 62: 0.297699987888
+Training Accuracy at step 63: 0.282400012016
+Training Accuracy at step 64: 0.293700009584
+Training Accuracy at step 65: 0.294999986887
+Training Accuracy at step 66: 0.31020000577
+Training Accuracy at step 67: 0.311699986458
+Training Accuracy at step 68: 0.30419999361
+Training Accuracy at step 69: 0.323900014162
+Training Accuracy at step 70: 0.318899989128
+Training Accuracy at step 71: 0.302300006151
+Training Accuracy at step 72: 0.322100013494
+Training Accuracy at step 73: 0.313800007105
+Training Accuracy at step 74: 0.328900009394
+Training Accuracy at step 75: 0.335399985313
+Training Accuracy at step 76: 0.33520001173
+Training Accuracy at step 77: 0.335099995136
+Training Accuracy at step 78: 0.34169998765
+Training Accuracy at step 79: 0.32800000906
+Training Accuracy at step 80: 0.334899991751
+Training Accuracy at step 81: 0.342700004578
+Training Accuracy at step 82: 0.326700001955
+Training Accuracy at step 83: 0.332500010729
+Training Accuracy at step 84: 0.322899997234
+Training Accuracy at step 85: 0.340000003576
+Training Accuracy at step 86: 0.335900008678
+Training Accuracy at step 87: 0.341500014067
+Training Accuracy at step 88: 0.351200014353
+Training Accuracy at step 89: 0.343300014734
+Training Accuracy at step 90: 0.347999989986
+Training Accuracy at step 91: 0.348800003529
+Training Accuracy at step 92: 0.351000010967
+Training Accuracy at step 93: 0.347200006247
+Training Accuracy at step 94: 0.349000006914
+Training Accuracy at step 95: 0.350400000811
+Training Accuracy at step 96: 0.342700004578
+Training Accuracy at step 97: 0.341100007296
+Training Accuracy at step 98: 0.353300005198
+Training Accuracy at step 99: 0.357800006866
+Training Accuracy at step 100: 0.36289998889
+Training Accuracy at step 101: 0.36179998517
+Training Accuracy at step 102: 0.357100009918
+Training Accuracy at step 103: 0.359600007534
+Training Accuracy at step 104: 0.354000002146
+Training Accuracy at step 105: 0.35980001092
+Training Accuracy at step 106: 0.362199991941
+Training Accuracy at step 107: 0.360199987888
+Training Accuracy at step 108: 0.357300013304
+Training Accuracy at step 109: 0.361600011587
+Training Accuracy at step 110: 0.358599990606
+Training Accuracy at step 111: 0.350300014019
+Training Accuracy at step 112: 0.360500007868
+Training Accuracy at step 113: 0.365399986506
+Training Accuracy at step 114: 0.369899988174
+Training Accuracy at step 115: 0.367700010538
+Training Accuracy at step 116: 0.353700011969
+Training Accuracy at step 117: 0.369700014591
+Training Accuracy at step 118: 0.357899993658
+Training Accuracy at step 119: 0.357899993658
+Training Accuracy at step 120: 0.375800013542
+Training Accuracy at step 121: 0.375499993563
+Training Accuracy at step 122: 0.371300011873
+Training Accuracy at step 123: 0.379700005054
+Training Accuracy at step 124: 0.371899992228
+Training Accuracy at step 125: 0.369700014591
+Training Accuracy at step 126: 0.373600006104
+Training Accuracy at step 127: 0.37349998951
+Training Accuracy at step 128: 0.363099992275
+Training Accuracy at step 129: 0.371699988842
+Training Accuracy at step 130: 0.382899999619
+Training Accuracy at step 131: 0.375
+Training Accuracy at step 132: 0.368699997663
+Training Accuracy at step 133: 0.374900013208
+Training Accuracy at step 134: 0.370999991894
+Training Accuracy at step 135: 0.369199991226
+Training Accuracy at step 136: 0.384400010109
+Training Accuracy at step 137: 0.377799987793
+Training Accuracy at step 138: 0.371199995279
+Training Accuracy at step 139: 0.388099998236
+Training Accuracy at step 140: 0.36669999361
+Training Accuracy at step 141: 0.378500014544
+Training Accuracy at step 142: 0.374199986458
+Training Accuracy at step 143: 0.384499996901
+Training Accuracy at step 144: 0.381000012159
+Training Accuracy at step 145: 0.379799991846
+Training Accuracy at step 146: 0.38330000639
+Training Accuracy at step 147: 0.390799999237
+Training Accuracy at step 148: 0.385399997234
+Training Accuracy at step 149: 0.371300011873
+Training Accuracy at step 150: 0.381700009108
+Training Accuracy at step 151: 0.391699999571
+Training Accuracy at step 152: 0.379700005054
+Training Accuracy at step 153: 0.390300005674
+Training Accuracy at step 154: 0.377900004387
+Training Accuracy at step 155: 0.371300011873
+Training Accuracy at step 156: 0.384000003338
+Training Accuracy at step 157: 0.377900004387
+Training Accuracy at step 158: 0.382299989462
+Training Accuracy at step 159: 0.367700010538
+Training Accuracy at step 160: 0.384999990463
+Training Accuracy at step 161: 0.383899986744
+Training Accuracy at step 162: 0.384000003338
+Training Accuracy at step 163: 0.391799986362
+Training Accuracy at step 164: 0.377900004387
+Training Accuracy at step 165: 0.37650001049
+Training Accuracy at step 166: 0.384299993515
+Training Accuracy at step 167: 0.386400014162
+Training Accuracy at step 168: 0.374099999666
+Training Accuracy at step 169: 0.375
+Training Accuracy at step 170: 0.381999999285
+Training Accuracy at step 171: 0.369199991226
+Training Accuracy at step 172: 0.365799993277
+Training Accuracy at step 173: 0.379400014877
+Training Accuracy at step 174: 0.385699987411
+Training Accuracy at step 175: 0.379999995232
+Training Accuracy at step 176: 0.380899995565
+Training Accuracy at step 177: 0.395000010729
+Training Accuracy at step 178: 0.360599994659
+Training Accuracy at step 179: 0.360700011253
+Training Accuracy at step 180: 0.362300008535
+Training Accuracy at step 181: 0.37160000205
+Training Accuracy at step 182: 0.365200012922
+Training Accuracy at step 183: 0.344599992037
+Training Accuracy at step 184: 0.368200004101
+Training Accuracy at step 185: 0.36700001359
+Training Accuracy at step 186: 0.352499991655
+Training Accuracy at step 187: 0.340099990368
+Training Accuracy at step 188: 0.360799998045
+Training Accuracy at step 189: 0.375499993563
+Training Accuracy at step 190: 0.370200008154
+Training Accuracy at step 191: 0.378800004721
+Training Accuracy at step 192: 0.342200011015
+Training Accuracy at step 193: 0.298599988222
+Training Accuracy at step 194: 0.301200002432
+Training Accuracy at step 195: 0.292600005865
+Training Accuracy at step 196: 0.308400005102
+Training Accuracy at step 197: 0.282799988985
+Training Accuracy at step 198: 0.317600011826
+Training Accuracy at step 199: 0.296099990606
+Training Accuracy at step 200: 0.310799986124
+Training Accuracy at step 201: 0.312299996614
+Training Accuracy at step 202: 0.326799988747
+Training Accuracy at step 203: 0.327100008726
+Training Accuracy at step 204: 0.329199999571
+Training Accuracy at step 205: 0.32539999485
+Training Accuracy at step 206: 0.322299987078
+Training Accuracy at step 207: 0.33030000329
+Training Accuracy at step 208: 0.327300012112
+Training Accuracy at step 209: 0.333299994469
+Training Accuracy at step 210: 0.336899995804
+Training Accuracy at step 211: 0.321700006723
+Training Accuracy at step 212: 0.331900000572
+Training Accuracy at step 213: 0.333099991083
+Training Accuracy at step 214: 0.332700014114
+Training Accuracy at step 215: 0.340499997139
+Training Accuracy at step 216: 0.34319999814
+Training Accuracy at step 217: 0.334300011396
+Training Accuracy at step 218: 0.33750000596
+Training Accuracy at step 219: 0.338899999857
+Training Accuracy at step 220: 0.338999986649
+Training Accuracy at step 221: 0.330599993467
+Training Accuracy at step 222: 0.347299993038
+Training Accuracy at step 223: 0.349500000477
+Training Accuracy at step 224: 0.352200001478
+Training Accuracy at step 225: 0.350499987602
+Training Accuracy at step 226: 0.353599995375
+Training Accuracy at step 227: 0.347200006247
+Training Accuracy at step 228: 0.363900005817
+Training Accuracy at step 229: 0.361299991608
+Training Accuracy at step 230: 0.35490000248
+Training Accuracy at step 231: 0.341500014067
+Training Accuracy at step 232: 0.351700007915
+Training Accuracy at step 233: 0.249699994922
+Training Accuracy at step 234: 0.2662999928
+Training Accuracy at step 235: 0.271400004625
+Training Accuracy at step 236: 0.297800004482
+Training Accuracy at step 237: 0.269699990749
+Training Accuracy at step 238: 0.299699991941
+Training Accuracy at step 239: 0.317200005054
+Training Accuracy at step 240: 0.297500014305
+Training Accuracy at step 241: 0.313600003719
+Training Accuracy at step 242: 0.318800002337
+Training Accuracy at step 243: 0.297500014305
+Training Accuracy at step 244: 0.318100005388
+Training Accuracy at step 245: 0.29929998517
+Training Accuracy at step 246: 0.321700006723
+Training Accuracy at step 247: 0.311399996281
+Training Accuracy at step 248: 0.278699994087
+Training Accuracy at step 249: 0.327800005674
+Training Accuracy at step 250: 0.331999987364
+Training Accuracy at step 251: 0.330399990082
+Training Accuracy at step 252: 0.33140000701
+Training Accuracy at step 253: 0.325800001621
+Training Accuracy at step 254: 0.348399996758
+Training Accuracy at step 255: 0.348800003529
+Training Accuracy at step 256: 0.335500001907
+Training Accuracy at step 257: 0.336600005627
+Training Accuracy at step 258: 0.354299992323
+Training Accuracy at step 259: 0.336600005627
+Training Accuracy at step 260: 0.342299997807
+Training Accuracy at step 261: 0.350600004196
+Training Accuracy at step 262: 0.32800000906
+Training Accuracy at step 263: 0.356999993324
+Training Accuracy at step 264: 0.342500001192
+Training Accuracy at step 265: 0.339800000191
+Training Accuracy at step 266: 0.355599999428
+Training Accuracy at step 267: 0.360900014639
+Training Accuracy at step 268: 0.350300014019
+Training Accuracy at step 269: 0.33750000596
+Training Accuracy at step 270: 0.329100012779
+Training Accuracy at step 271: 0.334600001574
+Training Accuracy at step 272: 0.34889999032
+Training Accuracy at step 273: 0.359899997711
+Training Accuracy at step 274: 0.366600006819
+Training Accuracy at step 275: 0.367399990559
+Training Accuracy at step 276: 0.345999985933
+Training Accuracy at step 277: 0.369399994612
+Training Accuracy at step 278: 0.373899996281
+Training Accuracy at step 279: 0.37009999156
+Training Accuracy at step 280: 0.357600003481
+Training Accuracy at step 281: 0.38069999218
+Training Accuracy at step 282: 0.358099997044
+Training Accuracy at step 283: 0.366800010204
+Training Accuracy at step 284: 0.374700009823
+Training Accuracy at step 285: 0.345200002193
+Training Accuracy at step 286: 0.364199995995
+Training Accuracy at step 287: 0.372500002384
+Training Accuracy at step 288: 0.383199989796
+Training Accuracy at step 289: 0.385399997234
+Training Accuracy at step 290: 0.382899999619
+Training Accuracy at step 291: 0.380199998617
+Training Accuracy at step 292: 0.381799995899
+Training Accuracy at step 293: 0.368999987841
+Training Accuracy at step 294: 0.377900004387
+Training Accuracy at step 295: 0.372900009155
+Training Accuracy at step 296: 0.377499997616
+Training Accuracy at step 297: 0.377099990845
+Training Accuracy at step 298: 0.391200006008
+Training Accuracy at step 299: 0.378199994564
+Training Accuracy at step 300: 0.357400000095
+Training Accuracy at step 301: 0.39849999547
+Training Accuracy at step 302: 0.389400005341
+Training Accuracy at step 303: 0.393200010061
+Training Accuracy at step 304: 0.381700009108
+Training Accuracy at step 305: 0.395200014114
+Training Accuracy at step 306: 0.394699990749
+Training Accuracy at step 307: 0.402999997139
+Training Accuracy at step 308: 0.390700012445
+Training Accuracy at step 309: 0.394199997187
+Training Accuracy at step 310: 0.402399986982
+Training Accuracy at step 311: 0.378100007772
+Training Accuracy at step 312: 0.398400008678
+Training Accuracy at step 313: 0.379700005054
+Training Accuracy at step 314: 0.387400001287
+Training Accuracy at step 315: 0.37760001421
+Training Accuracy at step 316: 0.386000007391
+Training Accuracy at step 317: 0.396100014448
+Training Accuracy at step 318: 0.392500013113
+Training Accuracy at step 319: 0.389400005341
+Training Accuracy at step 320: 0.398999989033
+Training Accuracy at step 321: 0.402200013399
+Training Accuracy at step 322: 0.37990000844
+Training Accuracy at step 323: 0.389999985695
+Training Accuracy at step 324: 0.397399991751
+Training Accuracy at step 325: 0.388599991798
+Training Accuracy at step 326: 0.390899986029
+Training Accuracy at step 327: 0.394300013781
+Training Accuracy at step 328: 0.395700007677
+Training Accuracy at step 329: 0.405000001192
+Training Accuracy at step 330: 0.406699985266
+Training Accuracy at step 331: 0.397000014782
+Training Accuracy at step 332: 0.403200000525
+Training Accuracy at step 333: 0.398400008678
+Training Accuracy at step 334: 0.388399988413
+Training Accuracy at step 335: 0.406100004911
+Training Accuracy at step 336: 0.397500008345
+Training Accuracy at step 337: 0.406399995089
+Training Accuracy at step 338: 0.395200014114
+Training Accuracy at step 339: 0.415399998426
+Training Accuracy at step 340: 0.412299990654
+Training Accuracy at step 341: 0.404399991035
+Training Accuracy at step 342: 0.417100012302
+Training Accuracy at step 343: 0.407299995422
+Training Accuracy at step 344: 0.403600007296
+Training Accuracy at step 345: 0.406599998474
+Training Accuracy at step 346: 0.407900005579
+Training Accuracy at step 347: 0.40110000968
+Training Accuracy at step 348: 0.399100005627
+Training Accuracy at step 349: 0.41969999671
+Training Accuracy at step 350: 0.410899996758
+Training Accuracy at step 351: 0.408100008965
+Training Accuracy at step 352: 0.404399991035
+Training Accuracy at step 353: 0.413199990988
+Training Accuracy at step 354: 0.409200012684
+Training Accuracy at step 355: 0.404799997807
+Training Accuracy at step 356: 0.408499985933
+Training Accuracy at step 357: 0.423299998045
+Training Accuracy at step 358: 0.412299990654
+Training Accuracy at step 359: 0.407999992371
+Training Accuracy at step 360: 0.385300010443
+Training Accuracy at step 361: 0.419600009918
+Training Accuracy at step 362: 0.398299992085
+Training Accuracy at step 363: 0.404799997807
+Training Accuracy at step 364: 0.423700004816
+Training Accuracy at step 365: 0.417899996042
+Training Accuracy at step 366: 0.412900000811
+Training Accuracy at step 367: 0.419900000095
+Training Accuracy at step 368: 0.411900013685
+Training Accuracy at step 369: 0.395700007677
+Training Accuracy at step 370: 0.414900004864
+Training Accuracy at step 371: 0.412999987602
+Training Accuracy at step 372: 0.388300001621
+Training Accuracy at step 373: 0.416599988937
+Training Accuracy at step 374: 0.384900003672
+Training Accuracy at step 375: 0.415399998426
+Training Accuracy at step 376: 0.403699994087
+Training Accuracy at step 377: 0.387699991465
+Training Accuracy at step 378: 0.383399993181
+Training Accuracy at step 379: 0.386700004339
+Training Accuracy at step 380: 0.383199989796
+Training Accuracy at step 381: 0.374399989843
+Training Accuracy at step 382: 0.374500006437
+Training Accuracy at step 383: 0.384299993515
+Training Accuracy at step 384: 0.393500000238
+Training Accuracy at step 385: 0.381399989128
+Training Accuracy at step 386: 0.394199997187
+Training Accuracy at step 387: 0.388599991798
+Training Accuracy at step 388: 0.384900003672
+Training Accuracy at step 389: 0.390799999237
+Training Accuracy at step 390: 0.384200006723
+Training Accuracy at step 391: 0.387800008059
+Training Accuracy at step 392: 0.399800002575
+Training Accuracy at step 393: 0.399399995804
+Training Accuracy at step 394: 0.386400014162
+Training Accuracy at step 395: 0.393799990416
+Training Accuracy at step 396: 0.394699990749
+Training Accuracy at step 397: 0.392599999905
+Training Accuracy at step 398: 0.402599990368
+Training Accuracy at step 399: 0.396400004625
+Training Accuracy at step 400: 0.378699988127
+Training Accuracy at step 401: 0.393299996853
+Training Accuracy at step 402: 0.40189999342
+Training Accuracy at step 403: 0.403200000525
+Training Accuracy at step 404: 0.395999997854
+Training Accuracy at step 405: 0.403299987316
+Training Accuracy at step 406: 0.389099985361
+Training Accuracy at step 407: 0.399399995804
+Training Accuracy at step 408: 0.393700003624
+Training Accuracy at step 409: 0.401800006628
+Training Accuracy at step 410: 0.396499991417
+Training Accuracy at step 411: 0.393299996853
+Training Accuracy at step 412: 0.396699994802
+Training Accuracy at step 413: 0.395000010729
+Training Accuracy at step 414: 0.40110000968
+Training Accuracy at step 415: 0.39509999752
+Training Accuracy at step 416: 0.389899998903
+Training Accuracy at step 417: 0.405000001192
+Training Accuracy at step 418: 0.409299999475
+Training Accuracy at step 419: 0.401300013065
+Training Accuracy at step 420: 0.401699990034
+Training Accuracy at step 421: 0.402999997139
+Training Accuracy at step 422: 0.396699994802
+Training Accuracy at step 423: 0.375
+Training Accuracy at step 424: 0.396600008011
+Training Accuracy at step 425: 0.397899985313
+Training Accuracy at step 426: 0.319799989462
+Training Accuracy at step 427: 0.311500012875
+Training Accuracy at step 428: 0.333000004292
+Training Accuracy at step 429: 0.341100007296
+Training Accuracy at step 430: 0.345699995756
+Training Accuracy at step 431: 0.348399996758
+Training Accuracy at step 432: 0.349299997091
+Training Accuracy at step 433: 0.352800011635
+Training Accuracy at step 434: 0.356999993324
+Training Accuracy at step 435: 0.288399994373
+Training Accuracy at step 436: 0.296000003815
+Training Accuracy at step 437: 0.289299994707
+Training Accuracy at step 438: 0.295500010252
+Training Accuracy at step 439: 0.293500006199
+Training Accuracy at step 440: 0.326900005341
+Training Accuracy at step 441: 0.322600007057
+Training Accuracy at step 442: 0.326799988747
+Training Accuracy at step 443: 0.326099991798
+Training Accuracy at step 444: 0.334699988365
+Training Accuracy at step 445: 0.349500000477
+Training Accuracy at step 446: 0.336899995804
+Training Accuracy at step 447: 0.336400002241
+Training Accuracy at step 448: 0.342599987984
+Training Accuracy at step 449: 0.34889999032
+Training Accuracy at step 450: 0.350300014019
+Training Accuracy at step 451: 0.3587000072
+Training Accuracy at step 452: 0.356200009584
+Training Accuracy at step 453: 0.333799988031
+Training Accuracy at step 454: 0.358799993992
+Training Accuracy at step 455: 0.348699986935
+Training Accuracy at step 456: 0.362500011921
+Training Accuracy at step 457: 0.341800004244
+Training Accuracy at step 458: 0.363999992609
+Training Accuracy at step 459: 0.363299995661
+Training Accuracy at step 460: 0.365299999714
+Training Accuracy at step 461: 0.340700000525
+Training Accuracy at step 462: 0.364600002766
+Training Accuracy at step 463: 0.33939999342
+Training Accuracy at step 464: 0.363200008869
+Training Accuracy at step 465: 0.37160000205
+Training Accuracy at step 466: 0.367199987173
+Training Accuracy at step 467: 0.3382999897
+Training Accuracy at step 468: 0.372200012207
+Training Accuracy at step 469: 0.357300013304
+Training Accuracy at step 470: 0.372500002384
+Training Accuracy at step 471: 0.373400002718
+Training Accuracy at step 472: 0.349400013685
+Training Accuracy at step 473: 0.375200003386
+Training Accuracy at step 474: 0.381199985743
+Training Accuracy at step 475: 0.368299990892
+Training Accuracy at step 476: 0.376100003719
+Training Accuracy at step 477: 0.375600010157
+Training Accuracy at step 478: 0.383599996567
+Training Accuracy at step 479: 0.359299987555
+Training Accuracy at step 480: 0.378600001335
+Training Accuracy at step 481: 0.360199987888
+Training Accuracy at step 482: 0.37349998951
+Training Accuracy at step 483: 0.379799991846
+Training Accuracy at step 484: 0.352800011635
+Training Accuracy at step 485: 0.371199995279
+Training Accuracy at step 486: 0.389400005341
+Training Accuracy at step 487: 0.368299990892
+Training Accuracy at step 488: 0.384299993515
+Training Accuracy at step 489: 0.386700004339
+Training Accuracy at step 490: 0.390899986029
+Training Accuracy at step 491: 0.392699986696
+Training Accuracy at step 492: 0.386099994183
+Training Accuracy at step 493: 0.363499999046
+Training Accuracy at step 494: 0.370599985123
+Training Accuracy at step 495: 0.386500000954
+Training Accuracy at step 496: 0.379200011492
+Training Accuracy at step 497: 0.388700008392
+Training Accuracy at step 498: 0.385199993849
+Training Accuracy at step 499: 0.375
+SVHN Acc:0.618892133236,CIFAR Acc:0.423700004816,Overlap:4

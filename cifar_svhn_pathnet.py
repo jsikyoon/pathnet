@@ -62,7 +62,6 @@ def train():
     tr_data_svhn[i]=np.reshape(train['X'][:,:,:,i],[1,32*32*3]);
     tr_label_svhn[i,train['y'][i][0]-1]=1.0;
   tr_data_svhn=tr_data_svhn/255.0;  
-  tr_label_svhn=np.zeros((len(train['y']),10),dtype=float);
   
   file_name=os.path.join(FLAGS.svhn_data_dir,"test_32x32.mat");
   test=sio.loadmat(file_name);
@@ -116,7 +115,7 @@ def train():
     y_ = tf.placeholder(tf.float32, [None, 10], name='y-input')
 
   with tf.name_scope('input_reshape'):
-    image_shaped_input = tf.reshape(x, [-1, 32, 32, 1])
+    image_shaped_input = tf.reshape(x, [-1, 32, 32, 3])
     tf.summary.image('input', image_shaped_input, 10)
 
   # geopath_examples
@@ -146,7 +145,7 @@ def train():
       if(i==0):
         layer_modules_list[j]=pathnet.module(x, weights_list[i,j], biases_list[i,j], 'layer'+str(i+1)+"_"+str(j+1))*geopath[i,j];
       else:
-        layer_modules_list[j]=pathnet.module2(j,net, weights_list[i,j], biases_list[i,j], 'layer'+str(i+1)+"_"+str(j+1))*geopath[i,j];
+        layer_modules_list[j]=pathnet.module(net, weights_list[i,j], biases_list[i,j], 'layer'+str(i+1)+"_"+str(j+1))*geopath[i,j];
     net=np.sum(layer_modules_list);
   
   # Output Layer
@@ -208,6 +207,7 @@ def train():
      
   acc_geo=np.zeros(FLAGS.B,dtype=float); 
   summary_geo=np.zeros(FLAGS.B,dtype=object); 
+  acc_task1=-1.0;    
   for i in range(FLAGS.max_steps):
     # Select Candidates to Tournament
     compet_idx=range(FLAGS.candi);
@@ -221,12 +221,9 @@ def train():
       tr_data1=tr_data1[idx];tr_label1=tr_label1[idx];
       # Insert Candidate
       pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[j],FLAGS.L,FLAGS.M);
-      acc_geo_tr=0;
       for k in range(FLAGS.T):
-        summary_geo_tr, _, acc_geo_tmp = sess.run([merged, train_step,accuracy], feed_dict={x:tr_data1[k*FLAGS.batch_num:(k+1)*FLAGS.batch_num,:],y_:tr_label1[k*FLAGS.batch_num:(k+1)*FLAGS.batch_num,:]});
-        acc_geo_tr+=acc_geo_tmp;
-      acc_geo[j]=acc_geo_tr/FLAGS.T;
-      summary_geo[j]=summary_geo_tr;
+        summary_tr,_=sess.run([merged,train_step], feed_dict={x:tr_data1[k*FLAGS.batch_num:(k+1)*FLAGS.batch_num,:],y_:tr_label1[k*FLAGS.batch_num:(k+1)*FLAGS.batch_num,:]});
+      summary_geo[j],acc_geo[j] = sess.run([merged,accuracy], feed_dict={x:ts_data1,y_:ts_label1});
     # Tournament
     winner_idx=np.argmax(acc_geo);
     acc=acc_geo[winner_idx];
@@ -237,17 +234,19 @@ def train():
         geopath_set[compet_idx[j]]=np.copy(geopath_set[compet_idx[winner_idx]]);
         geopath_set[compet_idx[j]]=pathnet.mutation(geopath_set[compet_idx[j]],FLAGS.L,FLAGS.M,FLAGS.N);
     train_writer.add_summary(summary, i);
-    print('Training Accuracy at step %s: %s' % (i, acc));
+    print('Accuracy at step %s: %s' % (i, acc));
+    if(acc_task1<acc):
+      acc_task1=acc;
+      task1_optimal_path=geopath_set[compet_idx[winner_idx]];      
+    """
     geopath_sum=np.zeros((len(geopath),len(geopath[0])),dtype=float);
     for j in range(len(geopath_set)):
       for k in range(len(geopath)):
         for l in range(len(geopath[0])):
           geopath_sum[k][l]+=geopath_set[j][k][l];
     print(geopath_sum);
-        
-  task1_optimal_path=geopath_set[compet_idx[winner_idx]];      
-  acc_task1=acc;    
-  
+    """
+ 
   # Fix task1 Optimal Path
   for i in range(FLAGS.L):
     for j in range(FLAGS.M):
@@ -269,7 +268,7 @@ def train():
   for i in range(len(var_list_to_fix)):
     var_fix_placeholders[i]=tf.placeholder(var_list_to_fix[i].dtype,shape=var_list_to_fix[i].get_shape());
     var_fix_ops[i]=var_list_to_fix[i].assign(var_fix_placeholders[i]);
- 
+
   ## TASK 2
   # Need to learn variables
   var_list_to_learn=[]+output_weights+output_biases;
@@ -312,6 +311,7 @@ def train():
   
   acc_geo=np.zeros(FLAGS.B,dtype=float); 
   summary_geo=np.zeros(FLAGS.B,dtype=object); 
+  acc_task2=-1.0;
   for i in range(FLAGS.max_steps):
     # Select Candidates to Tournament
     compet_idx=range(FLAGS.candi);
@@ -327,10 +327,8 @@ def train():
       pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[j],FLAGS.L,FLAGS.M);
       acc_geo_tr=0;
       for k in range(FLAGS.T):
-        summary_geo_tr, _, acc_geo_tmp = sess.run([merged, train_step,accuracy], feed_dict={x:tr_data2[k*FLAGS.batch_num:(k+1)*FLAGS.batch_num,:],y_:tr_label2[k*FLAGS.batch_num:(k+1)*FLAGS.batch_num,:]});
-        acc_geo_tr+=acc_geo_tmp;
-      acc_geo[j]=acc_geo_tr/FLAGS.T;
-      summary_geo[j]=summary_geo_tr;
+        summary_tr,_=sess.run([merged,train_step], feed_dict={x:tr_data2[k*FLAGS.batch_num:(k+1)*FLAGS.batch_num,:],y_:tr_label2[k*FLAGS.batch_num:(k+1)*FLAGS.batch_num,:]});
+      summary_geo[j],acc_geo[j] = sess.run([merged,accuracy], feed_dict={x:ts_data2,y_:ts_label2});
     # Tournament
     winner_idx=np.argmax(acc_geo);
     acc=acc_geo[winner_idx];
@@ -342,15 +340,17 @@ def train():
         geopath_set[compet_idx[j]]=pathnet.mutation(geopath_set[compet_idx[j]],FLAGS.L,FLAGS.M,FLAGS.N);
     train_writer.add_summary(summary, i);
     print('Training Accuracy at step %s: %s' % (i, acc));
+    if(acc_task2<acc):
+      acc_task2=acc;
+      task2_optimal_path=geopath_set[compet_idx[winner_idx]];      
+    """
     geopath_sum=np.zeros((len(geopath),len(geopath[0])),dtype=float);
     for j in range(len(geopath_set)):
       for k in range(len(geopath)):
         for l in range(len(geopath[0])):
           geopath_sum[k][l]+=geopath_set[j][k][l];
     print(geopath_sum);
-    
-  task2_optimal_path=geopath_set[compet_idx[winner_idx]];
-  acc_task2=i;
+    """
 
   overlap=0;
   for i in range(len(task1_optimal_path)):
@@ -400,7 +400,7 @@ if __name__ == '__main__':
                       help='The Number of batches per each geopath')
   parser.add_argument('--filt', type=int, default=20,
                       help='The Number of Filters per Module')
-  parser.add_argument('--candi', type=int, default=20,
+  parser.add_argument('--candi', type=int, default=64,
                       help='The Number of Candidates of geopath')
   parser.add_argument('--B', type=int, default=2,
                       help='The Number of Candidates for each competition')

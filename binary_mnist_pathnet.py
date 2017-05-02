@@ -184,7 +184,7 @@ def train():
       np.random.shuffle(idx);
       tr_data1=tr_data1[idx];tr_label1=tr_label1[idx];
       # Insert Candidate
-      pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[j],FLAGS.L,FLAGS.M);
+      pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[compet_idx[j]],FLAGS.L,FLAGS.M);
       acc_geo_tr=0;
       for k in range(FLAGS.T):
         summary_geo_tr, _, acc_geo_tmp = sess.run([merged, train_step,accuracy], feed_dict={x:tr_data1[k*FLAGS.batch_num:(k+1)*FLAGS.batch_num,:],y_:tr_label1[k*FLAGS.batch_num:(k+1)*FLAGS.batch_num,:]});
@@ -208,13 +208,14 @@ def train():
       print(geopath_set[compet_idx[winner_idx]]);
       task1_optimal_path=geopath_set[compet_idx[winner_idx]];
       break;
+    """
     geopath_sum=np.zeros((len(geopath),len(geopath[0])),dtype=float);
     for j in range(len(geopath_set)):
       for k in range(len(geopath)):
         for l in range(len(geopath[0])):
           geopath_sum[k][l]+=geopath_set[j][k][l];
     print(geopath_sum);
-        
+    """    
   iter_task1=i;    
   
   # Fix task1 Optimal Path
@@ -292,8 +293,13 @@ def train():
       idx=range(len(tr_data2));
       np.random.shuffle(idx);
       tr_data2=tr_data2[idx];tr_label2=tr_label2[idx];
+      geopath_insert=geopath_set[compet_idx[j]];
+      for l in range(FLAGS.L):
+        for m in range(FLAGS.M):
+          if(fixed_list[l,m]=='1'):
+            geopath_insert[l,m]=1.0;
       # Insert Candidate
-      pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[j],FLAGS.L,FLAGS.M);
+      pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[compet_idx[j]],FLAGS.L,FLAGS.M);
       acc_geo_tr=0;
       for k in range(FLAGS.T):
         summary_geo_tr, _, acc_geo_tmp = sess.run([merged, train_step,accuracy], feed_dict={x:tr_data2[k*FLAGS.batch_num:(k+1)*FLAGS.batch_num,:],y_:tr_label2[k*FLAGS.batch_num:(k+1)*FLAGS.batch_num,:]});
@@ -317,13 +323,15 @@ def train():
       print(geopath_set[compet_idx[winner_idx]]);
       task2_optimal_path=geopath_set[compet_idx[winner_idx]];
       break;
+    """
     geopath_sum=np.zeros((len(geopath),len(geopath[0])),dtype=float);
     for j in range(len(geopath_set)):
       for k in range(len(geopath)):
         for l in range(len(geopath[0])):
           geopath_sum[k][l]+=geopath_set[j][k][l];
     print(geopath_sum);
-    
+    """
+
   iter_task2=i;      
   overlap=0;
   for i in range(len(task1_optimal_path)):
@@ -379,9 +387,9 @@ if __name__ == '__main__':
                       help='The first class of task1')
   parser.add_argument('--a2', type=int, default=6,
                       help='The second class of task1')
-  parser.add_argument('--b1', type=int, default=8,
+  parser.add_argument('--b1', type=int, default=5,
                       help='The first class of task2')
-  parser.add_argument('--b2', type=int, default=9,
+  parser.add_argument('--b2', type=int, default=6,
                       help='The second class of task2')
   FLAGS, unparsed = parser.parse_known_args()
   tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)

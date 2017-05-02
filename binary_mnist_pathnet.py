@@ -111,8 +111,8 @@ def train():
         layer_modules_list[j]=pathnet.module(x, weights_list[i,j], biases_list[i,j], 'layer'+str(i+1)+"_"+str(j+1))*geopath[i,j];
       else:
         layer_modules_list[j]=pathnet.module2(j,net, weights_list[i,j], biases_list[i,j], 'layer'+str(i+1)+"_"+str(j+1))*geopath[i,j];
-    net=np.sum(layer_modules_list);
-  
+    net=np.sum(layer_modules_list)/FLAGS.M;
+  #net=net/FLAGS.M;  
   # Output Layer
   output_weights=pathnet.module_weight_variable([FLAGS.filt,2]);
   output_biases=pathnet.module_bias_variable([2]);
@@ -202,7 +202,7 @@ def train():
         geopath_set[compet_idx[j]]=pathnet.mutation(geopath_set[compet_idx[j]],FLAGS.L,FLAGS.M,FLAGS.N);
     train_writer.add_summary(summary, i);
     print('Training Accuracy at step %s: %s' % (i, acc));
-    if(acc >= 0.98):
+    if(acc >= 0.99):
       print('Learning Done!!');
       print('Optimal Path is as followed.');
       print(geopath_set[compet_idx[winner_idx]]);
@@ -232,7 +232,14 @@ def train():
       if(fixed_list[i,j]=='1'):
         var_list_to_fix+=weights_list[i,j]+biases_list[i,j];
   var_list_fix=pathnet.parameters_backup(var_list_to_fix);
- 
+
+  """
+  for i in range(FLAGS.L):
+    for j in range(FLAGS.M):
+      if(task1_optimal_path[i,j]==1.0):
+        fixed_list[i,j]='0';
+  """
+
   # parameters placeholders and ops 
   var_fix_ops=np.zeros(len(var_list_to_fix),dtype=object);
   var_fix_placeholders=np.zeros(len(var_list_to_fix),dtype=object);
@@ -293,13 +300,15 @@ def train():
       idx=range(len(tr_data2));
       np.random.shuffle(idx);
       tr_data2=tr_data2[idx];tr_label2=tr_label2[idx];
-      geopath_insert=geopath_set[compet_idx[j]];
+      geopath_insert=np.copy(geopath_set[compet_idx[j]]);
+      
       for l in range(FLAGS.L):
         for m in range(FLAGS.M):
           if(fixed_list[l,m]=='1'):
             geopath_insert[l,m]=1.0;
+      
       # Insert Candidate
-      pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_set[compet_idx[j]],FLAGS.L,FLAGS.M);
+      pathnet.geopath_insert(sess,geopath_update_placeholders,geopath_update_ops,geopath_insert,FLAGS.L,FLAGS.M);
       acc_geo_tr=0;
       for k in range(FLAGS.T):
         summary_geo_tr, _, acc_geo_tmp = sess.run([merged, train_step,accuracy], feed_dict={x:tr_data2[k*FLAGS.batch_num:(k+1)*FLAGS.batch_num,:],y_:tr_label2[k*FLAGS.batch_num:(k+1)*FLAGS.batch_num,:]});
@@ -317,7 +326,7 @@ def train():
         geopath_set[compet_idx[j]]=pathnet.mutation(geopath_set[compet_idx[j]],FLAGS.L,FLAGS.M,FLAGS.N);
     train_writer.add_summary(summary, i);
     print('Training Accuracy at step %s: %s' % (i, acc));
-    if(acc >= 0.98):
+    if(acc >= 0.99):
       print('Learning Done!!');
       print('Optimal Path is as followed.');
       print(geopath_set[compet_idx[winner_idx]]);
@@ -357,7 +366,7 @@ if __name__ == '__main__':
   parser.add_argument('--fake_data', nargs='?', const=True, type=bool,
                       default=False,
                       help='If true, uses fake data for unit testing.')
-  parser.add_argument('--learning_rate', type=float, default=0.01,
+  parser.add_argument('--learning_rate', type=float, default=0.05,
                       help='Initial learning rate')
   parser.add_argument('--max_steps', type=int, default=10000,
                       help='Number of steps to run trainer.')
@@ -365,8 +374,8 @@ if __name__ == '__main__':
                       help='Keep probability for training dropout.')
   parser.add_argument('--data_dir', type=str, default='/tmp/tensorflow/mnist/input_data',
                       help='Directory for storing input data')
-  parser.add_argument('--log_dir', type=str, default='/tmp/tensorflow/pathnet/binary_mnist/pathnet/',
-                      help='Summaries log directory')
+  parser.add_argument('--log_dir', type=str, default='/tmp/tensorflow/pathnet/binary_mnist/pathnet/1_3_1_2',
+                      help='Summaries log directry')
   parser.add_argument('--M', type=int, default=10,
                       help='The Number of Modules per Layer')
   parser.add_argument('--L', type=int, default=3,
@@ -383,13 +392,13 @@ if __name__ == '__main__':
                       help='The Number of Candidates of geopath')
   parser.add_argument('--B', type=int, default=2,
                       help='The Number of Candidates for each competition')
-  parser.add_argument('--a1', type=int, default=5,
+  parser.add_argument('--a1', type=int, default=1,
                       help='The first class of task1')
-  parser.add_argument('--a2', type=int, default=6,
+  parser.add_argument('--a2', type=int, default=3,
                       help='The second class of task1')
-  parser.add_argument('--b1', type=int, default=5,
+  parser.add_argument('--b1', type=int, default=1,
                       help='The first class of task2')
-  parser.add_argument('--b2', type=int, default=6,
+  parser.add_argument('--b2', type=int, default=2,
                       help='The second class of task2')
   FLAGS, unparsed = parser.parse_known_args()
   tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)

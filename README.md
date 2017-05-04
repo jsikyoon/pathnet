@@ -42,9 +42,9 @@ Higher learning rate can accelate network learning faster than positive transfer
 The author and I checked the paper results was generated when last aggregation function is average not summation (Except last one, others are summation.).
 Fixed path activation is for generating more dramatic results than before.
 
-When two candidates are learned & evaluated (evaluation is based on training data accuracy), learned parameters from each candidates are saved, and winner parameters are updated to model.
-In above process, two candidates use same data batchs.
-geopath set are reset after finishing first task.
+B candidates use same data batchs.
+geopath set and parameters except the ones on optimal path of first task are reset after finishing first task.
+
 
 ### Results
 ![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/binary_mnist_1vs3_1vs2.PNG) 

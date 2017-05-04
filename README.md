@@ -44,10 +44,25 @@ Fixed path activation is for generating more dramatic results than before.
 
 When two candidates are learned & evaluated (evaluation is based on training data accuracy), learned parameters from each candidates are saved, and winner parameters are updated to model.
 In above process, two candidates use same data batchs.
-geopath set are reset after finishing task1.
+geopath set are reset after finishing first task.
 
 ### Results
 ![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/binary_mnist_1vs3_1vs2.PNG) 
 ![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/binary_mnist_6vs7_4vs5.PNG) 
 
+The experiments were 1vs3 <-> 1vs2 and 4vs5 <-> 6vs7. 
+The reason of selecting those classes is to check positive transfer learning whenever there are sharing class or not. 
 
+1vs3 experiments showed first task and second task after 1vs2 converage generation means are about 169.515 and 83.2. 
+Pathnet made about 2 times faster converage than that from the scratch.
+
+1vs2 experiments showed first task and second task after 1vs3 converage generation means are about 193.67 and 116.615. 
+Pathnet made about 1.7 times faster converage than that from the scratch.
+
+4vs5 experiments showed first task and second task after 6vs7 converage generation means are about 260.195 and 147.55. 
+Pathnet made about 1.8 times faster converage than that from the scratch.
+
+6vs7 experiments showed first task and second task after 4vs5 converage generation means are about 93.97 and 55.23. 
+Pathnet made about 1.7 times faster converage than that from the scratch.
+
+Pathnet showed about 1.7~2 times performance on Binary MNIST Classification whenever there are sharing class or not.

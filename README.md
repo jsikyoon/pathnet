@@ -35,12 +35,14 @@ GradientDescent Method is used with learning rate=0.05 (In paper, learning rate=
 Aggregation function between layers is average (In paper, that is summation.).
 Skip connection, Resnet and linear modules are used for each layers except input layer.
 Fixed path of first task is always activated when feed-forwarding the networks on second task (In paper, the path is not always activated.).
+The learning is converaged, when training accuracy is over 99%.
 
 Chrisantha Fernando (1st author of this paper)  and I checked the results of the paper was generated when the value is 20. Thus, I set that as 20.
 I set bigger learning rate vaule than that of paper for getting results faster than before.
 Higher learning rate can accelate network learning faster than positive transfer learning. For de-accelating converage, average function is used.
 The author and I checked the paper results was generated when last aggregation function is average not summation (Except last one, others are summation.).
 Fixed path activation is for generating more dramatic results than before.
+For faster converage than before, lower converage accuracy then before(99.8%) is used.
 
 B candidates use same data batchs.
 geopath set and parameters except the ones on optimal path of first task are reset after finishing first task.

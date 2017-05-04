@@ -38,6 +38,7 @@ In above process, two candidates use same data batchs.
 geopath set are reset after finishing task1.
 
 ### Results
+![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/binary_mnist_1vs2.PNG) ![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/binary_mnist_1vs3.PNG)
 
 ### Failure Story
 

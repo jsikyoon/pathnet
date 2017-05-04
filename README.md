@@ -49,6 +49,7 @@ geopath set are reset after finishing first task.
 ### Results
 ![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/binary_mnist_1vs3_1vs2.PNG) 
 ![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/binary_mnist_6vs7_4vs5.PNG) 
+![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/binary_mnist_4vs5_graph.PNG) 
 
 The experiments were 1vs3 <-> 1vs2 and 4vs5 <-> 6vs7. 
 The reason of selecting those classes is to check positive transfer learning whenever there are sharing class or not. 
@@ -65,4 +66,4 @@ Pathnet made about 1.8 times faster converage than that from the scratch.
 6vs7 experiments showed first task and second task after 4vs5 converage generation means are about 93.97 and 55.23. 
 Pathnet made about 1.7 times faster converage than that from the scratch.
 
-Pathnet showed about 1.7~2 times performance on Binary MNIST Classification whenever there are sharing class or not.
+Pathnet showed about 1.7~2 times better performance than that of "learning from scratch" on Binary MNIST Classification whenever there are sharing class or not.

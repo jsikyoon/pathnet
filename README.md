@@ -30,8 +30,17 @@ If you want to run that repeatly, then do as followed.
 `
 
 ### Settings
+L, M, N, B and the number of populations are 3, 10, 3, 2 and 20, respectively (In paper, the number of populations is 64.). 
+GradientDescent Method is used with learning rate=0.05 (In paper, learning rate=0.0001.).
+Aggregation function between layers is average (In paper, that is summation.).
+Skip connection, Resnet and linear modules are used for each layers except input layer.
+Fixed path of first task is always activated when feed-forwarding the networks on second task (In paper, the path is not always activated.).
 
-Basically, almost parameters are used same to paper, however, I used learning_rate=0.01.
+Chrisantha Fernando (1st author of this paper)  and I checked the results of the paper was generated when the value is 20. Thus, I set that as 20.
+I set bigger learning rate vaule than that of paper for getting results faster than before.
+Higher learning rate can accelate network learning faster than positive transfer learning. For de-accelating converage, average function is used.
+The author and I checked the paper results was generated when last aggregation function is average not summation (Except last one, others are summation.).
+Fixed path activation is for generating more dramatic results than before.
 
 When two candidates are learned & evaluated (evaluation is based on training data accuracy), learned parameters from each candidates are saved, and winner parameters are updated to model.
 In above process, two candidates use same data batchs.
@@ -41,5 +50,4 @@ geopath set are reset after finishing task1.
 ![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/binary_mnist_1vs3_1vs2.PNG) 
 ![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/binary_mnist_6vs7_4vs5.PNG) 
 
-### Failure Story
 

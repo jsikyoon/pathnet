@@ -53,7 +53,7 @@ geopath set and parameters except the ones on optimal path of first task are res
 ![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/binary_mnist_6vs7_4vs5.PNG) 
 ![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/binary_mnist_4vs5_graph.PNG) 
 
-The experiments were 1vs3 <-> 1vs2 and 4vs5 <-> 6vs7. 
+The experiments are 1vs3 <-> 1vs2 and 4vs5 <-> 6vs7. 
 The reason of selecting those classes is to check positive transfer learning whenever there are sharing class or not. 
 
 1vs3 experiments showed first task and second task after 1vs2 converage generation means are about 169.515 and 83.2. 
@@ -69,3 +69,37 @@ Pathnet made about 1.8 times faster converage than that from the scratch.
 Pathnet made about 1.7 times faster converage than that from the scratch.
 
 Pathnet showed about 1.7~2 times better performance than that of "learning from scratch" on Binary MNIST Classification whenever there are sharing class or not.
+
+CIFAR10 and SVHN classification tasks
+-------------------
+
+`
+python cifar_svhn_pathnet.py 
+`
+
+If you want to run that repeatly, then do as followed.
+
+`
+./auto_cifar_svhn_pathnet.sh
+`
+
+### Settings
+L, M, N, B and the number of populations are 3, 20, 5, 2 and 20, respectively. 
+GradientDescent Method is used with learning rate=0.2 (With learning rate=0.05, this task can not be learned. Thus, higher learning rate than before is set).
+The accuracy is checked after 500 epoches.
+
+Except M, N and learning rate, other parameters are same to that of Binary MNIST classification task.
+
+
+### Results
+![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/cifar_svhn.PNG) 
+
+The experiments are CIFAR10 <-> SVHN.
+
+CIFAR10 experiments showed first task and second task after SVHN accuracy means are about 38.56% and 41.7%. 
+Pathnet made about 1.1 times higher accuracy than that from the scratch.
+
+SVHN experiments showed first task and second task after CIFAR10 accuracy means are about 19.81% and 57.2%. 
+Pathnet made about 2.89 times higher accuracy than that from the scratch.
+
+Pathnet showed positive transfer learning performance for both of the datasets. For SVHN, quitely higher transfer learning performance than CIFAR10 is showed. Because, CIFAR10 dataset has more plenty of patterns than SVHN.

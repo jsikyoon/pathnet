@@ -56,16 +56,16 @@ geopath set and parameters except the ones on optimal path of first task are res
 The experiments are 1vs3 <-> 1vs2 and 4vs5 <-> 6vs7. 
 The reason of selecting those classes is to check positive transfer learning whenever there are sharing class or not. 
 
-1vs3 experiments showed first task and second task after 1vs2 converage generation means are about 169.515 and 83.2. 
+1vs3 experiments showed first task and second task after 1vs2 converage generation means are about 168.25 and 82.64. 
 Pathnet made about 2 times faster converage than that from the scratch.
 
-1vs2 experiments showed first task and second task after 1vs3 converage generation means are about 193.67 and 116.615. 
+1vs2 experiments showed first task and second task after 1vs3 converage generation means are about 196.60 and 118.32. 
 Pathnet made about 1.7 times faster converage than that from the scratch.
 
-4vs5 experiments showed first task and second task after 6vs7 converage generation means are about 260.195 and 147.55. 
+4vs5 experiments showed first task and second task after 6vs7 converage generation means are about 270.68 and 149.31. 
 Pathnet made about 1.8 times faster converage than that from the scratch.
 
-6vs7 experiments showed first task and second task after 4vs5 converage generation means are about 93.97 and 55.23. 
+6vs7 experiments showed first task and second task after 4vs5 converage generation means are about 93.69 and 55.91. 
 Pathnet made about 1.7 times faster converage than that from the scratch.
 
 Pathnet showed about 1.7~2 times better performance than that of "learning from scratch" on Binary MNIST Classification whenever there are sharing class or not.
@@ -96,10 +96,10 @@ Except M, N and learning rate, other parameters are same to that of Binary MNIST
 
 The experiments are CIFAR10 <-> SVHN.
 
-CIFAR10 experiments showed first task and second task after SVHN accuracy means are about 38.56% and 41.7%. 
+CIFAR10 experiments showed first task and second task after SVHN accuracy means are about 38.56% and 41.75%. 
 Pathnet made about 1.1 times higher accuracy than that from the scratch.
 
-SVHN experiments showed first task and second task after CIFAR10 accuracy means are about 19.81% and 57.2%. 
-Pathnet made about 2.89 times higher accuracy than that from the scratch.
+SVHN experiments showed first task and second task after CIFAR10 accuracy means are about 19.68% and 56.25%. 
+Pathnet made about 2.86 times higher accuracy than that from the scratch.
 
 Pathnet showed positive transfer learning performance for both of the datasets. For SVHN, quitely higher transfer learning performance than CIFAR10 is showed. Because, CIFAR10 dataset has more plenty of patterns than SVHN.

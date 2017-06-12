@@ -91,7 +91,7 @@ def module_bias_variable(shape):
   """Create a bias variable with appropriate initialization."""
   initial = tf.constant(0.1, shape=shape)
   return [tf.Variable(initial)];
-  
+
 def variable_summaries(var):
   """Attach a lot of summaries to a Tensor (for TensorBoard visualization)."""
   with tf.name_scope('summaries'):
@@ -151,6 +151,21 @@ def module2(i,input_tensor, weights, biases, layer_name, act=tf.nn.relu):
       activations = act(preactivate, name='activation')+input_tensor
       tf.summary.histogram('activations', activations)
       return activations
+
+def conv_module(input_tensor, weights, biases, stride, layer_name, act=tf.nn.relu):
+  # Adding a name scope ensures logical grouping of the layers in the graph.
+  with tf.name_scope(layer_name):
+    # This Variable will hold the state of the weights for the layer
+    with tf.name_scope('weights'):
+      variable_summaries(weights[0])
+    with tf.name_scope('biases'):
+      variable_summaries(biases[0])
+    with tf.name_scope('Wx_plus_b'):
+      preactivate = tf.nn.conv2d(input_tensor,weights[0],strides=[1,stride,stride,1],padding="VALID") + biases
+      tf.summary.histogram('pre_activations', preactivate)
+    activations = act(preactivate, name='activation')
+    tf.summary.histogram('activations', activations)
+    return activations
  
 def nn_layer(input_tensor, weights, biases, layer_name, act=tf.nn.relu):
   # Adding a name scope ensures logical grouping of the layers in the graph.
@@ -164,6 +179,3 @@ def nn_layer(input_tensor, weights, biases, layer_name, act=tf.nn.relu):
       preactivate = tf.matmul(input_tensor, weights[0]) + biases
       tf.summary.histogram('pre_activations', preactivate)
     return preactivate;
-    #activations = act(preactivate, name='activation')
-    #tf.summary.histogram('activations', activations)
-    #return activations

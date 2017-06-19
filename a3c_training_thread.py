@@ -112,7 +112,6 @@ class A3CTrainingThread(object):
     if USE_LSTM:
       start_lstm_state = self.local_network.lstm_state_out
    
-    res_reward=-1000; 
     # t_max times loop
     for i in range(LOCAL_T_MAX):
       pi_, value_ = self.local_network.run_policy_and_value(sess, self.game_state.s_t)
@@ -142,7 +141,7 @@ class A3CTrainingThread(object):
 
       # s_t1 -> s_t
       self.game_state.update()
-      
+      res_reward=-1000; 
       if terminal:
         terminal_end = True
         print("score={}".format(self.episode_reward))
@@ -155,8 +154,6 @@ class A3CTrainingThread(object):
         if USE_LSTM:
           self.local_network.reset_state()
         break
-    if(res_reward==-1000):
-      res_reward=self.episode_reward;
     R = 0.0
     if not terminal_end:
       R = self.local_network.run_value(sess, self.game_state.s_t)

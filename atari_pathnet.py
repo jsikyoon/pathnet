@@ -129,7 +129,9 @@ def train():
       diff_global_t,reward = training_thread.process(sess, global_t, summary_writer,
                                               summary_op, score_input,geopath_set[parallel_index],FLAGS)
       global_t += diff_global_t;
-      thread_rewards[parallel_index]=reward;
+      if(reward!=-1000):
+        if(reward>thread_rewards[parallel_index]):
+          thread_rewards[parallel_index]=reward;
       #thread_flags[parallel_index]=0.0;
      
   def pathnet_parameter_server(parallel_index):
@@ -149,6 +151,7 @@ def train():
       for i in rand_idx:
         if(thread_rewards[i]==-1000):
           flag_sum+=1;
+      print(thread_rewards);
       # After running of B candidates, copying geopath of winner and mutating the geopath of losers
       if(flag_sum==0):
         winner_idx=rand_idx[np.argmax(thread_rewards[rand_idx])];

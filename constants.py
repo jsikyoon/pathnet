@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-LOCAL_T_MAX = 10 # repeat step size
+LOCAL_T_MAX = 20 # repeat step size
 RMSP_ALPHA = 0.99 # decay parameter for RMSProp
 RMSP_EPSILON = 0.1 # epsilon parameter for RMSProp
 CHECKPOINT_DIR = 'checkpoints'
@@ -16,6 +16,6 @@ GAMMA = 0.99 # discount factor for rewards
 ENTROPY_BETA = 0.01 # entropy regurarlization constant
 MAX_TIME_STEP = 10 * 10**7
 GRAD_NORM_CLIP = 40.0 # gradient norm clipping
-USE_GPU = False # To use GPU, set True
+USE_GPU = True # To use GPU, set True
 USE_LSTM = False # True for A3C LSTM, False for A3C FF
 USE_PATHNET = True # True for A3C PathNet, False for A3C FF

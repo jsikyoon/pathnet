@@ -49,6 +49,7 @@ class A3CTrainingThread(object):
     self.apply_gradients = grad_applier.apply_gradients(
       self.local_network.get_vars(),
       self.gradients )
+
     self.game_state = GameState(113 * task_index)
     
     self.local_t = 0
@@ -80,9 +81,6 @@ class A3CTrainingThread(object):
     self.start_time = start_time
 
   def process(self, sess, global_t, summary_writer, summary_op, score_input,score_ph,score_ops, geopath, FLAGS,score_set_ph,score_set_ops):
-    
-    # geopath insert
-    #pathnet.geopath_insert(sess,self.local_network.geopath_update_placeholders_set[self.local_network.task_index],self.local_network.geopath_update_ops_set[self.local_network.task_index],geopath,FLAGS.L,FLAGS.M);
 
     states = []
     actions = []
@@ -103,10 +101,6 @@ class A3CTrainingThread(object):
       actions.append(action)
       values.append(value_)
 
-      #if (self.thread_index == 0) and (self.local_t % LOG_INTERVAL == 0):
-        #print("pi={}".format(pi_))
-        #print(" V={}".format(value_))
-
       # process game
       self.game_state.process(action)
 
@@ -126,7 +120,6 @@ class A3CTrainingThread(object):
       
       if terminal:
         terminal_end = True
-        #print("score={}".format(self.episode_reward))
         sess.run(score_ops,{score_ph:self.episode_reward});
         sess.run(score_set_ops,{score_set_ph:self.episode_reward});
         res_reward=self.episode_reward;  
@@ -181,7 +174,12 @@ class A3CTrainingThread(object):
                   self.local_network.step_size : [len(batch_a)],
                   self.learning_rate_input: cur_learning_rate } )
     else:
-      sess.run( self.apply_gradients,
+      var_idx=self.local_network.get_vars_idx();
+      gradients_list=[];
+      for i in range(len(var_idx)):
+        if(var_idx[i]==1.0):
+          gradients_list+=[self.apply_gradients[i]];
+      sess.run( gradients_list,
                 feed_dict = {
                   self.local_network.s: batch_si,
                   self.local_network.a: batch_a,

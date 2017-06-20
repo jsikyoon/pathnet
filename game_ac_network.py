@@ -354,6 +354,9 @@ class GameACPathNetNetwork(GameACNetwork):
       v_ = tf.matmul(net, self.W_fc3) + self.b_fc3
       self.v = tf.reshape( v_, [-1] )
 
+      # set_fixed_path
+      self.fixed_path=np.zeros((FLAGS.L,FLAGS.M),dtype=float);
+
   def run_policy_and_value(self, sess, s_t):
     pi_out, v_out = sess.run( [self.pi, self.v], feed_dict = {self.s : [s_t]} )
     return (pi_out[0], v_out[0])
@@ -373,13 +376,34 @@ class GameACPathNetNetwork(GameACNetwork):
         res[i,j]=self.geopath_set[self.task_index][i,j].eval(sess);
     return res;
 
+  def set_fixed_path(self,fixed_path):
+    self.fixed_path=fixed_path;
+
   def get_vars(self):
     res=[];
     for i in range(len(self.W_conv)):
       for j in range(len(self.W_conv[0])):
-        res+=[self.W_conv[i,j]]+[self.b_conv[i,j]];
+        if(self.fixed_path[i,j]==0.0):
+          res+=[self.W_conv[i,j]]+[self.b_conv[i,j]];
     for i in range(len(self.W_lin)):
-      res+=[self.W_lin[i]]+[self.b_lin[i]];
+      if(self.fixed_path[-1,i]==0.0):
+        res+=[self.W_lin[i]]+[self.b_lin[i]];
     res+=[self.W_fc2]+[self.b_fc2];
     res+=[self.W_fc3]+[self.b_fc3];
+    return res;
+  
+  def get_vars_idx(self):
+    res=[];
+    for i in range(len(self.W_conv)):
+      for j in range(len(self.W_conv[0])):
+        if(self.fixed_path[i,j]==0.0):
+          res+=[1,1];
+        else:
+          res+=[0,0];
+    for i in range(len(self.W_lin)):
+      if(self.fixed_path[-1,i]==0.0):
+        res+=[1,1];
+      else:
+        res+=[0,0];
+    res+=[1,1,1,1];
     return res;

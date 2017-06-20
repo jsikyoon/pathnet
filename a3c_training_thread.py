@@ -48,7 +48,7 @@ class A3CTrainingThread(object):
       self.local_network = GameACFFNetwork(ACTION_SIZE, thread_index, device)
     
     self.local_network.prepare_loss(ENTROPY_BETA)
-
+    
     with tf.device(device):
       var_refs = [v._ref() for v in self.local_network.get_vars()]
       self.gradients = tf.gradients(
@@ -59,7 +59,6 @@ class A3CTrainingThread(object):
     self.apply_gradients = grad_applier.apply_gradients(
       global_network.get_vars(),
       self.gradients )
-      
     self.sync = self.local_network.sync_from(global_network)
     
     self.game_state = GameState(113 * thread_index)
@@ -92,9 +91,19 @@ class A3CTrainingThread(object):
   def set_start_time(self, start_time):
     self.start_time = start_time
 
+  def set_fixed_path(self,fixed_path):
+    for i in range(len(fixed_path)):
+      for j in range(len(fixed_path[0])):
+        if(fixed_path[i,j]==1):
+          self.local_network.fixed_path[i,j]='1';
+
   def process(self, sess, global_t, summary_writer, summary_op, score_input, geopath="",FLAGS=""):
     # geopath insert
     if(USE_PATHNET):
+      for i in range(FLAGS.L):
+        for j in range(FLAGS.M):
+          if(self.local_network.fixed_path[i,j]=='1'):
+            geopath[i,j]=1.0;
       pathnet.geopath_insert(sess,self.local_network.geopath_update_placeholders,self.local_network.geopath_update_ops,geopath,FLAGS.L,FLAGS.M);
 
     states = []
@@ -198,7 +207,12 @@ class A3CTrainingThread(object):
                   self.local_network.step_size : [len(batch_a)],
                   self.learning_rate_input: cur_learning_rate } )
     else:
-      sess.run( self.apply_gradients,
+      var_list=self.local_network.get_vars_idx();
+      gradient_list=[];
+      for i in range(len(var_list)):
+        if(var_list[i]==1):
+          gradient_list+=[self.apply_gradients[i]];
+      sess.run(gradient_list,
                 feed_dict = {
                   self.local_network.s: batch_si,
                   self.local_network.a: batch_a,
@@ -215,5 +229,5 @@ class A3CTrainingThread(object):
 
     # return advanced local step size
     diff_local_t = self.local_t - start_local_t
-    return diff_local_t,res_reward;
+    return diff_local_t,res_reward, self.local_network.get_vars2();
     

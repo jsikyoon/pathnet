@@ -92,7 +92,6 @@ class RMSPropApplier(object):
   def apply_gradients(self, var_list, accum_grad_list, name=None):
     
     update_ops = []
-
     with tf.device(self._device):
       with tf.control_dependencies(None):
         self._create_slots(var_list)
@@ -103,4 +102,5 @@ class RMSPropApplier(object):
           with tf.name_scope("update_" + var.op.name), tf.device(var.device):
             clipped_accum_grad = tf.clip_by_norm(accum_grad, self._clip_norm)
             update_ops.append(self._apply_dense(clipped_accum_grad, var))
-        return tf.group(*update_ops, name=name)
+        #return tf.group(*update_ops, name=name)
+        return update_ops;

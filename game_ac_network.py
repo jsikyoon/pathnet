@@ -322,10 +322,10 @@ class GameACPathNetNetwork(GameACNetwork):
 
  
       # fixed weights list
-      self.fixed_list=np.ones((FLAGS.L,FLAGS.M),dtype=str);
+      self.fixed_path=np.ones((FLAGS.L,FLAGS.M),dtype=str);
       for i in range(FLAGS.L):
         for j in range(FLAGS.M):
-          self.fixed_list[i,j]='0';    
+          self.fixed_path[i,j]='0';    
       
       # state (input)
       self.s = tf.placeholder("float", [None, 84, 84, 4])
@@ -365,9 +365,41 @@ class GameACPathNetNetwork(GameACNetwork):
     res=[];
     for i in range(len(self.W_conv)):
       for j in range(len(self.W_conv[0])):
-        res+=[self.W_conv[i,j]]+[self.b_conv[i,j]];
+        if(self.fixed_path[i,j]=='0'):
+          res+=[self.W_conv[i,j]]+[self.b_conv[i,j]];
     for i in range(len(self.W_lin)):
-      res+=[self.W_lin[i]]+[self.b_lin[i]];
+      if(self.fixed_path[-1,j]=='0'):
+        res+=[self.W_lin[i]]+[self.b_lin[i]];
     res+=[self.W_fc2]+[self.b_fc2];
     res+=[self.W_fc3]+[self.b_fc3];
+    return res;
+  
+  def get_vars2(self):
+    res=[];
+    for i in range(len(self.W_conv)):
+      for j in range(len(self.W_conv[0])):
+        if(self.fixed_path[i,j]=='1'):
+          res+=[self.W_conv[i,j]]+[self.b_conv[i,j]];
+    for i in range(len(self.W_lin)):
+      if(self.fixed_path[-1,j]=='1'):
+        res+=[self.W_lin[i]]+[self.b_lin[i]];
+    #res+=[self.W_fc2]+[self.b_fc2];
+    #res+=[self.W_fc3]+[self.b_fc3];
+    return res;
+  
+  def get_vars_idx(self):
+    res=[];
+    for i in range(len(self.W_conv)):
+      for j in range(len(self.W_conv[0])):
+        if(self.fixed_path[i,j]=='0'):
+          res+=[1,1];
+        else:
+          res+=[0,0];
+    for i in range(len(self.W_lin)):
+      if(self.fixed_path[-1,j]=='0'):
+        res+=[1,1];
+      else:
+        res+=[0,0];
+    res+=[1,1];
+    res+=[1,1];
     return res;

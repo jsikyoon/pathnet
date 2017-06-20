@@ -160,6 +160,10 @@ def train():
             global_network.fixed_path[i,j]="1";
       #initialization
       tf.variables_initializer(global_network.get_vars());
+      # Generating randomly geopath
+      geopath_set=np.zeros(FLAGS.candi,dtype=object);
+      for i in range(FLAGS.candi):
+        geopath_set[i]=pathnet.get_geopath(FLAGS.L,FLAGS.M,FLAGS.N);
       
       
   def signal_handler(signal, frame):

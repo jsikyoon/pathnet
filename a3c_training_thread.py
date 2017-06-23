@@ -13,8 +13,6 @@ from game_ac_network import GameACFFNetwork, GameACLSTMNetwork, GameACPathNetNet
 from constants import GAMMA
 from constants import LOCAL_T_MAX
 from constants import ENTROPY_BETA
-from constants import USE_LSTM
-from constants import USE_PATHNET
 
 LOG_INTERVAL = 100
 PERFORMANCE_LOG_INTERVAL = 1000
@@ -33,8 +31,11 @@ class A3CTrainingThread(object):
     self.task_index = task_index
     self.learning_rate_input = learning_rate_input
     self.max_global_time_step = max_global_time_step
-    
-    self.local_network = GameACPathNetNetwork(ACTION_SIZE, thread_index, device,FLAGS)
+   
+    if(FLAGS.use_lstm): 
+      self.local_network = GameACPathNetLSTMNetwork(ACTION_SIZE, thread_index, device,FLAGS)
+    else:
+      self.local_network = GameACPathNetNetwork(ACTION_SIZE, thread_index, device,FLAGS)
     
     self.local_network.prepare_loss(ENTROPY_BETA)
 
@@ -125,7 +126,7 @@ class A3CTrainingThread(object):
         res_reward=self.episode_reward;  
         self.episode_reward = 0
         self.game_state.reset()
-        if USE_LSTM:
+        if FLAGS.use_lstm:
           self.local_network.reset_state()
         break
     if(res_reward==-1000):
@@ -158,13 +159,18 @@ class A3CTrainingThread(object):
 
     cur_learning_rate = self._anneal_learning_rate(global_t)
 
-    if USE_LSTM:
+    if FLAGS.use_lstm:
       batch_si.reverse()
       batch_a.reverse()
       batch_td.reverse()
       batch_R.reverse()
-
-      sess.run( self.apply_gradients,
+      
+      var_idx=self.local_network.get_vars_idx();
+      gradients_list=[];
+      for i in range(len(var_idx)):
+        if(var_idx[i]==1.0):
+          gradients_list+=[self.apply_gradients[i]];
+      sess.run( self.gradients_list,
                 feed_dict = {
                   self.local_network.s: batch_si,
                   self.local_network.a: batch_a,

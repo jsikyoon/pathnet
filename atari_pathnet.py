@@ -192,6 +192,7 @@ def train():
             flag_sum=0;
             for i in range(FLAGS.worker_hosts_num-1):
               score_set_print[i]=sess.run([score_set[i]])[0];
+            print(score_set_print);
             for i in range(len(rand_idx)):
               score_subset[i]=sess.run([score_set[rand_idx[i]]])[0];
               if(score_subset[i]==-1000):
@@ -214,7 +215,7 @@ def train():
               rand_idx=range(FLAGS.worker_hosts_num-1); np.random.shuffle(rand_idx);
               rand_idx=rand_idx[:FLAGS.B];
             else:
-              time.sleep(2);
+              time.sleep(5);
           # fixed_path setting
           fixed_path=geopath_set[winner_idx];
           for i in range(FLAGS.L):
@@ -291,5 +292,7 @@ if __name__ == '__main__':
                       help='Stride size for each layer')
   parser.add_argument('--B', type=int, default=3,
                       help='The Number of Candidates for each competition')
+  parser.add_argument('--use_lstm', type=bool, default=True,
+                      help='Useing LSTM or not')
   FLAGS, unparsed = parser.parse_known_args()
   tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)

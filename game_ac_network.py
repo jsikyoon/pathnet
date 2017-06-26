@@ -440,7 +440,7 @@ class GameACPathNetLSTMNetwork(GameACNetwork):
       self.b_lin=np.zeros(FLAGS.M,dtype=object);
       for i in range(FLAGS.M):
         self.W_lin[i], self.b_lin[i] = self._fc_variable([last_lin_num, 256])
-
+      
       # weight for policy output layer
       self.W_fc2, self.b_fc2 = self._fc_variable([256, action_size])
 
@@ -482,10 +482,11 @@ class GameACPathNetLSTMNetwork(GameACNetwork):
             layer_modules_list[j]=tf.nn.relu(tf.matmul(net,self.W_lin[j])+self.b_lin[j])*self.geopath_set[self.task_index][i,j];
           else:
             layer_modules_list[j]=tf.nn.relu(self._conv2d(net,self.W_conv[i,j],stride_size[i])+self.b_conv[i,j])*self.geopath_set[self.task_index][i,j];
-        net=np.sum(layer_modules_list)/FLAGS.M;
+        net=np.sum(layer_modules_list);
 
       #LSTM
-      net_reshaped=tf.reshape(net_reshaped,[1,-1,256]);
+      self.lstm = tf.contrib.rnn.BasicLSTMCell(256, state_is_tuple=True);
+      net_reshaped=tf.reshape(net,[1,-1,256]);
       # place holder for LSTM unrolling time step size.
       self.step_size = tf.placeholder(tf.float32, [1])
 
@@ -499,7 +500,7 @@ class GameACPathNetLSTMNetwork(GameACNetwork):
       # When forward propagating, step_size is 1.
       # (time_major = False, so output shape is [batch_size, max_time, cell.output_size])
       lstm_outputs, self.lstm_state = tf.nn.dynamic_rnn(self.lstm,
-                                                        h_fc1_reshaped,
+                                                        net_reshaped,
                                                         initial_state = self.initial_lstm_state,
                                                         sequence_length = self.step_size,
                                                         time_major = False,
@@ -507,7 +508,7 @@ class GameACPathNetLSTMNetwork(GameACNetwork):
 
       # lstm_outputs: (1,5,256) for back prop, (1,1,256) for forward prop.
 
-      lstm_outputs = tf.reshape(lstm_outputs, [-1,256])
+      net = tf.reshape(lstm_outputs, [-1,256])
 
       # policy (output)
       self.pi = tf.nn.softmax(tf.matmul(net, self.W_fc2) + self.b_fc2)
@@ -517,11 +518,16 @@ class GameACPathNetLSTMNetwork(GameACNetwork):
       
       # set_fixed_path
       self.fixed_path=np.zeros((FLAGS.L,FLAGS.M),dtype=float);
+      
 
+      #params=[v for v in tf.global_variables() if v.name.startswith(scope.name)];
+      #if(thread_index==1):
+      #  print(params);exit(1);
       scope.reuse_variables()
-      self.W_lstm = tf.get_variable("basic_lstm_cell/weights")
-      self.b_lstm = tf.get_variable("basic_lstm_cell/biases")
-
+      #self.W_lstm = tf.get_variable("basic_lstm_cell/weights")
+      #self.b_lstm = tf.get_variable("basic_lstm_cell/biases")
+      self.W_lstm = tf.get_variable("basic_lstm_cell/kernel")
+      self.b_lstm = tf.get_variable("basic_lstm_cell/bias")
       self.reset_state()
 
   def reset_state(self):
@@ -582,9 +588,9 @@ class GameACPathNetLSTMNetwork(GameACNetwork):
     for i in range(len(self.W_lin)):
       if(self.fixed_path[-1,i]==0.0):
         res+=[self.W_lin[i]]+[self.b_lin[i]];
-    res+=[self.W_lstm]+[self.b_lstm];
     res+=[self.W_fc2]+[self.b_fc2];
     res+=[self.W_fc3]+[self.b_fc3];
+    res+=[self.W_lstm]+[self.b_lstm];
     return res;
   
   def get_vars_idx(self):

@@ -282,7 +282,7 @@ if __name__ == '__main__':
                       help='Summaries log directry')
   parser.add_argument('--M', type=int, default=10,
                       help='The Number of Modules per Layer')
-  parser.add_argument('--L', type=int, default=4,
+  parser.add_argument('--L', type=int, default=3,
                       help='The Number of Layers')
   parser.add_argument('--N', type=int, default=4,
                       help='The Number of Selected Modules per Layer')

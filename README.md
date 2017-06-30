@@ -103,3 +103,38 @@ SVHN experiments showed first task and second task after CIFAR10 accuracy means 
 Pathnet made about 2.86 times higher accuracy than that from the scratch.
 
 Pathnet showed positive transfer learning performance for both of the datasets. For SVHN, quitely higher transfer learning performance than CIFAR10 is showed. Because, CIFAR10 dataset has more plenty of patterns than SVHN.
+
+Atari Game (Pong)
+-------------------
+
+`
+./auto_atari_pathnet.sh
+`
+
+This module is implemented by Distributed Tensorflow.
+You can set the number of parameter server and worker in the shell script, and please before running that, check the port is idle (used port number is from 2222 to 2222+ps#+w#).
+
+### Settings
+L, M, N are 4, 10, anf 4, respectively (same to the paper).
+The feature for each conv layer is 8 (same to original ones from author, I did check that.)
+B and the number ofpopulations are 3 and 10, respectively, which are different to the paper, because my server cannot run 64 worker parallelly, thus, I did decrease the number of populations and B.
+Aggregation function between layers is summation for faster learning than average (In paper, that is summation.).
+
+I implemented PathNet with Distributed Tensorflow by adding one worker for processing genetic algorithm.
+The worker checks score set including each worker's one, and operates genetic algorithm (in here, that is tournament algorithm.). 
+Those operation is processed per each 5 seconds.
+As same to the paper, winner score is not initialized as -1000.
+
+I apply LSTM layer after last layer of pathnet for learning the model more efficiently than original one. (LSTM layer is also initilized after the task.)
+(LSTM layer makes really more efficient learning than before. I checked the model except LSTM, which are saturated at about 100M step, however the model having LSTM just needs about 20M step.)
+
+I used just pong game for checking positive transfer learning (the parameters except fixed path are initialzed after first task.), assumed second pong game will be more quickly saturated than first one.
+Each task learns pong game in 15M steps, and I checked score graph in tensorboard.
+
+### Results
+![alt tag](https://github.com/jaesik817/pathnet/blob/master/figures/pong.PNG) 
+
+The experiments are just two times pong game for checking positive transfer learning (the parameters except fixed path are initialzed after first task.), and I assumed second pong game will be more quickly saturated than first one.
+Each task learns pong game in 15M steps, and I checked score graph in tensorboard.
+
+I can check second pong game was saturated i more quickly than first one.

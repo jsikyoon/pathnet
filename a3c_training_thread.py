@@ -31,6 +31,7 @@ class A3CTrainingThread(object):
     self.task_index = task_index
     self.learning_rate_input = learning_rate_input
     self.max_global_time_step = max_global_time_step
+    self.limit_global_time_step = 100*10**6;
    
     if(FLAGS.use_lstm): 
       self.local_network = GameACPathNetLSTMNetwork(ACTION_SIZE, thread_index, device,FLAGS)
@@ -62,7 +63,8 @@ class A3CTrainingThread(object):
     self.prev_local_t = 0
 
   def _anneal_learning_rate(self, global_time_step):
-    learning_rate = self.initial_learning_rate * (self.max_global_time_step - global_time_step) / self.max_global_time_step
+    tmp=global_time_step%self.max_global_time_step;
+    learning_rate = self.initial_learning_rate * (self.limit_global_time_step - tmp) / self.limit_global_time_step
     if learning_rate < 0.0:
       learning_rate = 0.0
     return learning_rate
@@ -80,7 +82,7 @@ class A3CTrainingThread(object):
   def set_start_time(self, start_time):
     self.start_time = start_time
 
-  def process(self, sess, global_t, summary_writer, summary_op, score_input,score_ph,score_ops, geopath, FLAGS,score_set_ph,score_set_ops):
+  def process(self, sess, global_t, summary_writer, summary_op, score_input,score_ph,score_ops, geopath, FLAGS,score_set_ph,score_set_ops,cur_score):
 
     states = []
     actions = []
@@ -124,6 +126,7 @@ class A3CTrainingThread(object):
       if terminal:
         terminal_end = True
         sess.run(score_ops,{score_ph:self.episode_reward});
+        #if(self.episode_reward>sess.run([cur_score])[0]):
         sess.run(score_set_ops,{score_set_ph:self.episode_reward});
         res_reward=self.episode_reward;  
         self.episode_reward = 0

@@ -161,7 +161,7 @@ def train():
             if sess.run([global_step])[0] > (MAX_TIME_STEP*(task+1)):
               break
             diff_global_t = training_thread.process(sess, sess.run([global_step])[0], "",
-                                                  summary_op, "",score_ph,score_ops,"",FLAGS,score_set_ph[FLAGS.task_index],score_set_ops[FLAGS.task_index])
+                                                  summary_op, "",score_ph,score_ops,"",FLAGS,score_set_ph[FLAGS.task_index],score_set_ops[FLAGS.task_index],score_set[FLAGS.task_index])
             sess.run(global_step_ops,{global_step_ph:sess.run([global_step])[0]+diff_global_t});
       else:
         fixed_path=np.zeros((FLAGS.L,FLAGS.M),dtype=float);
@@ -211,7 +211,7 @@ def train():
                       if((geopath_set[i][j,k]==1.0)or(fixed_path[j,k]==1.0)):
                         tmp[j,k]=1.0;
                   pathnet.geopath_insert(sess,training_thread.local_network.geopath_update_placeholders_set[i],training_thread.local_network.geopath_update_ops_set[i],tmp,FLAGS.L,FLAGS.M);
-                sess.run(score_set_ops[i],{score_set_ph[i]:-1000});
+                  sess.run(score_set_ops[i],{score_set_ph[i]:-1000});
               rand_idx=range(FLAGS.worker_hosts_num-1); np.random.shuffle(rand_idx);
               rand_idx=rand_idx[:FLAGS.B];
             else:
@@ -282,7 +282,7 @@ if __name__ == '__main__':
                       help='Summaries log directry')
   parser.add_argument('--M', type=int, default=10,
                       help='The Number of Modules per Layer')
-  parser.add_argument('--L', type=int, default=3,
+  parser.add_argument('--L', type=int, default=4,
                       help='The Number of Layers')
   parser.add_argument('--N', type=int, default=4,
                       help='The Number of Selected Modules per Layer')

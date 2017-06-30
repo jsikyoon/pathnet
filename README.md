@@ -3,7 +3,7 @@ pathnet
 
 Tensorflow Implementation of Pathnet from Google Deepmind.
 
-Implementation is on Tensorflow 1.0
+Implementation is on Tensorflow r1.2
 
 https://arxiv.org/pdf/1701.08734.pdf
 
@@ -113,6 +113,8 @@ Atari Game (Pong)
 
 This module is implemented by Distributed Tensorflow.
 You can set the number of parameter server and worker in the shell script, and please before running that, check the port is idle (used port number is from 2222 to 2222+ps#+w#).
+
+Basic code for A3C is based on https://github.com/miyosuda/async_deep_reinforce
 
 ### Settings
 L, M, N are 4, 10, anf 4, respectively (same to the paper).
